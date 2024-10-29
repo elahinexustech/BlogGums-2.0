@@ -1,0 +1,88 @@
+.post {
+    width: 600px;
+    height: 600px;
+    border-radius: 30px;
+    overflow: hidden;
+    padding: 2rem;
+    position: relative;
+    margin: 60rem 0;
+    cursor: pointer;
+}
+
+.post section.header section.left img.post-header-img {
+    width: 60px;
+    border-radius: 50%;
+}
+
+.post section.header section.optionMenu {
+    position: absolute;
+    background: var(--object-bg);
+    top: 2rem;
+    right: 2rem;
+    border: solid 1px var(--border-color);
+    border-radius: 28px;
+    box-shadow: 0px 0px 10px var(--box-shadow-color);
+    padding: 1.5rem 1rem;
+    overflow: hidden;
+    transform: scale(0);
+    transform-origin: top right;
+    opacity: 0;
+    visibility: hidden;
+    transition: 0.3s;
+}
+
+.post section.header section.optionMenu li {
+    list-style-type: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+
+.post section.header section.optionMenu li:hover {
+    background: var(--btn-color);
+    color: var(--theme-color);
+}
+
+.post section.header section.optionMenu li.error:hover {
+    background: var(--error);
+    color: var(--error-clr);
+}
+
+.post section.header section.optionMenu.showMenu {
+    transform: scale(1);
+    opacity: 1;
+    visibility: visible;
+}
+
+.post section.foot {
+    position: absolute;
+    bottom: 2%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 500;
+}
+
+.post section.foot i.bi{
+    margin: 0 0.5rem;
+    font-size: 1.2rem;
+    transition: 0.3s;
+}
+
+.post section.foot i.bi:hover {
+    color: var(--theme-color);
+    transform: scale(1.1);
+    cursor: pointer;
+}
+
+
+.post .postContent {
+    height: 300px;
+    overflow: hidden;
+}
+
+.post .postContent img {
+    width: 500px;
+    display: block;
+    margin: auto;
+}

@@ -1,0 +1,82 @@
+.post-container {
+    min-height: 100vh;
+    padding: 4rem;
+}
+.post-container .post-area {
+    margin: 1rem 0;
+    width: 60%;
+    padding: 2rem;
+    overflow: hidden;
+    border-radius: 15px;
+}
+
+.w-md-editor-text, .wmde-markdown .wmde-markdown-color  {
+    color: var(--text-clr);
+}
+
+
+.post-area img {
+    width: 60%;
+    display: block;
+    margin: auto;
+}
+
+.post-area section.foot i.bi{
+    margin: 0 0.5rem;
+    font-size: 1.2rem;
+    transition: 0.3s;
+}
+
+.post-area section.foot i.bi:hover {
+    color: var(--theme-color);
+    transform: scale(1.1);
+    cursor: pointer;
+}
+
+
+.post-container .author img.author-img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    margin-right: 3rem;
+}
+
+
+
+aside {
+    position: absolute;
+    top: 50%;
+    left: 20.5%;
+    transform: translateY(-50%);
+    padding: 2rem 0rem;
+    border-radius: calc(6*var(--border-radius));
+}
+
+aside span {
+    margin: 1rem 0;
+}
+
+
+aside span button i.bi {
+    color: var(--theme-color);
+}
+
+
+
+.topics {
+    position: fixed;
+    top: 50%;
+    right: 5%;
+    transform: translateY(-50%);
+    border-radius: var(--border-radius);
+    padding: 2rem;
+    width: 300px;
+}
+.topics a {
+    margin: 0.5rem 0; /* Apply margin to the link directly */
+    transition: 0.3s;
+}
+
+.topics a:hover {
+    color: var(--theme-color);
+}

@@ -1,0 +1,15 @@
+.footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    padding: 1rem;
+}
+
+.footer ul li{
+    margin: 0 1rem; 
+    list-style-type: none;
+}
+
+.footer ul li a:hover {
+    color: var(--theme-color);
+}

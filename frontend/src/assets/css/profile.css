@@ -1,0 +1,66 @@
+.header {
+    width: 70%;
+    padding: 5rem;
+    /* background: grey; */
+}
+
+.body {
+    width: 70%;
+}
+
+.header div.left {
+    margin-left: 8rem;
+}
+
+.user-img {
+    width: 200px;
+    border-radius: 50%;
+}
+
+
+.seperator {
+    width: 70%;
+    height: 4px;
+    background: var(--object-bg);
+    border-radius: var(--border-radius);
+    margin: 2rem 0;
+}
+
+
+
+
+@media screen and (max-width: 900px) {
+    .header {
+        width: 100%;
+        padding: 2rem;
+    }
+
+    .header .user-img {
+        width: 100px;
+    }
+
+    .header div.left {
+        margin-left: 2rem;
+    }
+
+    .body {
+        width: 100%;
+    }
+
+    .windows .postWindow .body .form {
+        grid-template-columns: auto;
+    }
+
+    .windows .postWindow .body .form {
+        width: 100%;
+        padding: 1rem;
+    }
+
+    .windows .postWindow .body .form section {
+        width: 100%;
+    }
+
+    .windows .postWindow .body .form section textarea {
+        width: 100%;
+    }
+}

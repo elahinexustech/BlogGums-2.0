@@ -1,0 +1,121 @@
+/* Dark Theme */
+.dark-theme {
+    --default-clr: 267;
+    --theme-color: hsl(var(--default-clr), 51%, 60%);
+    --btn-color: #25113e;
+    --body-bg: #07030b;
+    --object-bg: #120d18;
+    --object-bg-trans: #1c1325c0;
+    --grey: #726380;
+    --border-color: #2a1f34;
+    --box-shadow-color: #1d1d1dca;
+    --text-clr: #ffffff;
+    --border-radius: 0.5rem;
+    --fs: 1rem;
+    --error: #871717;
+    --error-clr: #ffd0d0;
+    --success: #1c5b13;
+    --success-clr: #ddffd7;
+    --alert: #bba031;
+    --box-after: #ffffffb1;
+}
+
+
+body.dark-theme.theme-color-orange {
+    --default-clr: 34;
+    --theme-color: hsl(var(--default-clr), 51%, 60%);
+    --btn-color: hsl(var(--default-clr), 55%, 10%);
+    --body-bg: hsl(var(--default-clr), 16%, 5%);
+    --object-bg: hsl(var(--default-clr), 25%, 8%);
+    --object-bg-trans: hsla(var(--default-clr), 39%, 5%, 0.588);
+    --grey: hsl(var(--default-clr), 27%, 71%);
+    --border-color: hsl(var(--default-clr), 26%, 23%);
+}
+
+
+body.dark-theme.theme-color-blue {
+    --default-clr: 213;
+    --theme-color: hsl(var(--default-clr), 51%, 60%);
+    --btn-color: hsl(var(--default-clr), 55%, 10%);
+    --body-bg: hsl(var(--default-clr), 16%, 5%);
+    --object-bg: hsl(var(--default-clr), 25%, 8%);
+    --object-bg-trans: hsla(var(--default-clr), 39%, 5%, 0.588);
+    --grey: hsl(var(--default-clr), 27%, 71%);
+    --border-color: hsl(var(--default-clr), 26%, 23%);
+}
+
+body.dark-theme.theme-color-red {
+    --default-clr: 0;
+    --theme-color: hsl(var(--default-clr), 51%, 60%);
+    --btn-color: hsl(var(--default-clr), 55%, 10%);
+    --body-bg: hsl(var(--default-clr), 16%, 5%);
+    --object-bg: hsl(var(--default-clr), 25%, 8%);
+    --object-bg-trans: hsla(var(--default-clr), 39%, 5%, 0.588);
+    --grey: hsl(var(--default-clr), 27%, 71%);
+    --border-color: hsl(var(--default-clr), 26%, 23%);
+}
+
+body.dark-theme.theme-color-green {
+    --default-clr: 133;
+    --theme-color: hsl(var(--default-clr), 45%, 37%);
+    --btn-color: hsl(var(--default-clr), 55%, 10%);
+    --btn-color: hsl(var(--default-clr), 55%, 10%);
+    --body-bg: hsl(var(--default-clr), 16%, 5%);
+    --object-bg: hsl(var(--default-clr), 13%, 7%);
+    --object-bg-trans: hsla(var(--default-clr), 39%, 4%, 0.588);
+    --grey: hsl(var(--default-clr), 27%, 71%);
+    --border-color: hsl(var(--default-clr), 26%, 13%);
+}
+
+
+
+
+
+.dark-theme ::selection {
+    background: hsl(var(--default-clr), 90%, 40%);
+}
+
+
+.dark-theme header.left-nav {
+    background: var(--object-bg);
+}
+
+.dark-theme .colored,
+.dark-theme a.colored {
+    color: hsl(var(--dark-clr, var(--default-clr)), 100%, var(--lightness, 60%));
+}
+
+.dark-theme button.colored {
+    color: #fff;
+}
+
+
+.dark-theme .box.post::before {
+    background: radial-gradient(hsl(var(--dark-clr, var(--default-clr)), 100%, 50%), transparent, transparent);
+}
+
+.dark-theme .post p.colored,
+.dark-theme .post-container .colored {
+    color: hsl(var(--dark-clr, var(--default-clr)), 100%, var(--lightness, 50%));
+}
+
+.dark-theme button.transparent {
+    background: transparent;
+}
+
+
+
+.dark-theme .post button i.bi.liked {
+    color: hsl(var(--light-clr, var(--default-clr)), 100%, var(--lightness, 50%));
+}
+
+.dark-theme .gradient-text {
+    background: -webkit-linear-gradient(#646464, #ffffff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.dark-theme button i.bi.liked {
+    color: hsl(var(--light-clr, var(--default-clr)), 100%, var(--lightness, 50%));
+}

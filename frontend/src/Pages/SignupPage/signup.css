@@ -1,0 +1,35 @@
+.signup-container {
+    height: 100vh;
+}
+
+.signup-container .form-container {
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    width: 40%;
+}
+
+
+.signup-container .form-container h1 {
+    text-align: center;
+}
+
+.signup-container .form-container form div.grid div.input-field:nth-child(7) {
+    grid-column: span 2;
+}
+
+.signup-container .form-container form button.passToggle{
+    position: fixed;
+}
+
+.signup-container .form-container form  section a,
+.signup-container .form-container form  section label{
+    margin: 0 1rem;
+}
+
+.signup-container .form-container form input{
+    width: 100%;
+}
+
+.signup-container .form-container form button[type=submit] {
+    width: 100%;
+}

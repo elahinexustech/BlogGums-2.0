@@ -1,0 +1,31 @@
+.login-container {
+    height: 100vh;
+}
+
+.login-container .form-container {
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    width: 40%;
+}
+
+
+.login-container .form-container h1 {
+    text-align: center;
+}
+
+.login-container .form-container form button.passToggle{
+    position: fixed;
+}
+
+.login-container .form-container form  section a,
+.login-container .form-container form  section label{
+    margin: 0 1rem;
+}
+
+.login-container .form-container form div.input-field{
+    width: 100%;
+}
+
+.login-container .form-container form button[type=submit] {
+    width: 100%;
+}

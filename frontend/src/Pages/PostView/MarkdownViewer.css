@@ -1,0 +1,41 @@
+.markdown-viewer {
+    font-family: Arial, sans-serif;
+    line-height: 1.7;
+    margin: 20px;
+    padding: 20px;
+}
+
+.markdown-viewer h1,
+.markdown-viewer h2,
+.markdown-viewer h3 {
+    margin: 1rem 0 0 0;
+}
+
+.markdown-viewer p {
+    margin-bottom: 1em;
+}
+
+.markdown-viewer ul {
+    margin-left: 1.6rem;
+}
+
+.markdown-viewer a {
+    color: var(--theme-color);
+    text-decoration: none;
+}
+
+.markdown-viewer a:hover {
+    text-decoration: underline;
+}
+
+.markdown-viewer pre {
+    padding: 10px;
+    border-radius: 5px;
+    overflow-x: auto;
+}
+
+.markdown-viewer code {
+    padding: 2px 4px;
+    border-radius: 3px;
+    font-family: monospace;
+}

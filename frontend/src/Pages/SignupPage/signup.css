@@ -1,35 +1,207 @@
-.signup-container {
-    height: 100vh;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-.signup-container .form-container {
-    padding: 2rem;
-    border-radius: var(--border-radius);
-    width: 40%;
-}
-
-
-.signup-container .form-container h1 {
+/* Root variables for consistent theming */
+:root {
+    --gradient-primary: linear-gradient(135deg, #6b46c1 0%, #434190 100%);
+    --gradient-hover: linear-gradient(135deg, #553c9a 0%, #2c2a7a 100%);
+    --gradient-secondary: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+    --accent-purple: #9f7aea;
+    --text-light: #e2e8f0;
+    --box-shadow: 0 10px 20px rgba(107, 70, 193, 0.2);
+    --box-shadow-hover: 0 15px 30px rgba(107, 70, 193, 0.4);
+  }
+  
+  /* Main container with animated gradient background */
+  .signup-container {
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    padding: 1rem;
+    background: linear-gradient(
+      45deg,
+      #1a202c,
+      #2d3748,
+      #434190,
+      #553c9a
+    );
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+  }
+  
+  /* Animated gradient background */
+  @keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  
+  /* Glass-morphism form container with hover effect */
+  .signup-container .form-container {
+    padding: 2.5rem;
+    border-radius: 1rem;
+    width: min(90%, 40rem);
+    background: rgba(26, 32, 44, 0.8);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(159, 122, 234, 0.2);
+    box-shadow: var(--box-shadow);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    animation: fadeIn 0.8s ease-out;
+  }
+  
+  .signup-container .form-container:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--box-shadow-hover);
+  }
+  
+  /* Fade in animation */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Heading with gradient text */
+  .signup-container .form-container h1 {
     text-align: center;
-}
-
-.signup-container .form-container form div.grid div.input-field:nth-child(7) {
-    grid-column: span 2;
-}
-
-.signup-container .form-container form button.passToggle{
-    position: fixed;
-}
-
-.signup-container .form-container form  section a,
-.signup-container .form-container form  section label{
-    margin: 0 1rem;
-}
-
-.signup-container .form-container form input{
+    margin-bottom: 2rem;
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    background: linear-gradient(135deg, var(--accent-purple), var(--text-light));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: fadeIn 0.8s ease-out 0.2s backwards;
+  }
+  
+  /* Form styles */
+  .signup-container .form-container form {
+    display: grid;
+    gap: 1.5rem;
+  }
+  
+  /* Input fields with glow effect */
+  .signup-container .form-container form input {
     width: 100%;
-}
-
-.signup-container .form-container form button[type=submit] {
+    padding: 1rem;
+    background: rgba(45, 55, 72, 0.6);
+    border: 1px solid rgba(159, 122, 234, 0.3);
+    border-radius: 0.5rem;
+    color: var(--text-light);
+    transition: all 0.3s ease;
+  }
+  
+  .signup-container .form-container form input:focus {
+    outline: none;
+    border-color: var(--accent-purple);
+    box-shadow: 0 0 0 3px rgba(159, 122, 234, 0.3);
+    transform: translateY(-2px);
+  }
+  
+  /* Grid span */
+  .signup-container .form-container form .grid .input-field:nth-child(7) {
+    grid-column: 1 / -1;
+  }
+  
+  /* Password toggle button with hover effect */
+  .signup-container .form-container form .passToggle {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--accent-purple);
+    transition: all 0.3s ease;
+  }
+  
+  .signup-container .form-container form .passToggle:hover {
+    color: var(--text-light);
+    transform: translateY(-50%) scale(1.1);
+  }
+  
+  /* Links and labels with hover effects */
+  .signup-container .form-container form section {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    color: var(--text-light);
+  }
+  
+  .signup-container .form-container form section a {
+    color: var(--accent-purple);
+    transition: all 0.3s ease;
+    text-decoration: none;
+  }
+  
+  .signup-container .form-container form section a:hover {
+    color: var(--text-light);
+    transform: translateY(-2px);
+  }
+  
+  /* Submit button with gradient and hover effect */
+  .signup-container .form-container form button[type="submit"] {
     width: 100%;
-}
+    padding: 1rem;
+    background-image: var(--gradient-primary);
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    animation: fadeIn 0.8s ease-out 0.4s backwards;
+  }
+  
+  .signup-container .form-container form button[type="submit"]:hover {
+    background-image: var(--gradient-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(107, 70, 193, 0.4);
+  }
+  
+  /* Pulse animation for submit button */
+  @keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+  }
+  
+  .signup-container .form-container form button[type="submit"]:active {
+    animation: pulse 0.3s ease-in-out;
+  }
+  
+  /* Media queries */
+  @media (max-width: 768px) {
+    .signup-container .form-container {
+      width: 95%;
+      padding: 1.5rem;
+    }
+    
+    .signup-container .form-container form section {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+  
+  /* Loading state animation for form submission */
+  @keyframes loading {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  .signup-container .form-container form button[type="submit"].loading::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border: 2px solid transparent;
+    border-top-color: white;
+    border-radius: 50%;
+    animation: loading 1s linear infinite;
+  }

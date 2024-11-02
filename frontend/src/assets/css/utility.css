@@ -11,11 +11,11 @@ hr {
     border: solid 1px var(--border-color);
 }
 
-.obj-trans {
+/* .obj-trans {
     background: var(--object-bg-trans);
     border: solid 1px var(--border-color);
     backdrop-filter: blur(0.5rem);
-}
+} */
 
 .obj-trans.input-bordered {
     border: none;

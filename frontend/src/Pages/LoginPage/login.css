@@ -1,31 +1,113 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+/* Base styles */
+:root {
+    --border-radius: 8px;
+    --primary-color: #4A90E2;
+    --secondary-color: #f5f5f5;
+    --text-color: #333;
+    --button-hover: #357ABD;
+}
+
+/* Container styling */
 .login-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     height: 100vh;
+    background: linear-gradient(135deg, #6a11cb, #2575fc);
 }
 
+/* Form container */
 .login-container .form-container {
-    padding: 2rem;
+    background-color: var(--secondary-color);
+    padding: 2.5rem;
     border-radius: var(--border-radius);
-    width: 40%;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 400px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
+.login-container .form-container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+}
 
+/* Form header */
 .login-container .form-container h1 {
+    font-size: 1.8rem;
+    color: var(--primary-color);
     text-align: center;
+    margin-bottom: 1.5rem;
 }
 
-.login-container .form-container form button.passToggle{
-    position: fixed;
+/* Input fields */
+.login-container .form-container form div.input-field {
+    width: 100%;
+    margin-bottom: 1.5rem;
 }
 
-.login-container .form-container form  section a,
-.login-container .form-container form  section label{
+.login-container .form-container form input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    color: var(--text-color);
+    background-color: #d4beeb;
+    transition: border-color 0.3s ease;
+}
+
+.login-container .form-container form input:focus {
+    border-color: var(--primary-color);
+    outline: none;
+}
+
+/* Password toggle button */
+.login-container .form-container form button.passToggle {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    color: var(--primary-color);
+    cursor: pointer;
+}
+
+/* Labels and Links */
+.login-container .form-container form section a,
+.login-container .form-container form section label {
     margin: 0 1rem;
+    color: var(--primary-color);
+    font-size: 0.9rem;
+    cursor: pointer;
+    text-decoration: none;
+    transition: color 0.3s ease;
 }
 
-.login-container .form-container form div.input-field{
-    width: 100%;
+.login-container .form-container form section a:hover,
+.login-container .form-container form section label:hover {
+    color: var(--button-hover);
 }
 
-.login-container .form-container form button[type=submit] {
+/* Submit button */
+.login-container .form-container form button[type="submit"] {
     width: 100%;
+    padding: 0.75rem;
+    border: none;
+    border-radius: var(--border-radius);
+    background-color: #333; /* Dark background color */
+    color: #fff;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.login-container .form-container form button[type="submit"]:hover {
+    background-color: #6a11cb; /* Purple color on hover */
+    transform: translateY(-2px);
 }

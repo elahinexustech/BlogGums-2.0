@@ -1,35 +1,269 @@
 .signup-container {
-    height: 100vh;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 1.5rem;
 }
 
 .signup-container .form-container {
-    padding: 2rem;
-    border-radius: var(--border-radius);
-    width: 40%;
+    padding: 2.5rem;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 800px;
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
 }
-
 
 .signup-container .form-container h1 {
     text-align: center;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #2d3748;
+    margin-bottom: 2.5rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.signup-container .form-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.signup-container .form-container form div.grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+}
+
+.signup-container .form-container form div.grid div.input-field {
+    position: relative;
 }
 
 .signup-container .form-container form div.grid div.input-field:nth-child(7) {
     grid-column: span 2;
 }
 
-.signup-container .form-container form button.passToggle{
-    position: fixed;
-}
-
-.signup-container .form-container form  section a,
-.signup-container .form-container form  section label{
-    margin: 0 1rem;
-}
-
-.signup-container .form-container form input{
+/* Input Fields Styling */
+.signup-container .form-container form input {
     width: 100%;
+    padding: 1rem 1.25rem;
+    font-size: 1.1rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    background-color: #f8fafc;
+    transition: all 0.3s ease;
+    color: #1a202c;
 }
 
+.signup-container .form-container form input:focus {
+    outline: none;
+    border-color: #667eea;
+    background-color: #fff;
+    box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+    transform: translateY(-2px);
+}
+
+.signup-container .form-container form input::placeholder {
+    color: #a0aec0;
+    font-size: 1rem;
+}
+
+/* Password Toggle Button */
+.signup-container .form-container form button.passToggle {
+    position: absolute;
+    right: 1.25rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #718096;
+    cursor: pointer;
+    padding: 0.5rem;
+    transition: all 0.3s ease;
+    font-size: 1.2rem;
+}
+
+.signup-container .form-container form button.passToggle:hover {
+    color: #667eea;
+    transform: translateY(-50%) scale(1.1);
+}
+
+/* Submit Button */
 .signup-container .form-container form button[type=submit] {
     width: 100%;
+    padding: 1rem;
+    background: linear-gradient(to right, #667eea, #764ba2);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.signup-container .form-container form button[type=submit]:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+}
+
+.signup-container .form-container form button[type=submit]:disabled {
+    background: #cbd5e0;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Links and Labels */
+.signup-container .form-container form section a,
+.signup-container .form-container form section label {
+    margin: 0 1rem;
+    color: #4a5568;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+}
+
+.signup-container .form-container form section a:hover {
+    color: #667eea;
+}
+
+/* Error States */
+.signup-container .form-container form .input-field .error {
+    color: #e53e3e;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+    padding-left: 0.5rem;
+}
+
+.signup-container .form-container form input.error {
+    border-color: #e53e3e;
+}
+
+/* Loading State */
+.signup-container .form-container form button[type=submit].loading {
+    position: relative;
+    color: transparent;
+}
+
+.signup-container .form-container form button[type=submit].loading::after {
+    content: "";
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 2px solid #fff;
+    border-radius: 50%;
+    border-top-color: transparent;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+}
+
+/* Responsive Design */
+@media screen and (max-width: 1024px) {
+    .signup-container .form-container {
+        max-width: 700px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .signup-container .form-container {
+        padding: 2rem;
+        width: 90%;
+    }
+
+    .signup-container .form-container h1 {
+        font-size: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    .signup-container .form-container form div.grid {
+        grid-template-columns: 1fr;
+        gap: 1.2rem;
+    }
+
+    .signup-container .form-container form div.grid div.input-field:nth-child(7) {
+        grid-column: span 1;
+    }
+
+    .signup-container .form-container form input {
+        padding: 0.9rem 1.1rem;
+        font-size: 1rem;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .signup-container {
+        padding: 1rem;
+    }
+
+    .signup-container .form-container {
+        padding: 1.5rem;
+    }
+
+    .signup-container .form-container h1 {
+        font-size: 1.8rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .signup-container .form-container form {
+        gap: 1rem;
+    }
+
+    .signup-container .form-container form input {
+        padding: 0.8rem 1rem;
+    }
+
+    .signup-container .form-container form button[type=submit] {
+        padding: 0.9rem;
+        font-size: 1rem;
+    }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+    .signup-container .form-container {
+        background: rgba(26, 32, 44, 0.95);
+    }
+
+    .signup-container .form-container h1 {
+        color: #f7fafc;
+    }
+
+    .signup-container .form-container form input {
+        background-color: #2d3748;
+        border-color: #4a5568;
+        color: #f7fafc;
+    }
+
+    .signup-container .form-container form input::placeholder {
+        color: #a0aec0;
+    }
+
+    .signup-container .form-container form input:focus {
+        background-color: #2d3748;
+        border-color: #667eea;
+    }
+
+    .signup-container .form-container form section a,
+    .signup-container .form-container form section label {
+        color: #e2e8f0;
+    }
+
+    .signup-container .form-container form button.passToggle {
+        color: #a0aec0;
+    }
 }

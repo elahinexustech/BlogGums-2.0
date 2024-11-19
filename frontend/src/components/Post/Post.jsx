@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import ReactMarkdown from 'react-markdown';
-import { useNavigate } from 'react-router-dom';
+import MarkdownViewer from '../../Pages/PostView/MDDisplayer';
+import { useNavigate, Link } from 'react-router-dom';
 import './post.css'
 
-const Post = ({
-    author,
-    postTitle,
-    postContent,
-    ID
-}) => {
+// Components
+import LikeButton from '../LikeButton/LikeButton';
+
+const Post = ({ ID, author, post, totalLikes }) => {
     const [openMenuId, setOpenMenuId] = useState(null); // State to track which post's menu is open
     const [hasLiked, sethasLiked] = useState(false);
 
@@ -56,13 +54,13 @@ const Post = ({
     }, [openMenuId]);
 
     return (
-        <div className='post obj' onClick={() => { renderPost(ID) }}>
+        <div className='post obj'>
             <section className="header flex jc-spb">
                 <section className="left flex">
-                    <img src={author.profile_image_url} className="post-header-img" alt={`${author.username}'s profile`} />&nbsp;&nbsp;
+                    <img src={author.profile_image_url || ""} className="post-header-img" alt={`${author.username}'s profile`} />&nbsp;&nbsp;
                     <section className='username-section'>
                         <p className="heading">{author.first_name} {author.last_name}</p>
-                        <a className="caption grey">@{author.username}</a>
+                        <Link className='caption colored' to={`/${author.username}`}>@{author.username}</Link>
                     </section>
                 </section>
                 <section className="right">
@@ -86,52 +84,42 @@ const Post = ({
                     <p className="caption grey">More options</p>
                     <br /><hr /><br />
                     <ul>
-                        <li>About this post</li>
-                        <li>Follow User</li>
+                        <li onClick={() => {
+                            navigate(`/${author.username}`)
+                        }}>Go to Profile</li>
                         <li>Translate</li>
-                        <li>View in Full</li>
+                        <li onClick={() => { renderPost(ID) }}>View in Full</li>
                         <br /><hr /><br />
-                        <li className='error'>Remove post from your feed</li>
                         <li className='error'>Report Author</li>
                     </ul>
                 </section>
             </section>
 
             <br /><br />
+
             <section className="body">
-                <h2>{postTitle}</h2>
+                <h2 className='subtitle'>{post.title}</h2>
                 <br />
-                <ReactMarkdown className='postContent'>
-                    {postContent}
-                </ReactMarkdown>
+                <MarkdownViewer className="grey" markdownText={post.content} />
             </section>
+
             <br /><br />
+
             <section className="foot flex">
-                <button className='transparent' onClick={async () => {
-                    // Toggle `hasLiked` state
-                    this.setState((prevState) => ({ hasLiked: !prevState.hasLiked }));
-
-                    // Call `AddLike` to get the updated like count
-                    const like_count = await AddLike(post.post.id);
-
-                    // Update the `total_likes` in `post`
-                    this.setState((prevState) => ({
-                        post: {
-                            ...prevState.post,
-                            total_likes: like_count
-                        }
-                    }));
-                }}>
-                    {hasLiked ?
-                        <i className="bi bi-heart-fill caption"></i> :
-                        <i className="bi bi-heart caption"></i>
-                    }
-                </button>
-                <i className="bi bi-hand-thumbs-up"></i>
-                <i className="bi bi-chat-quote"></i>
-                <i className="bi bi-share-fill"></i>
+                <LikeButton
+                    postId={ID}
+                    initialLikes={totalLikes}
+                    hasLiked={false}
+                    onLikeChange={(likeCount) => {
+                        setPost((prevPost) => ({
+                            ...prevPost,
+                            totalLikes: likeCount,
+                        }));
+                    }}
+                />
+                <i onClick={() => { renderPost(ID) }} className="bi bi-box-arrow-in-up-right buttonIcon"></i>
             </section>
-        </div>
+        </div >
     );
 };
 

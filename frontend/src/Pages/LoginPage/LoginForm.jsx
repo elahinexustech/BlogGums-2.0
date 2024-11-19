@@ -15,6 +15,7 @@ import LabelPasswordField from '../../components/LabelPasswordField/LabelPasswor
 const LoginForm = () => {
     const [passVisibility, setPassVisibility] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [errorMessage, setErrorMessage] = useState(''); // State for error message
     const navigate = useNavigate();
 
     const {
@@ -29,6 +30,7 @@ const LoginForm = () => {
 
     const onSubmit = async (data) => {
         setIsSubmitting(true);
+        setErrorMessage(''); // Reset error message on new submission
         try {
             const r = await fetch('http://127.0.0.1:8000/api/token/', {
                 method: 'POST',
@@ -44,25 +46,32 @@ const LoginForm = () => {
 
             let resp = await r.json();
 
-            localStorage.clear();
-            localStorage.setItem("ACCESS_TOKEN", resp.access)
-            localStorage.setItem("REFRESH_TOKEN", resp.refresh)
-            location.reload()
+            // Check if access and refresh tokens are present
+            if (resp.access && resp.refresh) {
+                localStorage.clear();
+                localStorage.setItem("ACCESS_TOKEN", resp.access);
+                localStorage.setItem("REFRESH_TOKEN", resp.refresh);
+                location.reload();
+            } else {
+                // Set error message if tokens are not present
+                setErrorMessage('Invalid credentials. Please try again.');
+            }
 
         } catch (error) {
             console.error('Error during submission:', error);
+            setErrorMessage('An error occurred. Please try again later.');
         } finally {
             setIsSubmitting(false);
         }
     };
 
-
     return (
         <>
             <div className='container flex login-container'>
-                <div className="obj-trans form-container">
+                <div className="obj form-container">
                     <h1>Login</h1>
                     <br />
+                    {errorMessage && <p className="error">{errorMessage}</p>} {/* Display error message */}
                     <form
                         className='flex direction-col jc-start ai-start'
                         onSubmit={handleSubmit(onSubmit)}
@@ -90,7 +99,6 @@ const LoginForm = () => {
                         <br />
                         <button
                             type="submit"
-                            className='obj-trans btn'
                             style={{ "--text-color": "#fff" }}
                             disabled={!username || !password || isSubmitting} // Disable if empty fields or submitting
                         >

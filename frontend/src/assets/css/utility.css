@@ -11,6 +11,11 @@ hr {
     border: solid 1px var(--border-color);
 }
 
+.obj-2 {
+    background: var(--object-bg-2);
+    border: solid 1px var(--border-color);
+}
+
 .obj-trans {
     background: var(--object-bg-trans);
     border: solid 1px var(--border-color);
@@ -27,8 +32,8 @@ hr {
 button {
     font-size: var(--fs);
     padding: 0.5rem 1.2rem;
-    background: var(--theme-color);
-    color: var(--text-color, #ffffff);
+    background: var(--btn-color);
+    color: var(--text-color);
     border: none;
     border-radius: var(--border-radius);
     display: flex;
@@ -40,14 +45,14 @@ button {
     position: relative;
 }
 
-button i.bi {
-    font-size: 1.2rem;
-    color: var(--text-color, #000);
+button.icon,
+button.icon i.bi {
+    color: #fff;
 }
 
-button.small {
-    padding: 0.4rem 0.8rem;
-    font-size: 0.8rem;
+button i.bi {
+    font-size: 1.2rem;
+    color: var(--text-color);
 }
 
 button.circle {
@@ -55,43 +60,6 @@ button.circle {
     border-radius: 50%;
     width: 40px;
     height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-button.inverted {
-    background: var(--btn-color);
-    color: var(--theme-color);
-    box-shadow: 0px 0px 2px var(--theme-color);
-}
-
-button.iconable::after {
-    content: attr(data-icon);
-    font-family: "bootstrap-icons";
-    opacity: 0;
-    position: absolute;
-    right: 40px;
-    transition: all 0.3s;
-    font-size: calc(var(--fs) + 0.3rem);
-    font-weight: 500;
-}
-
-button:hover, button.inverted:hover {
-    box-shadow: 0px 0px 5pxvar(--theme-color);
-}
-
-button.inverted:hover i.bi {
-    color: #fff;
-}
-
-button.iconable:hover {
-    padding-right: 70px;
-}
-
-button.iconable:hover::after {
-    right: 28px;
-    opacity: 1;
 }
 
 button.transparent {
@@ -110,12 +78,18 @@ button:disabled {
     opacity: 0.6;
 }
 
-button.obj-trans.btn {
-    border: none;
-    border: solid 2px hsl(var(--light-clr, var(--default-clr)), var(--saturation, 50%), var(--lightness, 55%));
-    background: hsl(var(--light-clr, var(--default-clr)), var(--saturation, 100%), var(--lightness, 35%));
+
+.dark-theme button.icon {
+    background: var(--object-bg-2);
 }
 
+.dark-theme button.icon i.bi {
+    color: var(--theme-color);
+}
+
+button:hover {
+    box-shadow: 0px 0px 10px var(--btn-color);
+}
 
 
 
@@ -182,7 +156,8 @@ button.obj-trans.btn {
     gap: 20px;
 }
 
-.grid.gap-2, .flex.gap-2 {
+.grid.gap-2,
+.flex.gap-2 {
     gap: 2rem;
 }
 
@@ -224,17 +199,19 @@ a {
 
 .title {
     font-size: calc(var(--fs) + 2.5rem);
-    font-weight: 800;
-}
-
-.subtitle {
-    font-size: calc(var(--fs) + 1.5rem);
     font-weight: 700;
 }
 
+.subtitle {
+    font-family: 'Open Sans', sans-serif;
+    font-size: calc(var(--fs) + 1rem);
+    font-weight: 600;
+}
+
 .caption {
+    font-family: 'Open Sans', sans-serif;
     font-size: 0.8rem;
-    font-weight: 500;
+    font-weight: 400;
 }
 
 .caption-2 {
@@ -243,24 +220,14 @@ a {
 }
 
 .heading {
-    font-size: 1.2rem;
-    font-weight: 600;
-}
-
-.heading-2 {
-    font-size: 1.2rem;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 1rem;
     font-weight: 600;
 }
 
 .text {
     font-size: 1.5rem;
     font-weight: 500;
-}
-
-.blog-content {
-    font-family: 'Poppins', sans-serif;
-    white-space: pre-wrap;
-    width: 100%;
 }
 
 .blog-content img {
@@ -296,6 +263,13 @@ i.bi {
     -webkit-text-fill-color: transparent;
 }
 
+pre code span{
+    font-family: 'Source Code Pro', monospace;
+}
+
+.fancy {
+    font-family: 'Bonheur Royale', cursive;
+}
 
 /* Box Properties */
 .box {
@@ -385,15 +359,15 @@ form {
 input,
 textarea,
 select {
+    background: var(--object-bg-2);
     padding: 0.6rem;
     border-radius: var(--border-radius);
     margin: 0.5rem;
     outline: none;
     transition: .3s;
     width: 300px;
-    color: var(--text);
-    font-weight: 500;
-    border: none;
+    color: var(--tex-colort);
+    border: solid 1px var(--border-color);
     font-size: 1rem;
 }
 
@@ -454,25 +428,22 @@ label.field input:focus {
     box-shadow: none;
 }
 
-/* Search Field */
-.search-field {
-    position: fixed;
-    top: 0%;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 100;
-    backdrop-filter: blur(0.5rem);
-    padding: 0rem 0;
+
+/* Slider */
+input[type='range'] {
+    /* -webkit-appearance: none;
+    appearance: none; */
+    /* height: -3px; */
+    border-radius: calc(var(--border-radius) * 3);
+    background: var(--object-bg-2);
+    outline: none;
+    accent-color: var(--theme-color);
 }
 
-.search-field input,
-.search-field select {
-    border: solid 2px var(--object-bg);
-}
 
-.search-field input {
-    width: 30%;
-}
+
+
+
 
 /* Switch */
 .switch {

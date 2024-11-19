@@ -1,10 +1,11 @@
+from django.db.models import Count
 from rest_framework.pagination import PageNumberPagination
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 from rest_framework import generics
 from rest_framework import status
 from django.utils import timezone
-from .serializers import BlogSerializer, PostSerializer, CommentsSerializer, LikesSerializer
+from .serializers import BlogSerializer, PostSerializer, CommentsSerializer, AuthorSerializer
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from .models import BlogPost, Likes, Comments, Views
 from django.http import JsonResponse
@@ -22,9 +23,32 @@ class PostPagination(PageNumberPagination):
 
 
 class PostListView(generics.ListAPIView):
-    queryset = BlogPost.objects.all()
+    queryset = BlogPost.objects.annotate(total_likes=Count('likes')).all()
     serializer_class = BlogSerializer
     pagination_class = PostPagination
+
+    def get(self, request, *args, **kwargs):
+        # Get the queryset and annotate likes
+        queryset = self.get_queryset()
+
+        # Prepare a custom JSON response
+        response_data = []
+        
+        for post in queryset:
+            author_data = AuthorSerializer(post.author).data  # Serialize author data
+            response_data.append({
+                'id': post.id,
+                'title': post.title,
+                'content': post.content,
+                'author': author_data,  # Include the serialized author data
+                'total_likes': post.like_count(),  # Call like_count method for total likes
+                'comment_count': post.comment_count(),
+                'updated_at': post.updated_at,
+                'published_at': post.published_at,
+            })
+
+        return JsonResponse({"data": response_data})
+
 
 
 class PostView(generics.CreateAPIView):
@@ -61,6 +85,7 @@ class CreatePostView(generics.CreateAPIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, req):
+        print("hey")
         data = json.loads(req.body)
         try:
             BlogPost.objects.create(
@@ -68,12 +93,13 @@ class CreatePostView(generics.CreateAPIView):
                 content=data['content'],
                 author=req.user,
                 updated_at=timezone.now(),
-                published_at=timezone.now(),
-                status=data['status']
+                published_at=timezone.now()
             )
+            print("DONE")
 
             return JsonResponse({"status": status.HTTP_200_OK})
-        except:
+        except Exception as e:
+            print("ERROR ", e)
             return JsonResponse({"status": status.HTTP_500_INTERNAL_SERVER_ERROR})
 
 
@@ -110,7 +136,9 @@ class GetUserPost(generics.ListAPIView):
     serializer_class = BlogSerializer
 
     def post(self, req):
-        posts = BlogPost.objects.filter(author=req.user)  # Change 'author' to the actual field that links the post to the user
+        data = json.loads(req.body)
+        user = User.objects.filter(username=data['username']).first()
+        posts = BlogPost.objects.filter(author=user)
         serialized_posts = BlogSerializer(posts, many=True)
 
         return JsonResponse({"post": serialized_posts.data, "status":status.HTTP_200_OK})

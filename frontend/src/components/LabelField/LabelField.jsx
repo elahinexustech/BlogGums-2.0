@@ -3,12 +3,12 @@ import React from 'react';
 const DynamicInput = ({ label, type, placeholder, id, register, requiredMessage, errors }) => {
     return (
         <div className='input-field'>
-            <label htmlFor={id} className='field obj-trans'>
+            <label htmlFor={id} className='field obj'>
                 <input 
                     type={type} 
                     placeholder={placeholder} 
                     id={id} 
-                    className='obj-trans' 
+                    className='obj' 
                     autoFocus 
                     {...register(id, { required: requiredMessage })} 
                 />

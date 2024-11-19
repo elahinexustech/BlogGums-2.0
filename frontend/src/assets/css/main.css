@@ -1,17 +1,19 @@
-@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bonheur+Royale&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap');
+
 
 :root {
     --default-clr: 267;
     --theme-color: hsl(var(--default-clr), 74%, 55%);
-    --btn-color: #e8d9fc;
-    --body-bg: #fbf8ff;
-    --object-bg: hsl(268, 100%, 98%);
-    --object-bg-trans: #e5d8f476;
-    --grey: #a69cb1;
-    --border-color: #cfbee3;
+    --btn-color: hsl(var(--default-clr), 90%, 50%);
+    --body-bg: hsl(0, 0%, 97%);
+    --object-bg: #fff;
+    --object-bg-2: #fff;
+    --object-bg-trans: #fafafa;
+    --grey: hsl(var(--default-clr), 17%, 71%);
+    --border-color: #c2c2c2;
     --box-shadow-color: #7676764f;
-    --text-clr: #000;
-    --border-radius: 1rem;
+    --text-color: #000;
+    --border-radius: 1.5rem;
     --fs: 1rem;
     --error: #d71212;
     --error-clr: #ffd0d0;
@@ -38,11 +40,11 @@ html {
 
 
 ::-webkit-scrollbar {
-    width: 12px;
+    width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-    background: var(--object-bg);
+    visibility: hidden;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -58,9 +60,8 @@ html {
 
 body {
     background: var(--body-bg);
-    color: var(--text-clr);
-    /* font-family: 'Poppins', sans-serif; */
-    font-family: 'Lato', sans-serif;
+    color: var(--text-color);
+    font-family: 'Poppins', sans-serif;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
@@ -76,46 +77,30 @@ body.disabled {
 body.theme-color-orange {
     --default-clr: 34;
     --theme-color: hsl(var(--default-clr), 100%, 45%);
-    --btn-color: #fae8d6;
-    --body-bg: hsl(24, 100%, 99%);
-    --object-bg: #fffaf5;
-    --object-bg-trans: #ece0d496;
-    --grey: #c2b5a9;
-    --border-color: #dfd4c8;
+    --btn-color: hsl(var(--default-clr), 90%, 50%);
+    --grey: hsl(var(--default-clr), 17%, 71%);
 }
 
 
 body.theme-color-blue {
     --default-clr: 213;
     --theme-color: hsl(var(--default-clr), 100%, 50%);
-    --btn-color: hsl(var(--default-clr), 78%, 91%);
-    --body-bg: hsl(var(--default-clr), 100%, 99%);
-    --object-bg: hsl(var(--default-clr), 100%, 98%);
-    --object-bg-trans: hsla(var(--default-clr), 39%, 88%, 0.588);
+    --btn-color: hsl(var(--default-clr), 90%, 50%);
     --grey: hsl(var(--default-clr), 17%, 71%);
-    --border-color: hsl(var(--default-clr), 26%, 83%);
 }
 
 body.theme-color-red {
     --default-clr: 0;
     --theme-color: hsl(var(--default-clr), 100%, 50%);
-    --btn-color: hsl(var(--default-clr), 78%, 91%);
-    --body-bg: hsl(var(--default-clr), 100%, 99%);
-    --object-bg: hsl(var(--default-clr), 100%, 98%);
-    --object-bg-trans: hsla(var(--default-clr), 39%, 88%, 0.588);
+    --btn-color: hsl(var(--default-clr), 90%, 50%);
     --grey: hsl(var(--default-clr), 17%, 71%);
-    --border-color: hsl(var(--default-clr), 26%, 83%);
 }
 
 body.theme-color-green {
-    --default-clr: 107;
-    --theme-color: hsl(var(--default-clr), 43%, 51%);
-    --btn-color: hsl(var(--default-clr), 78%, 91%);
-    --body-bg: hsl(var(--default-clr), 100%, 99%);
-    --object-bg: hsl(var(--default-clr), 100%, 98%);
-    --object-bg-trans: hsla(var(--default-clr), 39%, 88%, 0.588);
-    --grey: hsl(var(--default-clr), 17%, 71%);
-    --border-color: hsl(var(--default-clr), 26%, 83%);
+    --default-clr: 84;
+    --theme-color: hsl(var(--default-clr), 100%, 40%);
+    --btn-color: hsl(var(--default-clr), 90%, 40%);
+    --grey: hsl(var(--default-clr), 13%, 71%);
 }
 
 main {
@@ -141,7 +126,7 @@ header.left-nav ul li {
 }
 
 header.left-nav ul li a i.bi {
-    color: var(--text-clr);
+    color: var(--text-color);
     margin-right: 0.5rem;
 }
 
@@ -198,11 +183,11 @@ header ul li a.active i.bi {
     padding: 0.2rem 1rem;
 }
 
-.messages section span.success  {
+.messages section span.success {
     background: var(--success);
 }
 
-.messages section span.error  {
+.messages section span.error {
     background: var(--error);
 }
 
@@ -216,9 +201,17 @@ header ul li a.active i.bi {
     margin: 0 0 0 0.5rem;
 }
 
-.messages p.success {color: var(--success-clr)}
-.messages p.error {color: var(--error-clr)}
-.messages p.warning {color: var(--error-clr)}
+.messages p.success {
+    color: var(--success-clr)
+}
+
+.messages p.error {
+    color: var(--error-clr)
+}
+
+.messages p.warning {
+    color: var(--error-clr)
+}
 
 
 /* ERROR SUCCESS CLASSES */

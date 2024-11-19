@@ -5,12 +5,12 @@ const PasswordInput = ({ id, placeholder, register, requiredMessage, errors }) =
 
     return (
         <div className='input-field'>
-            <label htmlFor={id} className='field obj-trans'>
+            <label htmlFor={id} className='field obj'>
                 <input
                     type={passVisibility ? "text" : "password"}
                     id={id}
                     placeholder={placeholder}
-                    className='obj-trans'
+                    className='obj'
                     {...register(id, { required: requiredMessage })}
                 />
                 <button

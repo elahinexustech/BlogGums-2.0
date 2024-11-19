@@ -1,47 +1,36 @@
-import React, { Component } from 'react';
-import ReactMarkdown from 'react-markdown';
+import React, { useState, useEffect, useCallback, useContext } from 'react';
 import NavigationMenu from '../../components/NavigationMenu/NavigationMenu';
 import UILoader from '../../components/UILoader/UILoader';
 import MarkdownViewer from './MDDisplayer';
-import { extractHeadingsFromMarkdown } from './convertor';
-
-
-// functions
-import { AddLike } from '../../Functions/AddLike';
-
+import LikeButton from '../../components/LikeButton/LikeButton';
+import { BLOG_FONT_SIZE } from '../../_CONSTS_';
+import { FSContext } from '../../Context/useFontSize';
+import { Link } from 'react-router-dom';
 import './post.css';
 
-class PostView extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            post: null,
-            loading: true,
-            error: null,
-            user: props.user, // This will now correctly receive the user prop
-            hasLiked: false,
-            headings: []
-        };
-    }
+// Utility function to format the date
+const formatDate = (dateString) => {
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+};
 
-    componentDidMount() {
-        this.getPostDetails();
-    }
+const PostView = ({ id, user }) => {
+    const [post, setPost] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [fontSize, setFontSize] = useState(localStorage.getItem(BLOG_FONT_SIZE) || '1rem');
 
-    fetchHeadings = async () => {
-        if (this.state.post) {
-            const content = this.state.post.post.content;
-            const extractedHeadings = await extractHeadingsFromMarkdown(content);
-            this.setState({ headings: extractedHeadings });
-        }
-    };
-    
-    
-    getPostDetails = async () => {
-        const { id } = this.props;
+    // Fetch post details function with useCallback for memoization
+    const getPostDetails = useCallback(async () => {
         const token = localStorage.getItem("ACCESS_TOKEN");
         const refreshToken = localStorage.getItem("REFRESH_TOKEN");
-    
+
+        if (!token || !refreshToken) {
+            setError("Authentication tokens are missing.");
+            setLoading(false);
+            return;
+        }
+
         try {
             const response = await fetch(`http://127.0.0.1:8000/blogs/post/${id}`, {
                 method: 'POST',
@@ -52,99 +41,70 @@ class PostView extends Component {
                 },
                 body: JSON.stringify({ refresh: refreshToken }),
             });
-    
+
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
-    
-            const post = await response.json();
-    
-            this.setState({ 
-                post, 
-                hasLiked: post.liked_by_this_user 
-            }, this.fetchHeadings); // Call fetchHeadings after setting state
+
+            const postData = await response.json();
+            setPost(postData);
         } catch (error) {
-            this.setState({ error: error.message });
+            setError(error.message);
         } finally {
-            this.setState({ loading: false });
+            setLoading(false);
         }
-    };
-    
+    }, [id]);
 
-    render() {
-        const { post, loading, error, user, hasLiked, headings } = this.state;
-        return (
-            <>
-                <NavigationMenu />
+    useEffect(() => {
+        getPostDetails();
+    }, [getPostDetails]);
 
-                {loading && <UILoader />}
+    return (
+        <FSContext.Provider value={{ fontSize, setFontSize }}>
+            <NavigationMenu />
+            {loading && <UILoader />}
+            {error && <p className='error'>Error: {error}</p>}
+            {post && (
+                <div className="post-container flex">
+                    <div className="post-area obj" style={{ fontSize }}>
+                        <h1 className='title'>{post.post.title}</h1>
+                        <p className="grey">
+                            <i>{formatDate(post.post.published_at)}</i>&nbsp; <br />
+                            By <Link className='colored' to={`/${post.post.author.username}`}>{post.post.author.username}</Link>
+                        </p>
+                        <MarkdownViewer markdownText={post.post.content} />
+                    </div>
+                </div>
+            )}
 
-                {error && <p className='error'>Error: {error}</p>}
+            <aside className='obj flex ai-start direction-col'>
+                <LikeButton
+                    postId={post?.post.id}
+                    initialLikes={post?.total_likes}
+                    hasLiked={post?.liked_by_this_user}
+                    onLikeChange={(likeCount) => {
+                        console.log(post.initialLikes)
+                        setPost((prevPost) => ({
+                            ...prevPost,
+                            total_likes: likeCount,
+                        }));
+                    }}
+                />
 
-                {post && (
-                    <>
-                        <div className="post-container flex">
-                            <div className="post-area obj">
-                                <h1>{post.post.title}</h1>
-                                <br />
-                                <hr />
-                                <br />
-                                <MarkdownViewer markdownText={post.post.content} />
-                            </div>
-                        </div>
+                <span aria-label='comments' className='flex direction-col'>
+                    <button className="transparent">
+                        <i className="bi bi-chat caption"></i>
+                    </button>
+                    <p className="grey caption">{post?.total_comments}</p>
+                </span>
+            </aside>
 
-                        <aside className='obj flex ai-start direction-col'>
-                            <span aria-label='likes' className='flex direction-col'>
-                                <button className='transparent' onClick={async () => {
-                                    // Toggle `hasLiked` state
-                                    this.setState((prevState) => ({ hasLiked: !prevState.hasLiked }));
+            <div className="container flex">
+                <h2>More blogs from {post?.post.author.first_name}</h2>
 
-                                    // Call `AddLike` to get the updated like count
-                                    const like_count = await AddLike(post.post.id);
-
-                                    // Update the `total_likes` in `post`
-                                    this.setState((prevState) => ({
-                                        post: {
-                                            ...prevState.post,
-                                            total_likes: like_count
-                                        }
-                                    }));
-                                }}>
-                                    {hasLiked ?
-                                        <i className="bi bi-heart-fill caption"></i> :
-                                        <i className="bi bi-heart caption"></i>
-                                    }
-                                </button>
-                                <p className="grey caption">{post.total_likes}</p>
-                            </span>
-
-                            <span aria-label='comments' className='flex direction-col'>
-                                <button className="transparent">
-                                    <i className="bi bi-chat caption"></i>
-                                </button>
-                                <p className="grey caption">{post.total_comments}</p>
-                            </span>
-                        </aside>
-
-
-                        <div className="container flex">
-                            <h2>More blogs from {post.post.author.first_name}</h2>
-                        </div>
-
-                        <section className="topics flex direction-col ai-start obj">
-                            <p className="caption grey">Topics in this blog</p>
-                            <br /><hr /><br />
-                            {headings.map((heading) => (
-                                    <a key={heading.id} href={`#${heading.id}`} className='heading'>{heading.text}</a>
-                            ))}
-                        </section>
-
-
-                    </>
-                )}
-            </>
-        );
-    }
-}
+            </div>
+        </FSContext.Provider>
+    );
+};
 
 export default PostView;

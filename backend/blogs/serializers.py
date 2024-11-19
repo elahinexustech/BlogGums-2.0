@@ -9,12 +9,19 @@ class AuthorSerializer(serializers.ModelSerializer):
         model = User
         fields = ['id', 'first_name', 'last_name', 'username', 'email', 'profile_image_url']
 
+
+
 class BlogSerializer(serializers.ModelSerializer):
     author = AuthorSerializer()
+    
+    def get_total_likes(self, obj):
+        return obj.likes.count()  # Count of likes for the specific blog post
 
     class Meta:
         model = BlogPost
         fields = "__all__"
+
+
 
 class PostSerializer(serializers.ModelSerializer):
     author = AuthorSerializer()

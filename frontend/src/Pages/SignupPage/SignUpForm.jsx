@@ -140,7 +140,7 @@ const SignUpForm = () => {
                         </div>
 
                         <br />
-                        <button type="submit" className='obj-trans btn' style={{ "--text-color": "#fff" }} disabled={!username || !password || isSubmitting}>
+                        <button type="submit" style={{ "--text-color": "#fff" }} disabled={!username || !password || isSubmitting}>
                             <i className="bi bi-box-arrow-right"></i> &nbsp;Login
                         </button>
                     </form>

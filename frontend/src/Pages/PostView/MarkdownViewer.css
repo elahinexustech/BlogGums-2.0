@@ -1,9 +1,38 @@
 .markdown-viewer {
+    width: 100%;
     font-family: Arial, sans-serif;
     line-height: 1.7;
-    margin: 20px;
-    padding: 20px;
 }
+
+.markdown-viewer figure {
+    margin: 1rem 0;
+}
+
+.markdown-viewer figure pre {
+    border-radius: calc(1.5 * var(--border-radius));
+}
+
+.markdown-viewer figure button {
+    background: transparent;
+    box-shadow: none;
+    border: none;
+    transform: scale(0.8);
+}
+
+.markdown-viewer pre code {
+    max-height: 600px;
+    overflow-y: auto;
+}
+
+.markdown-viewer pre code[data-line-numbers] {
+    counter-reset: line;
+}
+
+.markdown-viewer pre code[data-line-numbers]>[data-line]::before {
+    counter-increment: line;
+    content: counter(line);
+}
+
 
 .markdown-viewer h1,
 .markdown-viewer h2,
@@ -11,9 +40,9 @@
     margin: 1rem 0 0 0;
 }
 
-.markdown-viewer p {
+/* .markdown-viewer p {
     margin-bottom: 1em;
-}
+} */
 
 .markdown-viewer ul {
     margin-left: 1.6rem;

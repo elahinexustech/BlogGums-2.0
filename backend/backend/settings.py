@@ -109,6 +109,17 @@ DATABASES = {
     }
 }
 
+# DATABASES = {
+#    'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'HOST': 'localhost',
+#         'NAME': 'BlogGums2.0',
+#         'PORT': '5432',
+#         'USER': 'postgres',
+#         'PASSWORD': 'postgres123',
+#     }
+# }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators

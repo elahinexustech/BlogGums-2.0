@@ -1,9 +1,29 @@
 .container .profile-header {
-    width: 1000px;
+    width: 70%;
     padding: 4rem;
     border-radius: var(--border-radius);
     position: relative;
     margin-top: 10%;
+}
+
+.large-image-overlay {
+    width: 100%;
+    height: 100%;
+    background: #00000081;
+    backdrop-filter: blur(1rem);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000000;
+    display: flex;
+}
+
+.large-image {
+    width: 40%;
+    height: 40%;
+    object-fit: cover;
+    display: block;
+    margin: auto;
 }
 
 
@@ -30,8 +50,54 @@
 }
 
 
-.post {
-    width: 300px;
-    height: 200px;
-    border-radius: var(--border-radius);
+.container .profile-body {
+    width: 70%;
+}
+
+.posts {
+    width: 100%;
+    min-height: 40px;
+    border-radius: 0;
+    border-radius: 0;
+    padding: 3rem;
+}
+
+.posts:nth-child(1){
+    border-top-left-radius: var(--border-radius);
+    border-top-right-radius: var(--border-radius);
+}
+.posts:last-child{
+    border-bottom-left-radius: var(--border-radius);
+    border-bottom-right-radius: var(--border-radius);
+}
+
+.posts i.bi {
+    cursor: pointer;
+}
+
+
+.editbutton {
+    position: absolute;
+    top: 10%;
+    right: 5%;
+}
+
+
+.edit-buttons button{
+    margin: 0 1rem;
+}
+.edit-buttons button i.bi{
+    margin: 0 0.5rem 0 0;
+}
+
+.edit-buttons button.error {
+    background: var(--error);
+    color: var(--error-clr);
+    box-shadow: var(--error);
+}
+
+.edit-buttons button.success {
+    background: var(--success);
+    color: var(--success-clr);
+    box-shadow: var(--success);
 }

@@ -1,19 +1,78 @@
 .post-container {
     min-height: 100vh;
-    padding: 4rem;
+    padding: 4rem 15rem;
 }
 .post-container .post-area {
-    margin: 1rem 0;
-    width: 60%;
+    width: 70%;
     padding: 2rem;
     overflow: hidden;
-    border-radius: 15px;
+    border-radius: var(--border-radius);
 }
+
+
 
 .w-md-editor-text, .wmde-markdown .wmde-markdown-color  {
-    color: var(--text-clr);
+    color: var(--text-color);
 }
 
+.wmde-markdown a {
+    color: var(--link-color, #3498db);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.wmde-markdown a:hover {
+    color: var(--link-hover-color, #2980b9);
+    text-decoration: underline;
+}
+
+/* Blockquotes */
+.wmde-markdown blockquote {
+    border-left: 4px solid var(--blockquote-border-color, #ccc);
+    margin: 1em 0;
+    padding-left: 1em;
+    color: var(--blockquote-text-color, var(--text-color));
+    font-style: italic;
+    background: var(--blockquote-bg, #f9f9f9);
+}
+
+/* Lists */
+.wmde-markdown ul, .wmde-markdown ol {
+    margin: 1em 0;
+    padding-left: 1.5em;
+}
+
+.wmde-markdown li {
+    margin: 0.5em 0;
+}
+
+/* Code blocks */
+.wmde-markdown pre, .wmde-markdown code {
+    background: var(--code-bg, #f4f4f4);
+    border-radius: 4px;
+    padding: 0.25em 0.5em;
+    color: var(--code-color, #d14);
+    font-family: monospace;
+}
+
+/* Images */
+.wmde-markdown img {
+    max-width: 100%;
+    border-radius: 4px;
+    margin: 1em 0;
+}
+
+/* Horizontal rule */
+.wmde-markdown hr {
+    border: 0;
+    height: 1px;
+    background: var(--hr-color, #ddd);
+    margin: 2em 0;
+}
+
+.post-area h1.title {
+    font-size: 2.3rem;
+}
 
 .post-area img {
     width: 60%;
@@ -44,9 +103,9 @@
 
 
 aside {
-    position: absolute;
+    position: fixed;
     top: 50%;
-    left: 20.5%;
+    right: 5%;
     transform: translateY(-50%);
     padding: 2rem 0rem;
     border-radius: calc(6*var(--border-radius));
@@ -73,8 +132,8 @@ aside span button i.bi {
     width: 300px;
 }
 .topics a {
-    margin: 0.5rem 0; /* Apply margin to the link directly */
-    transition: 0.3s;
+    margin: 0.5rem 0; /*Apply margin to the link directly 
+    transition: 0.3s;*/
 }
 
 .topics a:hover {

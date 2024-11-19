@@ -1,13 +1,13 @@
 import React from 'react'
 import NavigationMenu from '../../components/NavigationMenu/NavigationMenu'
-import PostArea from '../../components/PostArea/PostArea'
+import Feed from '../../components/Feed/Feed'
 
 
 const Home = () => {
   return (
     <>
       <NavigationMenu />
-      <PostArea />
+      <Feed />
     </>
   )
 }

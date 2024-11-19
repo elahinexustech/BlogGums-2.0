@@ -3,13 +3,12 @@ nav {
     top: 50%;
     transform: translateY(-50%);
     width: 5%;
-    left: 1%;
+    left: 0%;
     padding: 2rem 0;
 }
 
 nav ul {
-    background: white;
-    padding: 1rem;
+    padding: 0rem;
     border-radius: 50px;
 }
 
@@ -22,7 +21,7 @@ nav ul li{
 
 nav ul li i.bi,
 nav button i.bi {
-    font-size: 1.5rem;
+    font-size: 2rem;
 }
 
 nav ul li .active i.bi {
@@ -32,20 +31,17 @@ nav ul li .active i.bi {
 nav ul li:hover{
     transform: scale(1.2);
 }
-
-nav ul li .active::after {
-    content: '';
-    position: absolute;
-    top: 95%;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 5px;
-    height: 5px;
-    background: var(--theme-color);
-    border-radius: 50%;
+nav button.transparent {
+    padding: 0;
+}
+nav button.transparent i.bi {
+    color: var(--grey);
 }
 
-nav button {
-    background: var(--btn-color);
-    padding: 2rem;
+nav button.circle.icon i.bi {
+    font-size: 1.5rem;
+}
+
+nav button.circle.icon {
+    padding: 0.8rem;
 }

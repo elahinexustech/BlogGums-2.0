@@ -7,7 +7,7 @@ BlogGums is a project lead and directed by ElahiNexusTech.
 ## Developers
 - Muhammad Abdullah Elahi
     -    Senior Developer, and Head at ElahiNexusTech. Leading the project with capabilites and skills in Software Development, Website Development, Database Management Systems, and much more.
-- Omar Baloch
+- Omar Owais
     - Frontend Developer, helping in this project's success by his skills in Frontend Technologies and high experience in companies.
  
 ## Designers

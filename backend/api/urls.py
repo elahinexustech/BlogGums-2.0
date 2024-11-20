@@ -6,14 +6,16 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from django.contrib.auth import get_user_model
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
+from rest_framework import status
+import json
+
+
+UserModel = get_user_model()
+
 
 def run(req):
     return HttpResponse("HELLO")
 
-
-
-
-UserModel = get_user_model()
 
 class UserDetail(generics.GenericAPIView):
     permission_classes = [IsAuthenticated]
@@ -29,11 +31,29 @@ class UserDetail(generics.GenericAPIView):
             'first_name': user.first_name,
             'last_name': user.last_name,
             'email': user.email,
+            'dob':user.date_of_birth
         }
         return JsonResponse(user_data)
 
 
+class UpdateUser(generics.GenericAPIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, req):
+        data = json.loads(req.body)
+        print(data)
+
+        try:
+            UserModel.objects.filter(username=req.user).update(
+                username=data['username'], first_name=data['first_name'], last_name=data['last_name'], email=data['email'], date_of_birth=data['dob']
+            )
+            return JsonResponse({"msg": "update successfully!", "status": status.HTTP_200_OK})
+        except Exception as e:
+            return JsonResponse({"error":e, "status": status.HTTP_500_INTERNAL_SERVER_ERROR})
+
+
 urlpatterns = [
     path('', run),
-    path('get/', UserDetail.as_view())
+    path('get/', UserDetail.as_view()),
+    path('user/update', UpdateUser.as_view()),
 ]

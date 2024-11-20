@@ -23,7 +23,7 @@ import './assets/css/windows.css';
 
 
 // Functions
-import { USER } from './Functions/GetUser';
+import { USER } from './Functions/user';
 
 
 const PostViewWrapper = () => {

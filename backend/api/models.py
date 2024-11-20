@@ -1,12 +1,13 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-from phonenumber_field.modelfields import PhoneNumberField
 from django.contrib.auth.models import AbstractUser, Group, Permission
+from django.utils import timezone
 
 class CustomUser(AbstractUser):
     # Define your custom fields here
     # phone_number = PhoneNumberField(null=True, blank=True, unique=True)
     profile_image_url = models.URLField(max_length=200, blank=True, null=True)
+    date_of_birth = models.DateField(auto_now=True, null=True)
 
     groups = models.ManyToManyField(
         Group,

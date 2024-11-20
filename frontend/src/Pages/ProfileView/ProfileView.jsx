@@ -1,14 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import NavigationMenu from '../../components/NavigationMenu/NavigationMenu';
-import { USER } from '../../Functions/GetUser';
 import { useNavigate } from 'react-router-dom';
-import MarkdownViewer from '../PostView/MDDisplayer';
+
+// Components
 import UILoader from '../../components/UILoader/UILoader';
-import './style.css';
-import PIC from './pic.png'; // Default profile picture
-import GetPosts from '../../Functions/GetPost';
+import MarkdownViewer from '../PostView/MDDisplayer';
+
 import { USER_DATA } from '../../_CONSTS_';
+
+import PIC from './pic.png'; // Default profile picture
+// Functions
+import GetPosts from '../../Functions/GetPost';
+import { USER, updateUser } from '../../Functions/user';
+
+import './style.css';
+
+
 
 const ProfileView = () => {
     const navigate = useNavigate();
@@ -17,6 +25,7 @@ const ProfileView = () => {
     const [post, setPost] = useState([]);
     const [loading, setLoading] = useState(true);
     const [isEditing, setIsEditing] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const [newDetails, setNewDetails] = useState({});
     const [showLargeImage, setShowLargeImage] = useState(false);
     const [pressTimer, setPressTimer] = useState(null); // Timer for detecting long press
@@ -76,13 +85,11 @@ const ProfileView = () => {
     };
 
     const handleImageDoubleClick = () => {
-        
+
     };
 
     const handleDetailDoubleClick = (field) => {
         if (isEditing) {
-            // Send updated details to the server
-            console.log("Updated user details:", newDetails);
             setIsEditing(false);
         } else {
             setIsEditing(true);
@@ -93,6 +100,17 @@ const ProfileView = () => {
         setNewDetails(user); // Revert to original user data
         setIsEditing(false); // Exit editing mode
     };
+
+    const updateDetails = async () => {
+        setIsSubmitting(true);
+        let r = await updateUser(newDetails);
+        console.log(await r);
+        if (r.status === 200) {
+            setIsEditing(!isEditing);
+            setIsSubmitting(false);
+            location.reload();
+        }
+    }
 
     useEffect(() => {
         fetchUserData();
@@ -134,13 +152,13 @@ const ProfileView = () => {
                                         {isEditing && CURRENT_USER_STATE_VAR ? (
                                             <><input
                                                 type="text"
-                                                name="f_name"
+                                                name="first_name"
                                                 value={newDetails.first_name || ''}
                                                 onChange={handleDetailChange}
                                             />
                                                 <input
                                                     type="text"
-                                                    name="l_name"
+                                                    name="last_name"
                                                     value={newDetails.last_name || ''}
                                                     onChange={handleDetailChange}
                                                 />
@@ -203,12 +221,12 @@ const ProfileView = () => {
                                     {isEditing && CURRENT_USER_STATE_VAR && (
                                         <div className="edit-buttons flex">
                                             <br /><br />
-                                            <button onClick={handleCancel} className="cancel-button error">
-                                                <i class="bi bi-x"></i>
+                                            <button onClick={handleCancel} className="cancel-button error" disabled={isSubmitting}>
+                                                <i className="bi bi-x"></i>
                                                 Cancel
                                             </button>
-                                            <button onClick={() => console.log("Saved user details:", newDetails)} className="save-button success">
-                                                <i class="bi bi-floppy2-fill"></i>
+                                            <button onClick={updateDetails} className="save-button success" disabled={isSubmitting} >
+                                                <i className="bi bi-floppy2-fill"></i>
                                                 Save
                                             </button>
                                         </div>

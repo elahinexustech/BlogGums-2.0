@@ -1,7 +1,7 @@
 // Functions/GetUser.js
 import { SERVER, PORT, ACCESS_TOKEN, USER_DATA } from "../_CONSTS_";
 
-export const USER = async (username='') => {
+export const USER = async (username = '') => {
     const access_token = localStorage.getItem(ACCESS_TOKEN);
 
     try {
@@ -39,3 +39,20 @@ export const USER = async (username='') => {
         return null; // Return null or handle error as appropriate
     }
 };
+
+export const updateUser = async (data) => {
+
+    const access_token = localStorage.getItem(ACCESS_TOKEN);
+
+    const res = await fetch(`${SERVER}:${PORT}/api/user/update`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${access_token}`
+        },
+        body: JSON.stringify(data)
+    });
+
+    return await res.json();
+}

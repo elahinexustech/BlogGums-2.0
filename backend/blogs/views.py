@@ -142,3 +142,81 @@ class GetUserPost(generics.ListAPIView):
         serialized_posts = BlogSerializer(posts, many=True)
 
         return JsonResponse({"post": serialized_posts.data, "status":status.HTTP_200_OK})
+    
+    
+from django.shortcuts import get_object_or_404
+
+class PostComment(generics.GenericAPIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, req):
+        data = json.loads(req.body)
+
+        try:
+            print(data)
+            # Get the BlogPost instance or return a 404
+            post = get_object_or_404(BlogPost, id=data['postId'])
+
+            # Create a new comment
+            Comments.objects.create(
+                comment=data['comment_field'],
+                post=post,
+                user=req.user
+            )
+
+            # Retrieve all comments for this post
+            comments = post.comments.all()
+            serialized_comments = CommentsSerializer(comments, many=True)
+
+        except BlogPost.DoesNotExist:
+            return JsonResponse({"error": "Post not found", "status": status.HTTP_404_NOT_FOUND})
+        except Exception as e:
+            print(e)
+            return JsonResponse({"error": "Can't upload to server", "status": status.HTTP_500_INTERNAL_SERVER_ERROR})
+
+        # Prepare and return the response
+        return JsonResponse(
+            {
+                "msg": "Comment uploaded successfully!",
+                "comments": serialized_comments.data,
+                "total_comments": comments.count(),
+                "status": status.HTTP_200_OK
+            },
+            safe=False
+        )
+
+
+
+class GetMorePost(generics.CreateAPIView):
+    permission_classes = [IsAuthenticated]
+    
+    def post(self, request):
+        data = json.loads(request.body)
+        print(data)
+        
+        current_post_id = data.get('current_post', None)  # Get current post ID from request
+        
+        if not current_post_id:
+            return JsonResponse({"msg": "Missing current_post parameter."}, status=400)
+
+        try:
+            # Fetch the current post by ID
+            current_post = BlogPost.objects.get(id=current_post_id)
+            
+            # Get the author of the current post
+            author = current_post.author
+            
+            # Fetch all posts by this author, ordered by ID, and exclude the current post
+            posts_by_author = BlogPost.objects.filter(author=author).exclude(id=current_post_id).order_by('id')
+
+            # Serialize the filtered posts
+            blogs = BlogSerializer(posts_by_author, many=True)
+
+            # Return the serialized data in the response
+            return JsonResponse({"posts": blogs.data}, status=200)
+
+        except BlogPost.DoesNotExist:
+            return JsonResponse({"msg": "Post not found."}, status=404)
+        except Exception as e:
+            print(f"Error: {e}")
+            return JsonResponse({"msg": "Error fetching posts."}, status=500)

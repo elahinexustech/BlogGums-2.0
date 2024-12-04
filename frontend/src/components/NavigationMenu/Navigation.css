@@ -19,10 +19,10 @@ nav ul li{
     transition: 0.3s;
 }
 
-nav ul li i.bi,
+/* nav ul li i.bi,
 nav button i.bi {
     font-size: 2rem;
-}
+} */
 
 nav ul li .active i.bi {
     color: var(--theme-color);
@@ -33,15 +33,16 @@ nav ul li:hover{
 }
 nav button.transparent {
     padding: 0;
+    border: none;
 }
 nav button.transparent i.bi {
     color: var(--grey);
 }
 
-nav button.circle.icon i.bi {
-    font-size: 1.5rem;
+nav button i.bi {
+    color: var(--theme-color);
 }
 
 nav button.circle.icon {
-    padding: 0.8rem;
+    padding: 0.1rem;
 }

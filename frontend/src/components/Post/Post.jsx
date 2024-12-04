@@ -117,7 +117,10 @@ const Post = ({ ID, author, post, totalLikes }) => {
                         }));
                     }}
                 />
-                <i onClick={() => { renderPost(ID) }} className="bi bi-box-arrow-in-up-right buttonIcon"></i>
+
+                <button className='icon'>
+                    <i onClick={() => { renderPost(ID) }} className="bi bi-book-half"></i>
+                </button>
             </section>
         </div >
     );

@@ -1,8 +1,8 @@
 import React from 'react';
 
-const DynamicInput = ({ label, type, placeholder, id, register, requiredMessage, errors }) => {
+const DynamicInput = ({ label, type, placeholder, id, disabled=false, register, requiredMessage, errors }) => {
     return (
-        <div className='input-field'>
+        <>
             <label htmlFor={id} className='field obj'>
                 <input 
                     type={type} 
@@ -10,12 +10,13 @@ const DynamicInput = ({ label, type, placeholder, id, register, requiredMessage,
                     id={id} 
                     className='obj' 
                     autoFocus 
+                    disabled={disabled}
                     {...register(id, { required: requiredMessage })} 
                 />
             </label>
             {errors[id] && <p className="error">{errors[id]?.message}</p>}
             <br />
-        </div>
+        </>
     );
 };
 

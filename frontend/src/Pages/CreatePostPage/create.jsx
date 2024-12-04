@@ -10,7 +10,7 @@ const CreatePage = ({ isOpen, onClose }) => {
     const [value, setValue] = useState('');
 
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
-    const {user} = JSON.parse(localStorage.getItem(USER_DATA));
+    const { user } = JSON.parse(localStorage.getItem(USER_DATA));
 
     const onSubmit = async (data) => {
         setIsSubmitting(true);
@@ -41,13 +41,13 @@ const CreatePage = ({ isOpen, onClose }) => {
 
     return (
         <div className="windows opened">
+            <div className="window opened dialogue-container">
                 <button onClick={onClose} className="transparent closeBtn icon">
                     <i className="bi bi-x-lg"></i>
                 </button>
-            <div className="window opened dialogue-container">
 
-                <section>
-                    <img src={user.profile_image_url || ""} alt={`${user.username} picture`} />
+                <section className='flex jc-start'>
+                    <img src={user.profile_image_url || ""} alt={`${user.username} picture`} className='profile-picture size-icon' />
                     <p className="heading">{user.first_name} {user.last_name}</p>
                 </section>
 

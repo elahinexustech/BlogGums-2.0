@@ -31,7 +31,7 @@ class PostSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 class CommentsSerializer(serializers.ModelSerializer):
-    user = AuthorSerializer(source='user')  # Correct field name is 'user'
+    user = AuthorSerializer()  # Correct field name is 'user'
 
     class Meta:
         model = Comments

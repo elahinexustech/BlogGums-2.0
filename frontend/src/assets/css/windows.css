@@ -16,11 +16,10 @@
 }
 
 .windows .window {
-    background-color: var(--object-bg-2);
+    position: relative;
+    background-color: var(--object-bg);
     min-width: 30%;
     max-height: 70vh;
-    overflow-y: scroll;
-    overflow-x: hidden;
     border-radius: calc(var(--border-radius) + 1rem);
     position: fixed;
     top: 50%;
@@ -37,10 +36,11 @@
 
 .windows button.closeBtn {
     position: fixed;
-    top: 20%;
-    left: 20%;
-    transform: scale(1.3);
+    top: 0%;
+    left: -10%;
+    /* transform: scale(1.3); */
     background: transparent;
+    z-index: 500000;
 }
 
 .windows button.closeBtn i.bi{

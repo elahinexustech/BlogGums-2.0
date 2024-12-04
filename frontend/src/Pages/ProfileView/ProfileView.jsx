@@ -6,10 +6,10 @@ import { useNavigate } from 'react-router-dom';
 // Components
 import UILoader from '../../components/UILoader/UILoader';
 import MarkdownViewer from '../PostView/MDDisplayer';
+import ImageUploader from '../../components/ImageUploader/ImageUploader';
 
 import { USER_DATA } from '../../_CONSTS_';
 
-import PIC from './pic.png'; // Default profile picture
 // Functions
 import GetPosts from '../../Functions/GetPost';
 import { USER, updateUser } from '../../Functions/user';
@@ -31,6 +31,7 @@ const ProfileView = () => {
     const [pressTimer, setPressTimer] = useState(null); // Timer for detecting long press
     const [clicked, setClicked] = useState(false); // Track if it's a quick click
     const loggedInUser = JSON.parse(localStorage.getItem(USER_DATA)); // Get current logged-in user
+    const [showUploader, setShowUploader] = useState(false);
     const CURRENT_USER_STATE_VAR = loggedInUser.user.username === username;
 
 
@@ -46,7 +47,6 @@ const ProfileView = () => {
         clearTimeout(pressTimer); // Clear the press timer on mouse up
         if (!clicked) {
             setClicked(true); // Mark as clicked if it's a quick release
-            handleImageDoubleClick(); // Trigger the double click behavior for a quick click
         }
     };
 
@@ -56,6 +56,7 @@ const ProfileView = () => {
         const data = await USER(username);
         if (data) {
             setUser(data);
+            console.log(data)
             setNewDetails(data); // Initialize newDetails with fetched user data
         } else {
             console.error("Failed to fetch user data.");
@@ -72,10 +73,6 @@ const ProfileView = () => {
         navigate(`/post/${id}`);
     };
 
-    const handleEditToggle = () => {
-        setIsEditing(!isEditing);
-    };
-
     const handleDetailChange = (e) => {
         setNewDetails({ ...newDetails, [e.target.name]: e.target.value });
     };
@@ -84,8 +81,12 @@ const ProfileView = () => {
         setShowLargeImage(false);
     };
 
-    const handleImageDoubleClick = () => {
+    const selectImage = () => {
+        setShowUploader(true); // Show the ImageUploader component
+    };
 
+    const handleCloseUploader = () => {
+        setShowUploader(false); // Hide the ImageUploader component
     };
 
     const handleDetailDoubleClick = (field) => {
@@ -114,6 +115,7 @@ const ProfileView = () => {
 
     useEffect(() => {
         fetchUserData();
+        console.log(user)
     }, [username]);
 
     useEffect(() => {
@@ -134,17 +136,35 @@ const ProfileView = () => {
                         <div className="profile-header obj flex direction-col">
                             {user && (
                                 <>
-                                    <img
-                                        src={PIC}
-                                        className="profile-img"
-                                        alt="Profile image"
-                                        onMouseDown={handleMouseDown}
-                                        onMouseUp={handleMouseUp}
-                                        onClick={() => clicked && handleImageDoubleClick()} // Click event to handle quick click
-                                    />
+                                    <div className='image-container flex'>
+                                        <img
+                                            src={user.profile_image_url}
+                                            className="profile-picture size-l"
+                                            alt="Profile image"
+                                            onMouseDown={handleMouseDown}
+                                            onMouseUp={handleMouseUp}
+                                        />
+                                        {CURRENT_USER_STATE_VAR && (
+                                            <button className='small circle camera-btn' onClick={selectImage}>
+                                                <i className="bi bi-camera-fill"></i>
+                                            </button>
+
+                                        )
+                                        }
+                                        {showUploader && (
+                                            <div className="windows opened image-uploader">
+                                                <div className="window opened flex obj-trans direction-col">
+                                                <button onClick={handleCloseUploader} className="transparent closeBtn icon">
+                                                    <i className="bi bi-x-lg"></i>
+                                                </button>
+                                                    <ImageUploader/>
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
                                     {showLargeImage && (
                                         <div className="large-image-overlay" onClick={handleImageClick}>
-                                            <img src={PIC} alt="Large view" className="large-image" />
+                                            <img src={user.profile_image_url} alt="Large view" className="large-image" />
                                         </div>
                                     )}
                                     <br /><br />

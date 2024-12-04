@@ -1,6 +1,6 @@
 .container .profile-header {
-    width: 70%;
-    padding: 4rem;
+    width: 60%;
+    padding: 2rem;
     border-radius: var(--border-radius);
     position: relative;
     margin-top: 10%;
@@ -19,22 +19,28 @@
 }
 
 .large-image {
-    width: 40%;
-    height: 40%;
-    object-fit: cover;
+    width: 30%;
     display: block;
     margin: auto;
+    border-radius: calc(var(--border-radius) + 1rem);
 }
 
+.container .profile-header .image-container {
+    position: relative;
+}
 
-.container .profile-header .profile-img {
-    width: 200px;
-    height: 200px;
-    border-radius: 50%;
+.container .profile-header .image-container button.camera-btn {
     position: absolute;
-    top: -30%;
-    border: solid 0.6rem var(--grey);
-    box-shadow: 0px 0px 15px var(--box-shadow-color);
+    right: 2%;
+    bottom: 0;
+}
+
+.container .profile-header .profile-picture {
+    transition: 0.5s;
+}
+
+.container .profile-header .profile-picture:active {
+    transform: scale(0.9);
 }
 
 
@@ -51,7 +57,7 @@
 
 
 .container .profile-body {
-    width: 70%;
+    width: 60%;
 }
 
 .posts {
@@ -100,4 +106,9 @@
     background: var(--success);
     color: var(--success-clr);
     box-shadow: var(--success);
+}
+
+
+.image-uploader .window{
+    height: 100vh;
 }

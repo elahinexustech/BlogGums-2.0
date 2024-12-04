@@ -28,7 +28,7 @@ const MDEditor = ({ value, onChange }) => {
     };
 
     return (
-        <div className="editor flex ai-start direction-col obj-2">
+        <div className="editor flex ai-start direction-col obj-trans">
             <div className="header">
                 <div className="toolbar flex">
                     <button className='transparent' type="button" onClick={() => insertMarkdown('**  **')}>

@@ -3,7 +3,7 @@
     padding: 4rem 15rem;
 }
 .post-container .post-area {
-    width: 70%;
+    width: 100%;
     padding: 2rem;
     overflow: hidden;
     border-radius: var(--border-radius);
@@ -121,21 +121,78 @@ aside span button i.bi {
 }
 
 
+.container {
+    z-index: 0000;
+}
 
-.topics {
+.otherPost .post.obj{
+    z-index: 0;
+}
+.commentBox {
     position: fixed;
-    top: 50%;
-    right: 5%;
-    transform: translateY(-50%);
+    min-width: 600px;
+    min-height: 600px;
+    right: 140%;
+    padding: 1rem;
     border-radius: var(--border-radius);
-    padding: 2rem;
-    width: 300px;
-}
-.topics a {
-    margin: 0.5rem 0; /*Apply margin to the link directly 
-    transition: 0.3s;*/
+    transform: scale(0.6) translateX(10%);
+    transform-origin: right;
+    opacity: 0;
+    visibility: hidden;
+    transition: 0.3s;
 }
 
-.topics a:hover {
-    color: var(--theme-color);
+.commentBox .comments-section {
+    margin: 0.1rem;
+    width: 100%;
+    max-height: 450px;
+    overflow-y: auto;
 }
+
+.commentBox .comments-section .comment {
+    padding: 0.6rem;
+    margin: 0.5rem 0;
+    border-radius: var(--border-radius);
+    box-shadow: 0px 0px 10px var(--box-shadow-color);
+}
+
+.commentBox::after {
+    content: '\F231';
+    font-family: 'bootstrap-icons';
+    color: var(--border-color);
+    position: absolute;
+    right: -4%;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.8rem;
+}
+
+.commentBox.active {
+    transform: scale(1) translateX(0%);
+    opacity: 1;
+    visibility: visible;   
+    z-index: 100;
+}
+
+.commentBox form {
+    width: 100%;
+    padding: 0;
+    position: fixed;
+    bottom: 3%;
+    width: 97%;
+}
+
+#comment_field {
+    padding: 0.5rem;
+    border-radius: calc(var(--border-radius) - 0.1rem);
+    height: auto;
+    resize: none;
+    width: 100%;
+    font-family: inherit;
+}
+
+.commentBox form  button {
+    margin: 0.5rem;
+}
+
+

@@ -4,6 +4,23 @@ hr {
     width: 100%;
 }
 
+/* PROFILE PICTURE */
+.profile-picture {
+    width: 60px;
+    border-radius: 50%;
+    box-shadow: 0px 0px 15px var(--box-shadow-color);
+}
+
+.profile-picture.size-l {
+    width: 200px;
+    height: 200px;
+}
+
+.profile-picture.size-icon {
+    width: 40px;
+    height: 40px;
+}
+
 
 
 .obj {
@@ -19,7 +36,8 @@ hr {
 .obj-trans {
     background: var(--object-bg-trans);
     border: solid 1px var(--border-color);
-    backdrop-filter: blur(0.5rem);
+    backdrop-filter: blur(0.4rem);
+    box-shadow: 0px 0px 10px 2px var(--box-shadow-color);
 }
 
 .obj-trans.input-bordered {
@@ -32,10 +50,11 @@ hr {
 button {
     font-size: var(--fs);
     padding: 0.5rem 1.2rem;
-    background: var(--btn-color);
     color: var(--text-color);
-    border: none;
+    border: solid 1px var(--border-color);
+    background: var(--btn-color);
     border-radius: var(--border-radius);
+    box-shadow: 0px 0px 7px var(--object-bg-trans);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -45,10 +64,27 @@ button {
     position: relative;
 }
 
-button.icon,
-button.icon i.bi {
-    color: #fff;
+button.theme {
+    background: hsl(var(--clr, var(--default-clr)), 100%, 50%);
 }
+
+button.theme i.bi {
+    color: hsl(var(--clr, var(--default-clr)), 50%, 90%);
+}
+
+button.no-border {
+    border: none;
+}
+
+button.icon {
+    border: none;
+    box-shadow: none;
+}
+
+/* button.success {
+    background: var(--success);
+    box-shadow: 0px 0px 5px var(--success);
+} */
 
 button i.bi {
     font-size: 1.2rem;
@@ -65,6 +101,8 @@ button.circle {
 button.transparent {
     background: transparent;
     color: var(--grey);
+    box-shadow: none;
+    border: none;
 }
 
 button.transparent:hover,
@@ -88,7 +126,7 @@ button:disabled {
 }
 
 button:hover {
-    box-shadow: 0px 0px 10px var(--btn-color);
+    transform: scale(1.05);
 }
 
 
@@ -263,7 +301,7 @@ i.bi {
     -webkit-text-fill-color: transparent;
 }
 
-pre code span{
+pre code span {
     font-family: 'Source Code Pro', monospace;
 }
 

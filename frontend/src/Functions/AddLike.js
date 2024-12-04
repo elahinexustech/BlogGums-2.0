@@ -3,6 +3,8 @@ import { SERVER, PORT, ACCESS_TOKEN, REFRESH_TOKEN } from "../_CONSTS_"
 
 export const AddLike = async (id) => {
 
+    console.log(id);
+
     let access_token = localStorage.getItem(ACCESS_TOKEN);
     let r = await fetch(`${SERVER}:${PORT}/blogs/addlike`, {
         method: 'POST',

@@ -2,11 +2,11 @@
 body.dark-theme {
     --default-clr: 267;
     --theme-color: hsl(var(--default-clr), 51%, 60%);
-    --btn-color: hsl(var(--default-clr), 100%, 40%);
-    --body-bg: hsl(0, 0%, 4%);
-    --object-bg: hsl(0, 0%, 9%);
-    --object-bg-2: hsl(0, 0%, 10%);
-    --object-bg-trans: hsla(0, 0%, 7%, 0.831);
+    --btn-color: #1a1a1a;
+    --body-bg: #0a0a0a;
+    --object-bg: #171717;
+    --object-bg-2: #1a1a1a;
+    --object-bg-trans: #121212d4;
     --grey: hsl(var(--default-clr), 5%, 50%);
     --border-color: #292929;
     --box-shadow-color: #0b0b0bca;
@@ -23,27 +23,27 @@ body.dark-theme {
 body.dark-theme.theme-color-orange {
     --default-clr: 34;
     --theme-color: hsl(var(--default-clr), 100%, 40%);
-    --btn-color: hsl(var(--default-clr), 100%, 40%);
+    /* --btn-color: hsl(var(--default-clr), 100%, 40%); */
 }
 
 
 body.dark-theme.theme-color-blue {
     --default-clr: 213;
     --theme-color: hsl(var(--default-clr), 100%, 40%);
-    --btn-color: hsl(var(--default-clr), 100%, 40%);
+    /* --btn-color: hsl(var(--default-clr), 100%, 40%); */
 }
 
 body.dark-theme.theme-color-red {
     --default-clr: 0;
     --theme-color: hsl(var(--default-clr), 100%, 40%);
-    --btn-color: hsl(var(--default-clr), 100%, 25%);
+    /* --btn-color: hsl(var(--default-clr), 100%, 25%); */
 }
 
 body.dark-theme.theme-color-green {
     --default-clr: 133;
     --theme-color: hsl(var(--default-clr), 70%, 40%);
     --btn-color: hsl(var(--default-clr), 100%, 25%);
-    --grey: hsl(var(--default-clr), 5%, 50%);
+    /* --grey: hsl(var(--default-clr), 5%, 50%); */
 }
 
 

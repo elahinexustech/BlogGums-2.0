@@ -65,12 +65,9 @@
     visibility: visible;
 }
 
-.post section.foot {
-    position: absolute;
-    bottom: 2%;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 500;
+.post section.foot button {
+    padding: 0.5rem;
+    background: transparent;
 }
 
 .post section.foot i.bi{

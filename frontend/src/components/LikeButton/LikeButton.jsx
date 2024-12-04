@@ -20,7 +20,7 @@ const LikeButton = ({ postId, initialLikes = 0, hasLiked, onLikeChange }) => {
 
     return (
         <span aria-label='likes' className='flex direction-col'>
-            <button className='transparent' onClick={handleLikeToggle}>
+            <button className='transparent icon' onClick={handleLikeToggle}>
                 {liked ? (
                     <i className="bi bi-heart-fill caption"></i>
                 ) : (

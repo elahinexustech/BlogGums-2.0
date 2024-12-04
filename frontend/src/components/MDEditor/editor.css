@@ -21,9 +21,8 @@
     border-radius: var(--border-radius);
 }
 
-.editor .body .preview {
-    overflow-y: auto;
-    background: var(--object-bg-2);
+.editor .body #markdown-input {
+    background: var(--object-bg-trans);
 }
 
 .editor .body .preview div {

@@ -1,0 +1,11 @@
+.cropper-container {
+    position: relative;
+    width: 500px;
+    height: 500px;
+    margin: auto;
+}
+
+.reactEasyCrop_CropArea {
+    border: 2px solid white;
+}
+

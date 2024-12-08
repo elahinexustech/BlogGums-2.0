@@ -33,3 +33,10 @@
 .signup-container .form-container form button[type=submit] {
     width: 100%;
 }
+
+
+
+.successful-registration i.bi{
+    color: var(--success);
+    font-size: 4rem;
+}

@@ -22,7 +22,6 @@ const PasswordInput = ({ id, placeholder, register, requiredMessage, errors }) =
                 </button>
             </label>
             {errors[id] && <p className="error">{errors[id].message}</p>}
-            <br />
         </div>
     );
 };

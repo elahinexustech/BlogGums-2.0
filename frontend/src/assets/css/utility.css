@@ -65,6 +65,7 @@ button {
 }
 
 button.theme {
+    color: hsl(var(--clr, var(--default-clr)), 50%, 90%);
     background: hsl(var(--clr, var(--default-clr)), 100%, 50%);
 }
 

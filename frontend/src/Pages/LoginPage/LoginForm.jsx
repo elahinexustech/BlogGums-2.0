@@ -83,7 +83,7 @@ const LoginForm = () => {
                             requiredMessage="Username is required"
                             errors={errors}
                         />
-
+                        <br />
                         <LabelPasswordField
                             id="password"
                             placeholder="password"
@@ -93,21 +93,22 @@ const LoginForm = () => {
                             passVisibility={passVisibility}
                             setPassVisibility={setPassVisibility}
                         />
-
-                        <a className='caption grey flex'><i className="bi bi-repeat"></i>&nbsp; Reset Password</a>
+                        <br />
+                        <Link to={'/resetpassword'} className='caption grey flex'><i className="bi bi-repeat"></i>&nbsp; Reset Password</Link>
 
                         <br />
                         <button
+                            className='theme'
                             type="submit"
-                            style={{ "--text-color": "#fff" }}
                             disabled={!username || !password || isSubmitting} // Disable if empty fields or submitting
                         >
                             <i className="bi bi-box-arrow-right"></i> &nbsp;Login
                         </button>
+                        <br />
+                        <p className='grey caption'>
+                            Don't have an account, <Link className="colored" to="/signup">create one</Link>
+                        </p>
                     </form>
-                    <p className='grey caption'>
-                        Don't have an account, <Link className="colored" to="/signup">create one</Link>
-                    </p>
                 </div>
             </div>
 

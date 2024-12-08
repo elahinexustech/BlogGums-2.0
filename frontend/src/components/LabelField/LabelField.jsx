@@ -15,7 +15,6 @@ const DynamicInput = ({ label, type, placeholder, id, disabled=false, register, 
                 />
             </label>
             {errors[id] && <p className="error">{errors[id]?.message}</p>}
-            <br />
         </>
     );
 };

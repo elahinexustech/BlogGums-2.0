@@ -86,9 +86,9 @@ const Post = ({ ID, author, post, totalLikes }) => {
                     <ul>
                         <li onClick={() => {
                             navigate(`/${author.username}`)
-                        }}>Go to Profile</li>
-                        <li>Translate</li>
-                        <li onClick={() => { renderPost(ID) }}>View in Full</li>
+                        }} className='li'>Go to Profile</li>
+                        <li className='li'>Translate</li>
+                        <li onClick={() => { renderPost(ID) }} className='li'>View in Full</li>
                         <br /><hr /><br />
                         <li className='error'>Report Author</li>
                     </ul>

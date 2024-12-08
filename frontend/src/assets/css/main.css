@@ -9,7 +9,7 @@
     --object-bg: #fff;
     --object-bg-2: #dadada;
     --object-bg-trans: #fafafaaf;
-    --grey: hsl(var(--default-clr), 17%, 71%);
+    --grey: hsl(var(--default-clr), 5%, 50%);
     --border-color: #c2c2c2;
     --box-shadow-color: #767676a8;
     --text-color: #000;
@@ -17,7 +17,7 @@
     --fs: 1rem;
     --error: #d71212;
     --error-clr: #ffd0d0;
-    --success: #1c8c0a;
+    --success: #27b012;
     --success-clr: #ddffd7;
     --alert: #f2c821;
     --box-after: #ffffffb1;
@@ -215,6 +215,9 @@ header ul li a.active i.bi {
 
 
 /* ERROR SUCCESS CLASSES */
+.success {
+    color: var(--success);
+}
 .error {
     color: var(--error);
 }

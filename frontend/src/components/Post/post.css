@@ -39,6 +39,7 @@
     opacity: 0;
     visibility: hidden;
     transition: 0.3s;
+    z-index: 5;
 }
 
 .post section.header section.optionMenu li {
@@ -49,15 +50,19 @@
     font-size: 0.9rem;
 }
 
-.post section.header section.optionMenu li:hover {
-    background: var(--btn-color);
+/* Ensure this rule applies only to non-error list items */
+/* Specific hover style for the error state */
+.post section.header section.optionMenu li.error:hover {
+    background: var(--error) !important;
+    color: var(--error-clr) !important;
+}
+
+/* General hover style for other items */
+.post section.header section.optionMenu li:not(.error):hover {
+    background: hsl(var(--default-clr), 100%, 50%);
     color: hsl(var(--default-clr), 50%, 95%);
 }
 
-.post section.header section.optionMenu li.error:hover {
-    background: var(--error);
-    color: var(--error-clr);
-}
 
 .post section.header section.optionMenu.showMenu {
     transform: scale(1);

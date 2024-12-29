@@ -5,11 +5,18 @@
     padding: 1rem;
 }
 
-.footer ul li{
-    margin: 0 1rem; 
+.footer ul li {
+    margin: 0 1rem;
     list-style-type: none;
 }
 
 .footer ul li a:hover {
     color: var(--theme-color);
+}
+
+
+@media screen and (max-width: 390px) {
+    .footer ul {
+        display: none;
+    }
 }

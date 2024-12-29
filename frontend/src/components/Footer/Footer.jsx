@@ -6,7 +6,7 @@ import './footer.css'
 const Footer = () => {
   return (
     <div className='flex direction-col footer'>
-        <ul className='flex'>
+        <ul className='flex direction-row-rev'>
             <li><a className='grey caption' href="">Pricing</a></li>
             <li><a className='grey caption' href="">Terms & Conditions</a></li>
             <li><a className='grey caption' href="">Privacy</a></li>

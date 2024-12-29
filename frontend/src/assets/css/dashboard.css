@@ -1,4 +1,3 @@
-/* Dark Theme */
 body.dark-theme {
     --default-clr: 267;
     --theme-color: hsl(var(--default-clr), 51%, 60%);
@@ -19,41 +18,30 @@ body.dark-theme {
     --box-after: #ffffffb1;
 }
 
-
 body.dark-theme.theme-color-orange {
     --default-clr: 34;
     --theme-color: hsl(var(--default-clr), 100%, 40%);
-    /* --btn-color: hsl(var(--default-clr), 100%, 40%); */
 }
-
 
 body.dark-theme.theme-color-blue {
     --default-clr: 213;
     --theme-color: hsl(var(--default-clr), 100%, 40%);
-    /* --btn-color: hsl(var(--default-clr), 100%, 40%); */
 }
 
 body.dark-theme.theme-color-red {
     --default-clr: 0;
     --theme-color: hsl(var(--default-clr), 100%, 40%);
-    /* --btn-color: hsl(var(--default-clr), 100%, 25%); */
 }
 
 body.dark-theme.theme-color-green {
     --default-clr: 133;
     --theme-color: hsl(var(--default-clr), 70%, 40%);
     --btn-color: hsl(var(--default-clr), 100%, 25%);
-    /* --grey: hsl(var(--default-clr), 5%, 50%); */
 }
-
-
-
-
 
 .dark-theme ::selection {
     background: hsl(var(--default-clr), 90%, 40%);
 }
-
 
 .dark-theme header.left-nav {
     background: var(--object-bg);
@@ -68,7 +56,6 @@ body.dark-theme.theme-color-green {
     color: #fff;
 }
 
-
 .dark-theme .box.post::before {
     background: radial-gradient(hsl(var(--dark-clr, var(--default-clr)), 100%, 50%), transparent, transparent);
 }
@@ -81,8 +68,6 @@ body.dark-theme.theme-color-green {
 .dark-theme button.transparent {
     background: transparent;
 }
-
-
 
 .dark-theme .post button i.bi.liked {
     color: hsl(var(--light-clr, var(--default-clr)), 100%, var(--lightness, 50%));

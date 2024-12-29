@@ -32,3 +32,21 @@
 .profile-picture {
     margin-right: 0.5rem;
 }
+
+
+
+@media screen and (min-width: 768px) {
+    .dialogue-container {
+        padding: 4rem;
+    }
+
+    .content-container form {
+        --editor-height: 500px;
+        padding: 4rem;
+    }
+
+    .content-container form button.submit-btn {
+        font-size: 1.5rem;
+    }
+    
+}

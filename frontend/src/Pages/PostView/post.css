@@ -2,6 +2,7 @@
     min-height: 100vh;
     padding: 4rem 15rem;
 }
+
 .post-container .post-area {
     width: 100%;
     padding: 2rem;
@@ -9,9 +10,7 @@
     border-radius: var(--border-radius);
 }
 
-
-
-.w-md-editor-text, .wmde-markdown .wmde-markdown-color  {
+.w-md-editor-text, .wmde-markdown .wmde-markdown-color {
     color: var(--text-color);
 }
 
@@ -80,7 +79,7 @@
     margin: auto;
 }
 
-.post-area section.foot i.bi{
+.post-area section.foot i.bi {
     margin: 0 0.5rem;
     font-size: 1.2rem;
     transition: 0.3s;
@@ -92,7 +91,6 @@
     cursor: pointer;
 }
 
-
 .post-container .author img.author-img {
     width: 150px;
     height: 150px;
@@ -100,34 +98,31 @@
     margin-right: 3rem;
 }
 
-
-
 aside {
     position: fixed;
     top: 50%;
     right: 5%;
     transform: translateY(-50%);
     padding: 2rem 0rem;
-    border-radius: calc(6*var(--border-radius));
+    border-radius: calc(6 * var(--border-radius));
 }
 
 aside span {
     margin: 1rem 0;
 }
 
-
 aside span button i.bi {
     color: var(--theme-color);
 }
 
-
 .container {
-    z-index: 0000;
-}
-
-.otherPost .post.obj{
     z-index: 0;
 }
+
+.otherPost .post.obj {
+    z-index: 0;
+}
+
 .commentBox {
     position: fixed;
     min-width: 600px;
@@ -170,7 +165,7 @@ aside span button i.bi {
 .commentBox.active {
     transform: scale(1) translateX(0%);
     opacity: 1;
-    visibility: visible;   
+    visibility: visible;
     z-index: 100;
 }
 
@@ -191,8 +186,21 @@ aside span button i.bi {
     font-family: inherit;
 }
 
-.commentBox form  button {
+.commentBox form button {
     margin: 0.5rem;
+}
+
+@media screen and (max-width: 900px) {
+    .post-container {
+        padding: 2rem;
+    }
+
+    .commentBox {
+        min-width: 100%;
+        min-height: 100%;
+        right: 0;
+        transform: scale(1) translateX(0%);
+    }
 }
 
 

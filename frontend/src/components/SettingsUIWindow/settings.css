@@ -14,6 +14,7 @@
     overflow-x: hidden;
     z-index: 1000;
 }
+
 .settings section.body {
     margin-top: 50px;
 }
@@ -79,11 +80,37 @@
     color: var(--error-clr);
 }
 
-
 .settings.show {
     left: 7%;
     transform: scale(1);
     opacity: 1;
-    visibility: visible;   
+    visibility: visible;
+}
+
+
+@media screen and (max-width: 768px) {
+    .settings {
+        width: 90%;
+        height: 600px;
+        padding: 0.5rem;
+        position: fixed;
+        bottom: -20%;
+        left: 50%;
+        transform: scale(0.4) translateX(-50%);
+    }
+
+    .settings section.body section.settings-sections {
+        margin-top: 10px;
+        padding: 1.5rem;
+    }
+
+    .settings.show {
+        left: 50%;
+        bottom: 8%;
+        transform: scale(1) translateX(-50%);
+        opacity: 1;
+        visibility: visible;
+    }
+    
 }
 

@@ -43,7 +43,6 @@
     transform: scale(0.9);
 }
 
-
 .container .profile-header table {
     width: 70%;
 }
@@ -55,7 +54,6 @@
     text-align: center;
 }
 
-
 .container .profile-body {
     width: 60%;
 }
@@ -64,15 +62,15 @@
     width: 100%;
     min-height: 40px;
     border-radius: 0;
-    border-radius: 0;
     padding: 3rem;
 }
 
-.posts:nth-child(1){
+.posts:nth-child(1) {
     border-top-left-radius: var(--border-radius);
     border-top-right-radius: var(--border-radius);
 }
-.posts:last-child{
+
+.posts:last-child {
     border-bottom-left-radius: var(--border-radius);
     border-bottom-right-radius: var(--border-radius);
 }
@@ -81,18 +79,17 @@
     cursor: pointer;
 }
 
-
 .editbutton {
     position: absolute;
     top: 10%;
     right: 5%;
 }
 
-
-.edit-buttons button{
+.edit-buttons button {
     margin: 0 1rem;
 }
-.edit-buttons button i.bi{
+
+.edit-buttons button i.bi {
     margin: 0 0.5rem 0 0;
 }
 
@@ -108,7 +105,61 @@
     box-shadow: var(--success);
 }
 
-
-.image-uploader .window{
+.image-uploader .window {
     height: 100vh;
+}
+
+.profile-body div {
+    position: relative;
+}
+
+.profile-body section.right button {
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+}
+
+.profile-body section.optionMenu {
+    position: absolute;
+    background: var(--object-bg);
+    top: 2rem;
+    right: 2rem;
+    border: solid 1px var(--border-color);
+    border-radius: 1rem;
+    box-shadow: 0px 0px 10px var(--box-shadow-color);
+    width: 200px;
+    padding: 1.5rem 1rem;
+    overflow: hidden;
+    transform: scale(0);
+    transform-origin: top right;
+    opacity: 0;
+    visibility: hidden;
+    transition: 0.3s;
+    z-index: 5;
+}
+
+.profile-body section.optionMenu li {
+    list-style-type: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+
+.profile-body .optionMenu.showMenu {
+    transform: scale(1);
+    opacity: 1;
+    visibility: visible;
+}
+
+@media screen and (max-width: 900px) {
+    .container .profile-header,
+    .container .profile-body {
+        width: 100%;
+        padding: 1rem;
+    }
+
+    .large-image {
+        width: 80%;
+    }
 }

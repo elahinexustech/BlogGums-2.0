@@ -1,19 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import Footer from '../../components/Footer/Footer';
 import LabelField from '../../components/LabelField/LabelField';
 import LabelPasswordField from '../../components/LabelPasswordField/LabelPasswordField';
 import './reset.css';
-import { ACCESS_TOKEN, PORT, SERVER } from '../../_CONSTS_';
+import { ACCESS_TOKEN, PORT, SERVER, USER_DATA } from '../../_CONSTS_';
+import NavigationMenu from '../../components/NavigationMenu/NavigationMenu';
+import { Helmet } from 'react-helmet';
 
 const ResetPasswordForm = () => {
-    const [step, setStep] = useState(1); // Track the current step
+    const [step, setStep] = useState(1);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const [email, setEmail] = useState('');
     const [resetCode, setResetCode] = useState('');
-    const access_token = localStorage.getItem(ACCESS_TOKEN) || ''
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [STEP_TITLE, setStepTitle] = useState('Reset Password')
+    const access_token = localStorage.getItem(ACCESS_TOKEN) || '';
 
     const navigate = useNavigate();
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
@@ -22,14 +26,28 @@ const ResetPasswordForm = () => {
     const newPassword = watch('new_password');
     const confirmPassword = watch('confirm_password');
 
-    // Handle form submission based on the step
+    useEffect(() => {
+        if (!localStorage.getItem(ACCESS_TOKEN)) {
+            setIsLoggedIn(false);
+        } else {
+            setIsLoggedIn(true);
+        }
+    }, []);
+
+    const handleCodeInput = () => {
+        const inputs = document.querySelectorAll('.otp-input');
+        let code = '';
+        inputs.forEach(input => {
+            code += input.value;
+        });
+        return code;
+    };
+
     const onSubmit = async (data) => {
         setIsSubmitting(true);
         setErrorMessage('');
         try {
             if (step === 1) {
-                // `${SERVER}:${PORT}/api/sendcode`
-                // Step 1: Send reset code to email
                 const response = await fetch(`${SERVER}:${PORT}/api/sendcode`, {
                     method: 'POST',
                     headers: {
@@ -42,28 +60,29 @@ const ResetPasswordForm = () => {
                 if (response.ok) {
                     setEmail(data.reset_email);
                     setStep(2);
+                    setStepTitle('Enter 6-Digit Code')
                 } else {
                     setErrorMessage('Failed to send reset code. Please try again.');
                 }
             } else if (step === 2) {
-                // Step 2: Verify reset code
+                const code = handleCodeInput();
                 const response = await fetch(`${SERVER}:${PORT}/api/verifycode`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                         'Accept': 'application/json',
                     },
-                    body: JSON.stringify({ email, code: data.reset_code }),
+                    body: JSON.stringify({ email, code, type: 'PERMENANT' }),
                 });
 
                 if (response.ok) {
-                    setResetCode(data.reset_code);
+                    setResetCode(code);
                     setStep(3);
+                    setStepTitle('New password')
                 } else {
                     setErrorMessage('Invalid code. Please try again.');
                 }
             } else if (step === 3) {
-                // Step 3: Update the password
                 if (newPassword !== confirmPassword) {
                     setErrorMessage("Passwords do not match.");
                     return;
@@ -79,13 +98,13 @@ const ResetPasswordForm = () => {
                 });
 
                 if (response.ok) {
-                    navigate('/login'); // Redirect to login after successful password reset
+                    navigate('/login');
                 } else {
                     setErrorMessage('Failed to reset password. Please try again.');
                 }
             }
         } catch (error) {
-            console.log(error)
+            console.error(error);
             setErrorMessage('An error occurred. Please try again.');
         } finally {
             setIsSubmitting(false);
@@ -94,9 +113,13 @@ const ResetPasswordForm = () => {
 
     return (
         <>
+            <Helmet>
+                <title>Reset Password {isLoggedIn ? `for ${JSON.parse(localStorage.getItem(USER_DATA)).user.username}` : ''}</title>
+            </Helmet>
+            {isLoggedIn && <NavigationMenu />}
             <div className="container flex login-container">
                 <div className="obj form-container">
-                    <h1>Reset Password</h1>
+                    <h1>{STEP_TITLE}</h1>
                     <br />
                     {errorMessage && <p className="error">{errorMessage}</p>}
                     <form
@@ -125,13 +148,25 @@ const ResetPasswordForm = () => {
 
                         {step === 2 && (
                             <>
-                                <LabelField
-                                    id="reset_code"
-                                    placeholder="Enter the reset code"
-                                    register={register}
-                                    requiredMessage="Reset code is required"
-                                    errors={errors}
-                                />
+                                <div className="otp-boxes-container flex direction-row">
+                                    {[...Array(6)].map((_, i) => (
+                                        <React.Fragment key={i}>
+                                            <input
+                                                type="text"
+                                                className="otp-input obj-trans"
+                                                maxLength="1"
+                                                id={`num${i + 1}`}
+                                                onInput={(e) => {
+                                                    if (e.target.value.length === 1 && e.target.nextElementSibling) {
+                                                        e.target.nextElementSibling.focus();
+                                                    }
+                                                }}
+                                            />
+                                            {i === 2 && <p className='subtitle'>-</p>}
+                                        </React.Fragment>
+                                    ))}
+
+                                </div>
                                 <br />
                                 <button
                                     className="theme"

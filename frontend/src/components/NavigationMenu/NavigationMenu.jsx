@@ -26,7 +26,7 @@ const NavigationMenu = () => {
     return (
         <>
             <nav className="nav-menu flex direction-col">
-                <ul>
+                <ul className='flex direction-col'>
                     <li>
                         <NavLink to="/" className={({ isActive }) => (isActive ? "active" : "")} aria-label="Home">
                             <i className="bi bi-house-fill" title="Home"></i>

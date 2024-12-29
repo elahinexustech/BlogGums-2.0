@@ -130,7 +130,6 @@ const PostView = ({ id, user }) => {
 
         try {
             const response = await postCmnt(data);
-            console.log(response);
 
             // Refetch the post details
             await getPostDetails();
@@ -168,7 +167,6 @@ const PostView = ({ id, user }) => {
                     initialLikes={post?.total_likes}
                     hasLiked={post?.liked_by_this_user}
                     onLikeChange={(likeCount) => {
-                        console.log(post.initialLikes)
                         setPost((prevPost) => ({
                             ...prevPost,
                             total_likes: likeCount,

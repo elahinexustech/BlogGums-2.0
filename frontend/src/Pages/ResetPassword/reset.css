@@ -1,0 +1,9 @@
+.otp-boxes-container {
+    width: 100%;
+}
+
+@media screen and (max-width: 900px) {
+    .otp-boxes-container {
+        padding: 1rem;
+    }
+}

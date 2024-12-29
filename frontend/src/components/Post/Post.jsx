@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import MarkdownViewer from '../../Pages/PostView/MDDisplayer';
+import { Helmet } from 'react-helmet';
 import { useNavigate, Link } from 'react-router-dom';
 import './post.css'
 
@@ -54,75 +55,80 @@ const Post = ({ ID, author, post, totalLikes }) => {
     }, [openMenuId]);
 
     return (
-        <div className='post obj'>
-            <section className="header flex jc-spb">
-                <section className="left flex">
-                    <img src={author.profile_image_url || ""} className="post-header-img" alt={`${author.username}'s profile`} />&nbsp;&nbsp;
-                    <section className='username-section'>
-                        <p className="heading">{author.first_name} {author.last_name}</p>
-                        <Link className='caption colored' to={`/${author.username}`}>@{author.username}</Link>
+        <>
+            <Helmet>
+                <title>{post.title} by {author.first_name} {author.last_name} • BlogGums</title>
+            </Helmet>
+            <div className='post obj'>
+                <section className="header flex jc-spb">
+                    <section className="left flex">
+                        <img src={author.profile_image_url || ""} className="post-header-img" alt={`${author.username}'s profile`} />&nbsp;&nbsp;
+                        <section className='username-section'>
+                            <p className="heading">{author.first_name} {author.last_name}</p>
+                            <Link className='caption colored' to={`/${author.username}`}>@{author.username}</Link>
+                        </section>
+                    </section>
+                    <section className="right">
+                        <button
+                            id={`menuButton-${ID}`}
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                toggleMenu(e, ID);
+                            }}
+                            className="transparent circle"
+                        >
+                            <i className="bi bi-three-dots-vertical"></i>
+                        </button>
+                    </section>
+
+                    {/* Option Menu that only shows for the specific post */}
+                    <section
+                        id={`optionMenu-${ID}`}
+                        className={`optionMenu ${openMenuId === ID ? 'showMenu' : ''}`}
+                    >
+                        <p className="caption grey">More options</p>
+                        <br /><hr /><br />
+                        <ul>
+                            <li onClick={() => {
+                                navigate(`/${author.username}`)
+                            }} className='li'>Go to Profile</li>
+                            <li className='li'>Translate</li>
+                            <li onClick={() => { renderPost(ID) }} className='li'>View in Full</li>
+                            <br /><hr /><br />
+                            <li className='error'>Report Author</li>
+                        </ul>
                     </section>
                 </section>
-                <section className="right">
-                    <button
-                        id={`menuButton-${ID}`}
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            toggleMenu(e, ID);
+
+                <br /><br />
+
+                <section className="body">
+                    <h2 className='subtitle'>{post.title}</h2>
+                    <br />
+                    <MarkdownViewer className="grey" markdownText={post.content} />
+                </section>
+
+                <br /><br />
+
+                <section className="foot flex">
+                    <LikeButton
+                        postId={ID}
+                        initialLikes={totalLikes}
+                        hasLiked={false}
+                        onLikeChange={(likeCount) => {
+                            setPost((prevPost) => ({
+                                ...prevPost,
+                                totalLikes: likeCount,
+                            }));
                         }}
-                        className="transparent circle"
-                    >
-                        <i className="bi bi-three-dots-vertical"></i>
+                    />
+
+                    <button className='icon'>
+                        <i onClick={() => { renderPost(ID) }} className="bi bi-book-half"></i>
                     </button>
                 </section>
-
-                {/* Option Menu that only shows for the specific post */}
-                <section
-                    id={`optionMenu-${ID}`}
-                    className={`optionMenu ${openMenuId === ID ? 'showMenu' : ''}`}
-                >
-                    <p className="caption grey">More options</p>
-                    <br /><hr /><br />
-                    <ul>
-                        <li onClick={() => {
-                            navigate(`/${author.username}`)
-                        }} className='li'>Go to Profile</li>
-                        <li className='li'>Translate</li>
-                        <li onClick={() => { renderPost(ID) }} className='li'>View in Full</li>
-                        <br /><hr /><br />
-                        <li className='error'>Report Author</li>
-                    </ul>
-                </section>
-            </section>
-
-            <br /><br />
-
-            <section className="body">
-                <h2 className='subtitle'>{post.title}</h2>
-                <br />
-                <MarkdownViewer className="grey" markdownText={post.content} />
-            </section>
-
-            <br /><br />
-
-            <section className="foot flex">
-                <LikeButton
-                    postId={ID}
-                    initialLikes={totalLikes}
-                    hasLiked={false}
-                    onLikeChange={(likeCount) => {
-                        setPost((prevPost) => ({
-                            ...prevPost,
-                            totalLikes: likeCount,
-                        }));
-                    }}
-                />
-
-                <button className='icon'>
-                    <i onClick={() => { renderPost(ID) }} className="bi bi-book-half"></i>
-                </button>
-            </section>
-        </div >
+            </div >
+        </>
     );
 };
 

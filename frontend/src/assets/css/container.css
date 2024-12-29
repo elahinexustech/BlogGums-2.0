@@ -29,16 +29,6 @@
     width: 100%;
 }
 
-.container.main {
-    padding: 5rem;
-    background: url('../imgs/background.png');
-    min-height: 100vh;
-    background-attachment: fixed;
-    background-size: cover;
-    background-repeat: no-repeat;
-    color: white;
-}
-
 
 .intro {
     padding: 2rem;
@@ -70,4 +60,19 @@
     height: 40px;
     border-radius: 50%;
     margin: 0 0.5rem 0 0;
+}
+
+
+
+
+@media screen and (max-width: 768px) {
+    .container {
+        --padding: 3rem;
+    }
+
+    .flex.direction-row.inverted section.right,
+    .flex.direction-row.inverted section.left {
+        width: 100%;
+        padding: 0rem;
+    }
 }

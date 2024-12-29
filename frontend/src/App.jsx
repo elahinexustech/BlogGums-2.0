@@ -11,6 +11,7 @@ import CreatePage from './Pages/CreatePostPage/create';
 import ProfileView from './Pages/ProfileView/ProfileView';
 import ResetPassword from './Pages/ResetPassword/ResetPassword';
 import ThemeProvider from './components/ThemeProvider/ThemeProvider';
+import UILoader from './components/UILoader/UILoader';
 
 // CONSTS
 import { SERVER, PORT, ACCESS_TOKEN, REFRESH_TOKEN, THEME_MODE, USER_DATA, BLOG_FONT_SIZE, CODE_THEME } from './_CONSTS_';
@@ -24,7 +25,6 @@ import './assets/css/windows.css';
 
 // Functions
 import { USER } from './Functions/user';
-import UILoader from './components/UILoader/UILoader';
 
 const PostViewWrapper = () => {
     const { id } = useParams();
@@ -33,8 +33,8 @@ const PostViewWrapper = () => {
 };
 
 const App = () => {
-    const [isAuthenticated, setIsAuthenticated] = useState(null); // Auth state
-    const [loading, setLoading] = useState(true); // Loading state
+    const [isAuthenticated, setIsAuthenticated] = useState(null);
+    const [loading, setLoading] = useState(true);
     const [darkTheme, setDarkTheme] = useState(false);
     const [color, setColor] = useState('default');
 
@@ -42,35 +42,18 @@ const App = () => {
         const initializeApp = async () => {
             await checkAuthStatus();
 
-            // Theme settings initialization
-            const theme = localStorage.getItem(THEME_MODE);
-            if (!theme) {
-                localStorage.setItem(THEME_MODE, "light");
-            } else if (theme === "dark") {
-                setDarkTheme(true);
-            }
+            const theme = localStorage.getItem(THEME_MODE) || "light";
+            if (theme === "dark") setDarkTheme(true);
+            if (darkTheme) document.body.classList.add("dark-theme");
 
-            if (darkTheme) {
-                document.body.classList.add("dark-theme");
-            }
+            const storedColor = localStorage.getItem("color") || "default";
+            setColor(storedColor);
+            applyColorClass(storedColor);
 
-            const storedColor = localStorage.getItem("color");
-            if (!storedColor) {
-                localStorage.setItem("color", "default");
-            } else {
-                setColor(storedColor);
-                applyColorClass(storedColor);
-            }
+            localStorage.setItem(BLOG_FONT_SIZE, localStorage.getItem(BLOG_FONT_SIZE) || '1rem');
+            localStorage.setItem(CODE_THEME, localStorage.getItem(CODE_THEME) || 'dark-plus');
 
-            if (!localStorage.getItem(BLOG_FONT_SIZE)) {
-                localStorage.setItem(BLOG_FONT_SIZE, '1rem');
-            }
-
-            if (!localStorage.getItem(CODE_THEME)) {
-                localStorage.setItem(CODE_THEME, 'dark-plus');
-            }
-
-            setLoading(false); // Done initializing
+            setLoading(false);
         };
 
         initializeApp();
@@ -81,11 +64,8 @@ const App = () => {
         if (!token) {
             setIsAuthenticated(false);
         } else {
-            const decoded = jwtDecode(token);
-            const tokenExpiration = decoded.exp;
-            const now = Date.now() / 1000;
-
-            if (tokenExpiration < now) {
+            const { exp } = jwtDecode(token);
+            if (exp < Date.now() / 1000) {
                 await refreshToken();
             } else {
                 setIsAuthenticated(true);
@@ -106,14 +86,14 @@ const App = () => {
                 body: JSON.stringify({ refresh: refreshToken })
             });
             if (res.status === 200) {
-                const data = await res.json();
-                localStorage.setItem(ACCESS_TOKEN, data.access);
+                const { access } = await res.json();
+                localStorage.setItem(ACCESS_TOKEN, access);
                 setIsAuthenticated(true);
             } else {
                 setIsAuthenticated(false);
             }
         } catch (error) {
-            console.log(error);
+            console.error(error);
             setIsAuthenticated(false);
         }
     }, []);
@@ -121,58 +101,29 @@ const App = () => {
     const getUser = useCallback(async () => {
         try {
             const user = await USER();
-            if (user) {
-                localStorage.setItem(USER_DATA, JSON.stringify(user));
-            }
+            if (user) localStorage.setItem(USER_DATA, JSON.stringify(user));
         } catch (error) {
             console.error("Error fetching user:", error);
         }
     }, []);
 
     const applyColorClass = useCallback((selectedColor) => {
-        document.body.classList.forEach(className => {
-            if (className.startsWith("theme-color-")) {
-                document.body.classList.remove(className);
-            }
-        });
+        document.body.className = document.body.className.replace(/\btheme-color-\S+/g, '');
         document.body.classList.add(`theme-color-${selectedColor}`);
     }, []);
 
     const router = createBrowserRouter([
-        {
-            path: "/",
-            element: isAuthenticated ? <ThemeProvider><Home /></ThemeProvider> : <LoginForm />
-        },
-        {
-            path: "/resetpassword",
-            element: <ThemeProvider><ResetPassword /></ThemeProvider>
-        },
-        {
-            path: "/signup",
-            element: isAuthenticated ? <Navigate to="/" /> : <SignUpForm />
-        },
-        {
-            path: "/post/:id",
-            element: isAuthenticated ? <ThemeProvider><PostViewWrapper /></ThemeProvider> : <LoginForm />
-        },
-        {
-            path: "/create",
-            element: isAuthenticated ? <ThemeProvider><CreatePage /></ThemeProvider> : <LoginForm />
-        },
-        {
-            path: ":username",
-            element: isAuthenticated ? <ThemeProvider><ProfileView /></ThemeProvider> : <LoginForm />
-        }
+        { path: "/", element: isAuthenticated ? <ThemeProvider><Home /></ThemeProvider> : <LoginForm /> },
+        { path: "/resetpassword", element: <ThemeProvider><ResetPassword /></ThemeProvider> },
+        { path: "/signup", element: isAuthenticated ? <Navigate to="/" /> : <SignUpForm /> },
+        { path: "/post/:id", element: isAuthenticated ? <ThemeProvider><PostViewWrapper /></ThemeProvider> : <LoginForm /> },
+        { path: "/create", element: isAuthenticated ? <ThemeProvider><CreatePage /></ThemeProvider> : <LoginForm /> },
+        { path: ":username", element: isAuthenticated ? <ThemeProvider><ProfileView /></ThemeProvider> : <LoginForm /> }
     ]);
 
-    // Render a loading spinner or fallback UI while initializing
-    if (loading) {
-        return <UILoader />; // Replace with a proper loading spinner/UI
-    }
+    if (loading) return <UILoader />;
 
-    return (
-        <RouterProvider router={router} />
-    );
+    return <RouterProvider router={router} />;
 };
 
 export default App;

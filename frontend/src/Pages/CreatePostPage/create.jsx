@@ -33,7 +33,6 @@ const CreatePage = ({ isOpen, onClose }) => {
         });
 
         let resp = await response.json();
-        console.log(resp);
         setIsSubmitting(false);
     };
 
@@ -41,10 +40,10 @@ const CreatePage = ({ isOpen, onClose }) => {
 
     return (
         <div className="windows opened">
-            <div className="window opened dialogue-container">
                 <button onClick={onClose} className="transparent closeBtn icon">
                     <i className="bi bi-x-lg"></i>
                 </button>
+            <div className="window opened dialogue-container">
 
                 <section className='flex jc-start'>
                     <img src={user.profile_image_url || ""} alt={`${user.username} picture`} className='profile-picture size-icon' />

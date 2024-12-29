@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import NavigationMenu from '../../components/NavigationMenu/NavigationMenu';
 import { useNavigate } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 
 // Components
 import UILoader from '../../components/UILoader/UILoader';
@@ -15,6 +16,8 @@ import GetPosts from '../../Functions/GetPost';
 import { USER, updateUser } from '../../Functions/user';
 
 import './style.css';
+
+import DEFAULT_PIC from '../../assets/imgs/default_pic.png'
 
 
 
@@ -33,6 +36,7 @@ const ProfileView = () => {
     const loggedInUser = JSON.parse(localStorage.getItem(USER_DATA)); // Get current logged-in user
     const [showUploader, setShowUploader] = useState(false);
     const CURRENT_USER_STATE_VAR = loggedInUser.user.username === username;
+    const [openMenuId, setOpenMenuId] = useState(null); // State to track which post's menu is open
 
 
 
@@ -56,7 +60,6 @@ const ProfileView = () => {
         const data = await USER(username);
         if (data) {
             setUser(data);
-            console.log(data)
             setNewDetails(data); // Initialize newDetails with fetched user data
         } else {
             console.error("Failed to fetch user data.");
@@ -105,7 +108,6 @@ const ProfileView = () => {
     const updateDetails = async () => {
         setIsSubmitting(true);
         let r = await updateUser(newDetails);
-        console.log(await r);
         if (r.status === 200) {
             setIsEditing(!isEditing);
             setIsSubmitting(false);
@@ -113,9 +115,45 @@ const ProfileView = () => {
         }
     }
 
+
+    const toggleMenu = (e, id) => {
+        e.stopPropagation();
+        if (openMenuId === id) {
+            setOpenMenuId(null); // Close the menu if it's already open
+        } else {
+            setOpenMenuId(id); // Open the clicked menu
+        }
+    };
+
+    const handleClickOutside = (event) => {
+        // Find the menu element
+        const optionMenu = document.querySelector(`#optionMenu-${openMenuId}`);
+        const button = document.querySelector(`#menuButton-${openMenuId}`);
+
+        // Check if click is inside the menu or the button
+        if (
+            optionMenu && !optionMenu.contains(event.target) &&
+            button && !button.contains(event.target)
+        ) {
+            setOpenMenuId(null); // Close the menu if clicked outside
+        }
+    };
+
+
+    useEffect(() => {
+        if (openMenuId !== null) {
+            window.addEventListener('click', handleClickOutside);
+        }
+
+        // Cleanup event listener on unmount or when the menu is closed
+        return () => {
+            window.removeEventListener('click', handleClickOutside);
+        };
+    }, [openMenuId]);
+
+
     useEffect(() => {
         fetchUserData();
-        console.log(user)
     }, [username]);
 
     useEffect(() => {
@@ -126,6 +164,9 @@ const ProfileView = () => {
 
     return (
         <>
+            <Helmet>
+                <title>{username} • BlogGums</title>
+            </Helmet>
             <NavigationMenu />
 
             {loading ? (
@@ -138,7 +179,7 @@ const ProfileView = () => {
                                 <>
                                     <div className='image-container flex'>
                                         <img
-                                            src={user.profile_image_url}
+                                            src={user.profile_image_url || DEFAULT_PIC}
                                             className="profile-picture size-l"
                                             alt="Profile image"
                                             onMouseDown={handleMouseDown}
@@ -154,17 +195,17 @@ const ProfileView = () => {
                                         {showUploader && (
                                             <div className="windows opened image-uploader">
                                                 <div className="window opened flex obj-trans direction-col">
-                                                <button onClick={handleCloseUploader} className="transparent closeBtn icon">
-                                                    <i className="bi bi-x-lg"></i>
-                                                </button>
-                                                    <ImageUploader/>
+                                                    <button onClick={handleCloseUploader} className="transparent closeBtn icon">
+                                                        <i className="bi bi-x-lg"></i>
+                                                    </button>
+                                                    <ImageUploader />
                                                 </div>
                                             </div>
                                         )}
                                     </div>
                                     {showLargeImage && (
                                         <div className="large-image-overlay" onClick={handleImageClick}>
-                                            <img src={user.profile_image_url} alt="Large view" className="large-image" />
+                                            <img src={user.profile_image_url || DEFAULT_PIC} alt="Large view" className="large-image" />
                                         </div>
                                     )}
                                     <br /><br />
@@ -259,6 +300,39 @@ const ProfileView = () => {
                             {post.length > 0 ? (
                                 post.map((item) => (
                                     <div className="obj posts flex direction-col ai-start" key={item.id}>
+                                        {CURRENT_USER_STATE_VAR ? (
+                                            <>
+                                                <section className="right">
+                                                    <button
+                                                        id={`menuButton-${item.id}`}
+                                                        onClick={(e) => {
+                                                            e.stopPropagation();
+                                                            toggleMenu(e, item.id);
+                                                        }}
+                                                        className="transparent circle"
+                                                    >
+                                                        <i className="bi bi-three-dots-vertical"></i>
+                                                    </button>
+                                                </section>
+
+                                                {/* Option Menu that only shows for the specific post */}
+                                                <section
+                                                    id={`optionMenu-${item.id}`}
+                                                    className={`optionMenu ${openMenuId === item.id ? 'showMenu' : ''}`}
+                                                >
+                                                    <p className="caption grey">More options</p>
+                                                    <br /><hr /><br />
+                                                    <ul>
+                                                        <li className='li'>Translate</li>
+                                                        <li onClick={() => { renderPost(ID) }} className='li'>View in Full</li>
+                                                        <br /><hr /><br />
+                                                        <li className='error'>Report Author</li>
+                                                    </ul>
+                                                </section>
+                                            </>
+                                        ) : ""
+
+                                        }
                                         <p className="heading">{item.title}</p>
                                         <MarkdownViewer className="grey" markdownText={item.content} />
                                         <br /><br />

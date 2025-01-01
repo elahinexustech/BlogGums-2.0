@@ -4,7 +4,7 @@ const PasswordInput = ({ id, placeholder, register, requiredMessage, errors }) =
     const [passVisibility, setPassVisibility] = useState(false);
 
     return (
-        <div className='input-field'>
+        <>
             <label htmlFor={id} className='field obj'>
                 <input
                     type={passVisibility ? "text" : "password"}
@@ -22,7 +22,7 @@ const PasswordInput = ({ id, placeholder, register, requiredMessage, errors }) =
                 </button>
             </label>
             {errors[id] && <p className="error">{errors[id].message}</p>}
-        </div>
+        </>
     );
 };
 

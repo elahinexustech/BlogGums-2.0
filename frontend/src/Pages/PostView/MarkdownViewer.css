@@ -8,10 +8,6 @@
     margin: 1rem 0;
 }
 
-.markdown-viewer figure pre {
-    border-radius: calc(1.5 * var(--border-radius));
-}
-
 .markdown-viewer figure button {
     background: transparent;
     box-shadow: none;
@@ -39,10 +35,6 @@
 .markdown-viewer h3 {
     margin: 1rem 0 0 0;
 }
-
-/* .markdown-viewer p {
-    margin-bottom: 1em;
-} */
 
 .markdown-viewer ul {
     margin-left: 1.6rem;

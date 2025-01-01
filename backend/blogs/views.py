@@ -23,32 +23,36 @@ class PostPagination(PageNumberPagination):
 
 
 class PostListView(generics.ListAPIView):
-    queryset = BlogPost.objects.annotate(total_likes=Count('likes')).all()
-    serializer_class = BlogSerializer
-    pagination_class = PostPagination
+
+    def get_queryset(self):
+        # Ensure queryset is consistently ordered
+        return BlogPost.objects.annotate(total_likes=Count('likes')).order_by('-published_at', '-id')
 
     def get(self, request, *args, **kwargs):
-        # Get the queryset and annotate likes
         queryset = self.get_queryset()
-
-        # Prepare a custom JSON response
-        response_data = []
+        paginator = PostPagination()
+        page = paginator.paginate_queryset(queryset, request)
         
-        for post in queryset:
+        response_data = []
+        for post in page:
             author_data = AuthorSerializer(post.author).data  # Serialize author data
             response_data.append({
                 'id': post.id,
                 'title': post.title,
                 'content': post.content,
-                'author': author_data,  # Include the serialized author data
-                'total_likes': post.like_count(),  # Call like_count method for total likes
+                'author': author_data,
+                'total_likes': post.like_count(),
                 'comment_count': post.comment_count(),
                 'updated_at': post.updated_at,
                 'published_at': post.published_at,
             })
-
-        return JsonResponse({"data": response_data})
-
+        
+        return JsonResponse({
+            "data": response_data,
+            "next": paginator.get_next_link(),
+            "previous": paginator.get_previous_link(),
+            "count": paginator.page.paginator.count
+        })
 
 
 class PostView(generics.CreateAPIView):
@@ -103,6 +107,13 @@ class CreatePostView(generics.CreateAPIView):
             return JsonResponse({"status": status.HTTP_500_INTERNAL_SERVER_ERROR})
 
 
+class DeletePostView(generics.CreateAPIView):
+    def post(self, req):
+        
+        print(req.data.post_id)
+        
+        return JsonResponse({"msg": "Deleting post"})
+
 class AddLikeView(generics.CreateAPIView):
     permission_classes = [IsAuthenticated]
 
@@ -127,8 +138,6 @@ class AddLikeView(generics.CreateAPIView):
             Likes.objects.create(like_by=req.user, post_liked=post, created_at=now)
             
             return JsonResponse({"message": "Like added successfully", "status":status.HTTP_200_OK, "like_count": post.like_count()})
-
-
 
 
 class GetUserPost(generics.ListAPIView):
@@ -184,7 +193,6 @@ class PostComment(generics.GenericAPIView):
             },
             safe=False
         )
-
 
 
 class GetMorePost(generics.CreateAPIView):

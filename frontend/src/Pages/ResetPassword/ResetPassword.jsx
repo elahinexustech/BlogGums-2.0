@@ -6,7 +6,6 @@ import LabelField from '../../components/LabelField/LabelField';
 import LabelPasswordField from '../../components/LabelPasswordField/LabelPasswordField';
 import './reset.css';
 import { ACCESS_TOKEN, PORT, SERVER, USER_DATA } from '../../_CONSTS_';
-import NavigationMenu from '../../components/NavigationMenu/NavigationMenu';
 import { Helmet } from 'react-helmet';
 
 const ResetPasswordForm = () => {
@@ -16,7 +15,7 @@ const ResetPasswordForm = () => {
     const [email, setEmail] = useState('');
     const [resetCode, setResetCode] = useState('');
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [STEP_TITLE, setStepTitle] = useState('Reset Password')
+    const [STEP_TITLE, setStepTitle] = useState('Reset Password');
     const access_token = localStorage.getItem(ACCESS_TOKEN) || '';
 
     const navigate = useNavigate();
@@ -60,7 +59,7 @@ const ResetPasswordForm = () => {
                 if (response.ok) {
                     setEmail(data.reset_email);
                     setStep(2);
-                    setStepTitle('Enter 6-Digit Code')
+                    setStepTitle('Enter 6-Digit Code');
                 } else {
                     setErrorMessage('Failed to send reset code. Please try again.');
                 }
@@ -78,7 +77,7 @@ const ResetPasswordForm = () => {
                 if (response.ok) {
                     setResetCode(code);
                     setStep(3);
-                    setStepTitle('New password')
+                    setStepTitle('New password');
                 } else {
                     setErrorMessage('Invalid code. Please try again.');
                 }
@@ -116,101 +115,98 @@ const ResetPasswordForm = () => {
             <Helmet>
                 <title>Reset Password {isLoggedIn ? `for ${JSON.parse(localStorage.getItem(USER_DATA)).user.username}` : ''}</title>
             </Helmet>
-            {isLoggedIn && <NavigationMenu />}
-            <div className="container flex login-container">
-                <div className="obj form-container">
-                    <h1>{STEP_TITLE}</h1>
-                    <br />
-                    {errorMessage && <p className="error">{errorMessage}</p>}
-                    <form
-                        className="flex direction-col jc-start ai-start"
-                        onSubmit={handleSubmit(onSubmit)}
-                    >
-                        {step === 1 && (
-                            <>
-                                <LabelField
-                                    id="reset_email"
-                                    placeholder="Enter your email"
-                                    register={register}
-                                    requiredMessage="Email is required"
-                                    errors={errors}
-                                />
-                                <br />
-                                <button
-                                    className="theme"
-                                    type="submit"
-                                    disabled={!reset_email || isSubmitting}
-                                >
-                                    <i className="bi bi-box-arrow-right"></i> &nbsp;Send Code
-                                </button>
-                            </>
-                        )}
+            <div className='container flex reset-container'>
+                <div className="content-container flex">
+                    <div className="left flex ai-start jc-start direction-col">
+                        <Link to={'/'} className='flex goBackLink' style={{color: 'white'}}><i className='bi bi-arrow-left-circle' style={{color: 'inherit'}}></i>&nbsp;Go Back</Link>
+                        <p className="title">Reset Password</p>
+                        <p className="subtitle">for your Account</p>
+                        <br /><hr /><br />
+                        <ul className='features-list'>
+                            <p className="heading">Reset your password to:</p>
+                            <li className='caption'><i className="bi bi-shield-lock"></i> &nbsp;Secure your account.</li>
+                            <li className='caption'><i className="bi bi-envelope-check"></i> &nbsp;Receive notifications.</li>
+                            <li className='caption'><i className="bi bi-person-check"></i> &nbsp;Verify your identity.</li>
+                        </ul>
+                    </div>
+                    <div className="form-container right flex direction-col">
+                        <p className="title">{STEP_TITLE}</p>
+                        {errorMessage && <p className="error">{errorMessage}</p>}
+                        <form className='flex direction-col jc-start ai-start' onSubmit={handleSubmit(onSubmit)}>
+                            {step === 1 && (
+                                <>
+                                    <p className="heading-2 grey">Email</p>
+                                    <LabelField
+                                        id="reset_email"
+                                        placeholder="Enter your email"
+                                        register={register}
+                                        requiredMessage="Email is required"
+                                        errors={errors}
+                                    />
+                                    <br />
+                                    <button className='theme' type="submit" disabled={!reset_email || isSubmitting}>
+                                        <i className="bi bi-box-arrow-right"></i> &nbsp;Send Code
+                                    </button>
+                                </>
+                            )}
 
-                        {step === 2 && (
-                            <>
-                                <div className="otp-boxes-container flex direction-row">
-                                    {[...Array(6)].map((_, i) => (
-                                        <React.Fragment key={i}>
-                                            <input
-                                                type="text"
-                                                className="otp-input obj-trans"
-                                                maxLength="1"
-                                                id={`num${i + 1}`}
-                                                onInput={(e) => {
-                                                    if (e.target.value.length === 1 && e.target.nextElementSibling) {
-                                                        e.target.nextElementSibling.focus();
-                                                    }
-                                                }}
-                                            />
-                                            {i === 2 && <p className='subtitle'>-</p>}
-                                        </React.Fragment>
-                                    ))}
+                            {step === 2 && (
+                                <>
+                                    <p className="heading-2 grey">Enter Code</p>
+                                    <div className="otp-boxes-container flex direction-row">
+                                        {[...Array(6)].map((_, i) => (
+                                            <React.Fragment key={i}>
+                                                <input
+                                                    type="text"
+                                                    className="otp-input obj-trans"
+                                                    maxLength="1"
+                                                    id={`num${i + 1}`}
+                                                    onInput={(e) => {
+                                                        if (e.target.value.length === 1 && e.target.nextElementSibling) {
+                                                            e.target.nextElementSibling.focus();
+                                                        }
+                                                    }}
+                                                />
+                                                {i === 2 && <p className='subtitle'>-</p>}
+                                            </React.Fragment>
+                                        ))}
+                                    </div>
+                                    <br />
+                                    <button className='theme' type="submit" disabled={isSubmitting}>
+                                        <i className="bi bi-check-circle"></i> &nbsp;Verify Code
+                                    </button>
+                                </>
+                            )}
 
-                                </div>
-                                <br />
-                                <button
-                                    className="theme"
-                                    type="submit"
-                                    disabled={isSubmitting}
-                                >
-                                    <i className="bi bi-check-circle"></i> &nbsp;Verify Code
-                                </button>
-                            </>
-                        )}
-
-                        {step === 3 && (
-                            <>
-                                <LabelPasswordField
-                                    id="new_password"
-                                    placeholder="Enter new password"
-                                    register={register}
-                                    requiredMessage="New password is required"
-                                    errors={errors}
-                                />
-                                <LabelPasswordField
-                                    id="confirm_password"
-                                    placeholder="Confirm new password"
-                                    register={register}
-                                    requiredMessage="Confirm password is required"
-                                    errors={errors}
-                                />
-                                <br />
-                                <button
-                                    className="theme"
-                                    type="submit"
-                                    disabled={!newPassword || !confirmPassword || isSubmitting}
-                                >
-                                    <i className="bi bi-shield-lock"></i> &nbsp;Reset Password
-                                </button>
-                            </>
-                        )}
-                    </form>
-                    <p className="grey caption">
-                        <Link className="colored" to="/">Go Back</Link>
-                    </p>
+                            {step === 3 && (
+                                <>
+                                    <p className="heading-2 grey">New Password</p>
+                                    <LabelPasswordField
+                                        id="new_password"
+                                        placeholder="Enter new password"
+                                        register={register}
+                                        requiredMessage="New password is required"
+                                        errors={errors}
+                                    />
+                                    <br />
+                                    <p className="heading-2 grey">Confirm Password</p>
+                                    <LabelPasswordField
+                                        id="confirm_password"
+                                        placeholder="Confirm new password"
+                                        register={register}
+                                        requiredMessage="Confirm password is required"
+                                        errors={errors}
+                                    />
+                                    <br />
+                                    <button className='theme' type="submit" disabled={!newPassword || !confirmPassword || isSubmitting}>
+                                        <i className="bi bi-shield-lock"></i> &nbsp;Reset Password
+                                    </button>
+                                </>
+                            )}
+                        </form>
+                    </div>
                 </div>
             </div>
-
             <Footer />
         </>
     );

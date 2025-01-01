@@ -12,7 +12,7 @@ from .funcs import send_email
 from supabase import create_client
 from django.db import IntegrityError
 import json
-
+from django.contrib.auth.hashers import check_password
 
 UserModel = get_user_model()
 
@@ -53,7 +53,6 @@ class CreateUserView(generics.CreateAPIView):
                     first_name=data.get('first_name'),
                     last_name=data.get('last_name'),
                 )
-                message = "Account created successfully. Please verify your email."
             
             # Handle OTP generation
             otp, created = TEMP_OTP_MODEL.objects.get_or_create(user=user)
@@ -77,6 +76,7 @@ class CreateUserView(generics.CreateAPIView):
 
         except IntegrityError as e:
             # Handle integrity errors
+            print(e)
             return JsonResponse({"msg": "An error occurred while processing your request. Please try again."}, status=500)
 
         except Exception as e:
@@ -214,6 +214,27 @@ class UpdateUserImage(generics.GenericAPIView):
             'users').get_public_url(file_name)
 
         return True, resp, url
+
+
+
+class CheckPassword(generics.CreateAPIView):
+    def post(self, req):
+        # Parse the request body to get the username and password
+        data = json.loads(req.body)
+        user = req.user
+        print(user)
+        password = data.get('password')
+
+        # Check if the password is provided
+        if not password:
+            return JsonResponse({"msg": "Password is required"}, status=400)
+
+
+        # Check if the provided password matches the stored password
+        if check_password(password, user.password):
+            return JsonResponse({"msg": "Password is correct"}, status=200)
+        else:
+            return JsonResponse({"msg": "Password is incorrect"}, status=400)
 
 
 class SendCode(generics.CreateAPIView):

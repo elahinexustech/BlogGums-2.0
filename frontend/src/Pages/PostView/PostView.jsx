@@ -161,7 +161,7 @@ const PostView = ({ id, user }) => {
                 </div>
             )}
 
-            <aside className='obj flex ai-start direction-col'>
+            <div className='aside obj flex ai-start direction-col'>
                 <LikeButton
                     postId={post?.post.id}
                     initialLikes={post?.total_likes}
@@ -225,7 +225,7 @@ const PostView = ({ id, user }) => {
 
                 </div>
 
-            </aside>
+            </div>
 
             <div className="container otherPost flex direction-col">
                 <br />

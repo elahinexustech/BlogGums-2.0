@@ -2,50 +2,119 @@
     height: 100vh;
 }
 
-.signup-container .form-container {
-    padding: 2rem;
+.signup-container .content-container {
+    width: 70%;
+    height: 70%;
+    box-shadow: 0px 0px 10px var(--box-shadow-color);
     border-radius: var(--border-radius);
+}
+
+.signup-container .content-container .left,
+.signup-container .content-container .right {
+    background: white;
+    min-height: max-content;
+    height: 100%;
+    padding: 3rem 2rem;
+    position: relative;
+}
+.signup-container .content-container .left {
     width: 40%;
+    background: var(--theme-color);
+    color: white;
+    border-top-left-radius: inherit;
+    border-bottom-left-radius: inherit;
+}
+.signup-container .content-container .right {
+    width: 60%;
+    border-top-right-radius: inherit;
+    border-bottom-right-radius: inherit;
 }
 
-.signup-container .form-container h1 {
-    text-align: center;
+
+.signup-container .content-container .left ul.features-list p.heading {
+    font-size: 1.3rem;
+    color: hsl(var(--default-clr), 74%, 85%);
+}
+.signup-container .content-container .left ul.features-list li{
+    list-style: none;
+    padding: 0.5rem;
+    font-size: 1rem;
 }
 
-.signup-container .form-container form div.grid div.input-field:nth-child(7) {
-    grid-column: span 2;
+.signup-container .content-container .left ul.features-list li i.bi {
+    font-size: 1rem;
+    color: white;
 }
 
-.signup-container .form-container form button.passToggle {
-    position: fixed;
-}
-
-.signup-container .form-container form section a,
-.signup-container .form-container form section label {
-    margin: 0 1rem;
-}
-
-.signup-container .form-container form input {
+.signup-container .content-container .left .bottom {
+    position: absolute;
+    bottom: 0;
+    left: 0;
     width: 100%;
+    padding: 1rem;
+    border-bottom-left-radius: inherit;
+    border-bottom-right-radius: inherit;
 }
 
-.signup-container .form-container form button[type=submit] {
-    width: 100%;
+.signup-container .content-container .right.form-container form{
+    border-radius: 0;
+    padding: 1rem;
 }
 
-.successful-registration i.bi {
-    color: var(--success);
-    font-size: 4rem;
+.signup-container .content-container .right .title {
+    display: none;
 }
-@media screen and (max-width: 390px) {
-    .signup-container .form-container {
-        padding: 1rem;
-        border-radius: var(--border-radius);
+
+
+
+@media screen and (max-width: 1300px) {
+
+    .signup-container .content-container {
         width: 100%;
     }
-    
-    .signup-container .form-container form div.grid{
-        display: grid;
-        grid-template-columns: 1fr;
+
+    .signup-container .content-container .left,
+    .signup-container .content-container .right {
+        padding: 2rem 1rem;
     }
+
+    .signup-container .content-container .left .title{
+        font-size: 2.5rem;
+    }
+
+    .signup-container .content-container .left .subtitle{
+        font-size: 1.5rem;
+    }
+
+    .signup-container .content-container .left ul p.heading{
+        font-size: 1rem;
+    }
+    
+    .signup-container .content-container .left ul li.caption{
+        font-size: 0.8rem;
+    }
+    
+}
+
+@media screen and (max-width: 900px) {
+
+    .signup-container .content-container {
+        width: 100%;
+        height: fit-content;
+    }
+
+    .signup-container .content-container .left {
+        display: none;
+    }
+
+    .signup-container .content-container .right {
+        width: 100%;
+        border-radius: inherit;
+    }
+
+    .signup-container .content-container .right .title{
+        font-size: 2.5rem;
+        display: block;
+    }
+    
 }

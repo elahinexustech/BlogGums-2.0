@@ -1,9 +1,120 @@
-.otp-boxes-container {
+.reset-container {
+    height: 100vh;
+}
+
+.reset-container .content-container {
+    width: 70%;
+    height: 70%;
+    box-shadow: 0px 0px 10px var(--box-shadow-color);
+    border-radius: var(--border-radius);
+}
+
+.reset-container .content-container .left,
+.reset-container .content-container .right {
+    background: white;
+    min-height: max-content;
+    height: 100%;
+    padding: 3rem 2rem;
+    position: relative;
+}
+.reset-container .content-container .left {
+    width: 40%;
+    background: var(--theme-color);
+    color: white;
+    border-top-left-radius: inherit;
+    border-bottom-left-radius: inherit;
+}
+.reset-container .content-container .right {
+    width: 60%;
+    border-top-right-radius: inherit;
+    border-bottom-right-radius: inherit;
+}
+
+
+.reset-container .content-container .left ul.features-list p.heading {
+    font-size: 1.3rem;
+    color: hsl(var(--default-clr), 74%, 85%);
+}
+.reset-container .content-container .left ul.features-list li{
+    list-style: none;
+    padding: 0.5rem;
+    font-size: 1rem;
+}
+
+.reset-container .content-container .left ul.features-list li i.bi {
+    font-size: 1rem;
+    color: white;
+}
+
+.reset-container .content-container .left .bottom {
+    position: absolute;
+    bottom: 0;
+    left: 0;
     width: 100%;
+    padding: 1rem;
+    border-bottom-left-radius: inherit;
+    border-bottom-right-radius: inherit;
+}
+
+.reset-container .content-container .right.form-container form{
+    border-radius: 0;
+    padding: 1rem;
+}
+
+.reset-container .content-container .right .title {
+    display: none;
+}
+
+
+
+@media screen and (max-width: 1300px) {
+
+    .reset-container .content-container {
+        width: 100%;
+    }
+
+    .reset-container .content-container .left,
+    .reset-container .content-container .right {
+        padding: 2rem 1rem;
+    }
+
+    .reset-container .content-container .left .title{
+        font-size: 2.5rem;
+    }
+
+    .reset-container .content-container .left .subtitle{
+        font-size: 1.5rem;
+    }
+
+    .reset-container .content-container .left ul p.heading{
+        font-size: 1rem;
+    }
+    
+    .reset-container .content-container .left ul li.caption{
+        font-size: 0.8rem;
+    }
+    
 }
 
 @media screen and (max-width: 900px) {
-    .otp-boxes-container {
-        padding: 1rem;
+
+    .reset-container .content-container {
+        width: 100%;
+        height: fit-content;
     }
+
+    .reset-container .content-container .left {
+        display: none;
+    }
+
+    .reset-container .content-container .right {
+        width: 100%;
+        border-radius: inherit;
+    }
+
+    .reset-container .content-container .right .title{
+        font-size: 2.5rem;
+        display: block;
+    }
+    
 }

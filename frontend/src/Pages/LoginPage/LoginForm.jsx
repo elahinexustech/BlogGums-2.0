@@ -53,39 +53,56 @@ const LoginForm = () => {
                 <title>Login to BlogGums</title>
             </Helmet>
             <div className='container flex login-container'>
-                <div className="obj form-container">
-                    <h1>Login</h1>
-                    <br />
-                    {errorMessage && <p className="error">{errorMessage}</p>}
-                    <form className='flex direction-col jc-start ai-start' onSubmit={handleSubmit(onSubmit)}>
-                        <LabelField
-                            id="username"
-                            placeholder="username"
-                            register={register}
-                            requiredMessage="Username is required"
-                            errors={errors}
-                        />
-                        <br />
-                        <LabelPasswordField
-                            id="password"
-                            placeholder="password"
-                            register={register}
-                            requiredMessage="Password is required"
-                            errors={errors}
-                            passVisibility={passVisibility}
-                            setPassVisibility={setPassVisibility}
-                        />
-                        <br />
-                        <Link to={'/resetpassword'} className='caption grey flex'><i className="bi bi-repeat"></i>&nbsp; Reset Password</Link>
-                        <br />
-                        <button className='theme' type="submit" disabled={!username || !password || isSubmitting}>
-                            <i className="bi bi-box-arrow-right"></i> &nbsp;Login
-                        </button>
-                        <br />
-                        <p className='grey caption'>
-                            Don't have an account, <Link className="colored" to="/signup">create one</Link>
-                        </p>
-                    </form>
+                <div className="content-container flex">
+                    <div className="left flex ai-start jc-start direction-col">
+                        <p className="title">Login</p>
+                        <p className="subtitle">to BlogGums</p>
+                        <br /><hr /><br />
+                        <ul className='features-list'>
+                            <p className="heading">What offers in login</p>
+                            <li className='caption'><i className="bi bi-plus-circle"></i> &nbsp;Create your own blogs.</li>
+                            <li className='caption'><i className="bi bi-person-hearts"></i> &nbsp;Interact with different users.</li>
+                            <li className='caption'><i className="bi bi-balloon-heart-fill"></i> &nbsp;Blog Interactions <span className="heading">+</span> Sharing blogs.</li>
+                            <li className='caption'><i className="bi bi-emoji-smile-upside-down-fill"></i> &nbsp;And many more...</li>
+                        </ul>
+                    </div>
+                    <div className="form-container right flex direction-col">
+                        <p className="title">Login</p>
+                        {errorMessage && <p className="error">{errorMessage}</p>}
+                        <form className='flex direction-col jc-start ai-start' onSubmit={handleSubmit(onSubmit)}>
+                            <>
+                                <p className="heading-2 grey">Username</p>
+                                <LabelField
+                                    id="username"
+                                    placeholder="username"
+                                    register={register}
+                                    requiredMessage="Username is required"
+                                    errors={errors}
+                                />
+                            </>
+                            <br />
+                            <>
+                                <p className="heading-2 grey">Pass***d</p>
+                                <LabelPasswordField
+                                    id="password"
+                                    placeholder="password"
+                                    register={register}
+                                    requiredMessage="Password is required"
+                                    errors={errors}
+                                    passVisibility={passVisibility}
+                                    setPassVisibility={setPassVisibility}
+                                />
+                            </>
+                            <br />
+                            <Link to={'/resetpassword'} className='caption grey flex'><i className="bi bi-repeat"></i>&nbsp; Reset Password</Link>
+                            <br />
+                            <button className='theme' type="submit" disabled={!username || !password || isSubmitting}>
+                                <i className="bi bi-box-arrow-right"></i> &nbsp;Login
+                            </button>
+                            <br />
+                            <p className='caption'>Don't have an account, <Link className='colored' to="/signup">create one</Link></p>
+                        </form>
+                    </div>
                 </div>
             </div>
             <Footer />

@@ -8,6 +8,7 @@ import { Helmet } from 'react-helmet';
 import UILoader from '../../components/UILoader/UILoader';
 import MarkdownViewer from '../PostView/MDDisplayer';
 import ImageUploader from '../../components/ImageUploader/ImageUploader';
+import OptionMenu from '../../components/PostOptionMenu/OptionMenu';
 
 import { USER_DATA } from '../../_CONSTS_';
 
@@ -33,8 +34,8 @@ const ProfileView = () => {
     const [showLargeImage, setShowLargeImage] = useState(false);
     const [pressTimer, setPressTimer] = useState(null); // Timer for detecting long press
     const [clicked, setClicked] = useState(false); // Track if it's a quick click
-    const loggedInUser = JSON.parse(localStorage.getItem(USER_DATA)); // Get current logged-in user
     const [showUploader, setShowUploader] = useState(false);
+    const loggedInUser = JSON.parse(localStorage.getItem(USER_DATA)); // Get current logged-in user
     const CURRENT_USER_STATE_VAR = loggedInUser.user.username === username;
     const [openMenuId, setOpenMenuId] = useState(null); // State to track which post's menu is open
 
@@ -72,9 +73,6 @@ const ProfileView = () => {
         setLoading(false);
     };
 
-    const renderPost = (id) => {
-        navigate(`/post/${id}`);
-    };
 
     const handleDetailChange = (e) => {
         setNewDetails({ ...newDetails, [e.target.name]: e.target.value });
@@ -209,7 +207,7 @@ const ProfileView = () => {
                                         </div>
                                     )}
                                     <br /><br />
-                                    <p className="subtitle" onDoubleClick={() => handleDetailDoubleClick('name')}>
+                                    <p className="subtitle text-center" onDoubleClick={() => handleDetailDoubleClick('name')}>
                                         {isEditing && CURRENT_USER_STATE_VAR ? (
                                             <><input
                                                 type="text"
@@ -300,39 +298,20 @@ const ProfileView = () => {
                             {post.length > 0 ? (
                                 post.map((item) => (
                                     <div className="obj posts flex direction-col ai-start" key={item.id}>
-                                        {CURRENT_USER_STATE_VAR ? (
-                                            <>
-                                                <section className="right">
-                                                    <button
-                                                        id={`menuButton-${item.id}`}
-                                                        onClick={(e) => {
-                                                            e.stopPropagation();
-                                                            toggleMenu(e, item.id);
-                                                        }}
-                                                        className="transparent circle"
-                                                    >
-                                                        <i className="bi bi-three-dots-vertical"></i>
-                                                    </button>
-                                                </section>
+                                        <section className="right">
+                                            <button id={`menuButton-${item.id}`} className="transparent circle"
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    toggleMenu(e, item.id);
+                                                }}
+                                            >
+                                                <i className="bi bi-three-dots-vertical"></i>
+                                            </button>
+                                        </section>
 
-                                                {/* Option Menu that only shows for the specific post */}
-                                                <section
-                                                    id={`optionMenu-${item.id}`}
-                                                    className={`optionMenu ${openMenuId === item.id ? 'showMenu' : ''}`}
-                                                >
-                                                    <p className="caption grey">More options</p>
-                                                    <br /><hr /><br />
-                                                    <ul>
-                                                        <li className='li'>Translate</li>
-                                                        <li onClick={() => { renderPost(ID) }} className='li'>View in Full</li>
-                                                        <br /><hr /><br />
-                                                        <li className='error'>Report Author</li>
-                                                    </ul>
-                                                </section>
-                                            </>
-                                        ) : ""
+                                        {/* Option Menu that only shows for the specific post */}
+                                        <OptionMenu item={item} openMenuId={openMenuId} CURRENT_USER_STATE_VAR={CURRENT_USER_STATE_VAR} />
 
-                                        }
                                         <p className="heading">{item.title}</p>
                                         <MarkdownViewer className="grey" markdownText={item.content} />
                                         <br /><br />

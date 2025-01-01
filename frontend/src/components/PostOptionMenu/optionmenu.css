@@ -1,0 +1,55 @@
+section.optionMenu {
+    position: absolute;
+    background: var(--object-bg);
+    top: 2rem;
+    right: 2rem;
+    border: solid 1px var(--border-color);
+    border-radius: 1rem;
+    box-shadow: 0px 0px 10px var(--box-shadow-color);
+    width: 250px;
+    padding: 1.5rem 1rem;
+    overflow: hidden;
+    transform: scale(0);
+    transform-origin: top right;
+    opacity: 0;
+    visibility: hidden;
+    transition: 0.3s;
+    z-index: 5;
+}
+
+section.optionMenu li {
+    list-style-type: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+
+section.optionMenu li i.bi {
+    font-size: 1rem;
+    color: inherit;
+}
+
+section.optionMenu li.error i.bi {
+    color: var(--error) !important;                 
+}
+
+section.optionMenu li.error:hover, .posts section.optionMenu li.error:hover i.bi {
+    background: var(--error) !important;
+    color: var(--error-clr) !important;
+}
+
+.posts section.optionMenu li.error:hover i.bi {
+    color: var(--error-clr) !important;
+}
+
+section.optionMenu li:not(.error):hover, .posts section.optionMenu li:not(.error):hover i.bi {
+    background: hsl(var(--default-clr), 100%, 50%);
+    color: hsl(var(--default-clr), 50%, 95%);
+}
+
+.optionMenu.showMenu {
+    transform: scale(1);
+    opacity: 1;
+    visibility: visible;
+}

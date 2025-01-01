@@ -2,16 +2,20 @@ import React, { useState, useEffect } from 'react';
 import MarkdownViewer from '../../Pages/PostView/MDDisplayer';
 import { Helmet } from 'react-helmet';
 import { useNavigate, Link } from 'react-router-dom';
+
+import DEFAULT_PIC from '../../assets/imgs/default_pic.png';
 import './post.css'
 
 // Components
 import LikeButton from '../LikeButton/LikeButton';
+import OptionMenu from '../PostOptionMenu/OptionMenu';
+import { USER_DATA } from '../../_CONSTS_';
 
-const Post = ({ ID, author, post, totalLikes }) => {
+const Post = ({ ID, author, post, totalLikes, changeTitle=true }) => {
     const [openMenuId, setOpenMenuId] = useState(null); // State to track which post's menu is open
     const [hasLiked, sethasLiked] = useState(false);
-
-    const navigate = useNavigate();
+    const loggedInUser = JSON.parse(localStorage.getItem(USER_DATA)); // Get current logged-in user
+    const CURRENT_USER_STATE_VAR = loggedInUser.user.username === author.username; // Check if the current user is the author of the post
 
 
     const toggleMenu = (e, id) => {
@@ -38,9 +42,6 @@ const Post = ({ ID, author, post, totalLikes }) => {
     };
 
 
-    const renderPost = (id) => {
-        navigate(`/post/${id}`);
-    }
 
     // Add event listener to detect clicks outside the menu
     useEffect(() => {
@@ -56,13 +57,13 @@ const Post = ({ ID, author, post, totalLikes }) => {
 
     return (
         <>
-            <Helmet>
+            {changeTitle && <Helmet>
                 <title>{post.title} by {author.first_name} {author.last_name} • BlogGums</title>
-            </Helmet>
+            </Helmet>}
             <div className='post obj'>
                 <section className="header flex jc-spb">
                     <section className="left flex">
-                        <img src={author.profile_image_url || ""} className="post-header-img" alt={`${author.username}'s profile`} />&nbsp;&nbsp;
+                        <img src={author.profile_image_url || DEFAULT_PIC} className="post-header-img" alt={`${author.username}'s profile`} />&nbsp;&nbsp;
                         <section className='username-section'>
                             <p className="heading">{author.first_name} {author.last_name}</p>
                             <Link className='caption colored' to={`/${author.username}`}>@{author.username}</Link>
@@ -82,22 +83,8 @@ const Post = ({ ID, author, post, totalLikes }) => {
                     </section>
 
                     {/* Option Menu that only shows for the specific post */}
-                    <section
-                        id={`optionMenu-${ID}`}
-                        className={`optionMenu ${openMenuId === ID ? 'showMenu' : ''}`}
-                    >
-                        <p className="caption grey">More options</p>
-                        <br /><hr /><br />
-                        <ul>
-                            <li onClick={() => {
-                                navigate(`/${author.username}`)
-                            }} className='li'>Go to Profile</li>
-                            <li className='li'>Translate</li>
-                            <li onClick={() => { renderPost(ID) }} className='li'>View in Full</li>
-                            <br /><hr /><br />
-                            <li className='error'>Report Author</li>
-                        </ul>
-                    </section>
+                    <OptionMenu item={post} openMenuId={openMenuId} CURRENT_USER_STATE_VAR={CURRENT_USER_STATE_VAR} />
+                    
                 </section>
 
                 <br /><br />

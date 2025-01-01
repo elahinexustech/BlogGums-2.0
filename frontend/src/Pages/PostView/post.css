@@ -98,35 +98,34 @@
     margin-right: 3rem;
 }
 
-aside {
+.aside {
     position: fixed;
     top: 50%;
     right: 5%;
     transform: translateY(-50%);
     padding: 2rem 0rem;
     border-radius: calc(6 * var(--border-radius));
+    z-index: 500000000;
 }
 
-aside span {
+.aside span {
     margin: 1rem 0;
 }
 
-aside span button i.bi {
+.aside span button i.bi {
     color: var(--theme-color);
 }
 
-.container {
-    z-index: 0;
+
+.otherPost div.flex .post {
+    width: 100%;
 }
 
-.otherPost .post.obj {
-    z-index: 0;
-}
 
 .commentBox {
     position: fixed;
     min-width: 600px;
-    min-height: 600px;
+    min-height: 650px;
     right: 140%;
     padding: 1rem;
     border-radius: var(--border-radius);
@@ -135,6 +134,7 @@ aside span button i.bi {
     opacity: 0;
     visibility: hidden;
     transition: 0.3s;
+    z-index: 10000; /* Increase z-index to ensure it appears above other elements */
 }
 
 .commentBox .comments-section {
@@ -149,6 +149,11 @@ aside span button i.bi {
     margin: 0.5rem 0;
     border-radius: var(--border-radius);
     box-shadow: 0px 0px 10px var(--box-shadow-color);
+}
+
+.commentBox .comments-section .comment pre{
+    word-wrap: break-word;
+    white-space: pre-wrap;
 }
 
 .commentBox::after {
@@ -166,7 +171,7 @@ aside span button i.bi {
     transform: scale(1) translateX(0%);
     opacity: 1;
     visibility: visible;
-    z-index: 100;
+    z-index: 10000; /* Ensure active state also has a high z-index */
 }
 
 .commentBox form {
@@ -175,6 +180,7 @@ aside span button i.bi {
     position: fixed;
     bottom: 3%;
     width: 97%;
+    margin: 1rem 0;
 }
 
 #comment_field {
@@ -202,5 +208,36 @@ aside span button i.bi {
         transform: scale(1) translateX(0%);
     }
 }
+
+
+@media screen and (max-width: 768px) {
+    .post-container {
+        padding: 1rem;
+    }
+    .post-area h1.title {
+        font-size: 1.8rem;
+    }
+
+
+    .aside.flex.direction-col {
+        right: 0%;
+    }
+
+
+    .commentBox {
+        position: fixed;
+        width: 350px;
+        min-height: 650px;
+        right: 140%;
+    }
+
+
+    .container.otherPost div{
+        width: 100%;
+    }
+
+}
+
+
 
 

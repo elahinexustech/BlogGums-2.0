@@ -2,38 +2,120 @@
     height: 100vh;
 }
 
-.login-container .form-container {
-    padding: 2rem;
+.login-container .content-container {
+    width: 70%;
+    height: 70%;
+    box-shadow: 0px 0px 10px var(--box-shadow-color);
     border-radius: var(--border-radius);
+}
+
+.login-container .content-container .left,
+.login-container .content-container .right {
+    background: white;
+    min-height: max-content;
+    height: 100%;
+    padding: 3rem 2rem;
+    position: relative;
+}
+
+.login-container .content-container .left {
     width: 40%;
+    background: var(--theme-color);
+    color: white;
+    border-top-left-radius: inherit;
+    border-bottom-left-radius: inherit;
 }
 
-.login-container .form-container h1 {
-    text-align: center;
+.login-container .content-container .right {
+    width: 60%;
+    border-top-right-radius: inherit;
+    border-bottom-right-radius: inherit;
 }
 
-.login-container .form-container form button.passToggle {
-    position: fixed;
+
+.login-container .content-container .left ul.features-list p.heading {
+    font-size: 1.3rem;
+    color: hsl(var(--default-clr), 74%, 85%);
 }
 
-.login-container .form-container form section a,
-.login-container .form-container form section label {
-    margin: 0 1rem;
+.login-container .content-container .left ul.features-list li {
+    list-style: none;
+    padding: 0.5rem;
+    font-size: 1rem;
 }
 
-.login-container .form-container form div.input-field {
+.login-container .content-container .left ul.features-list li i.bi {
+    font-size: 1rem;
+    color: white;
+}
+
+.login-container .content-container .left .bottom {
+    position: absolute;
+    bottom: 0;
+    left: 0;
     width: 100%;
+    padding: 1rem;
+    border-bottom-left-radius: inherit;
+    border-bottom-right-radius: inherit;
 }
 
-.login-container .form-container form button[type=submit] {
-    width: 100%;
+.login-container .content-container .right.form-container form {
+    border-radius: 0;
+    padding: 1rem;
 }
 
-@media screen and (max-width: 390px) {
-    .login-container .form-container {
-        padding: 1rem;
-        border-radius: var(--border-radius);
+.login-container .content-container .right .title {
+    display: none;
+}
+
+@media screen and (max-width: 1300px) {
+
+    .login-container .content-container {
         width: 100%;
+    }
+
+    .login-container .content-container .left,
+    .login-container .content-container .right {
+        padding: 2rem 1rem;
+    }
+
+    .login-container .content-container .left .title{
+        font-size: 2.5rem;
+    }
+
+    .login-container .content-container .left .subtitle{
+        font-size: 1.5rem;
+    }
+
+    .login-container .content-container .left ul p.heading{
+        font-size: 1rem;
+    }
+    
+    .login-container .content-container .left ul li.caption{
+        font-size: 0.8rem;
+    }
+    
+}
+
+@media screen and (max-width: 900px) {
+
+    .login-container .content-container {
+        width: 100%;
+        height: fit-content;
+    }
+
+    .login-container .content-container .left {
+        display: none;
+    }
+
+    .login-container .content-container .right {
+        width: 100%;
+        border-radius: inherit;
+    }
+
+    .login-container .content-container .right .title{
+        font-size: 2.5rem;
+        display: block;
     }
     
 }

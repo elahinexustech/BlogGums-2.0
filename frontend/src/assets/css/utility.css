@@ -563,4 +563,56 @@ img.center {
     form {
         padding: 0.5rem;
     }
+
+    .title {
+        font-size: calc(var(--fs) + 1.5rem);
+        font-weight: 700;
+    }
+
+    .subtitle {
+        font-family: 'Open Sans', sans-serif;
+        font-size: calc(var(--fs) + 0.8rem);
+        font-weight: 600;
+    }
+
+    .caption {
+        font-family: 'Open Sans', sans-serif;
+        font-size: 0.6rem;
+        font-weight: 400;
+    }
+
+    .caption-2 {
+        font-size: 0.8rem;
+        font-weight: 600;
+    }
+
+    .heading {
+        font-family: 'Open Sans', sans-serif;
+        font-size: 0.9rem;
+        font-weight: 600;
+    }
+
+    .text {
+        font-size: 1rem;
+        font-weight: 500;
+    }
+}
+
+
+@media screen and (max-width: 500px) {
+
+    /* PROFILE PICTURE */
+    .profile-picture {
+        width: 40px;
+    }
+
+    .profile-picture.size-l {
+        width: 150px;
+        height: 150px;
+    }
+
+    .profile-picture.size-icon {
+        width: 40px;
+        height: 40px;
+    }
 }

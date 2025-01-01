@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import UILoader from '../UILoader/UILoader';
 import Post from '../Post/Post';
 import './feed.css';
+import { ACCESS_TOKEN, PORT, SERVER } from '../../_CONSTS_';
 
 const Feed = () => {
     const [posts, setPosts] = useState([]);
@@ -15,17 +16,18 @@ const Feed = () => {
     }, [page]);
 
     const getPosts = async (page = 1) => {
-        const token = localStorage.getItem("ACCESS_TOKEN");
+        const token = localStorage.getItem(ACCESS_TOKEN);
         setLoading(true);
         setError(null);
 
         try {
-            const response = await fetch(`http://127.0.0.1:8000/blogs/get/?page=${page}`, {
+            const response = await fetch(`${SERVER}:${PORT}/blogs/get/?page=${page}`, {
                 headers: { 'Authorization': `Bearer ${token}` },
             });
 
             if (response.ok) {
                 const resp = await response.json();
+                console.log("Posts", resp.data);
                 if (Array.isArray(resp.data)) {
                     setPosts((prevPosts) => [...prevPosts, ...resp.data]);
                     setHasMore(!!resp.next);
@@ -53,14 +55,14 @@ const Feed = () => {
             <div className="flex direction-col post-container">
                 {posts.length > 0 ? (
                     posts.map((post) => (
-                        <Post key={post.id} ID={post.id} post={post} author={post.author} totalLikes={post.total_likes} />
+                        <Post key={post.id} ID={post.id} post={post} author={post.author} totalLikes={post.total_likes} changeTitle={false}/>
                     ))
                 ) : (
                     <p className="text-center">No posts available at the moment.</p>
                 )}
             </div>
             <br />
-            {hasMore && !loading && <button onClick={loadMorePosts}>Load More</button>}
+            {!loading && hasMore && <button onClick={loadMorePosts}>Load More</button>}
             {loading && <UILoader />}
             {error && <p className="text-center error">{error}</p>}
         </div>

@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import MDEditor from '../../components/MDEditor/MDEditor';
-
+import { NotificationsContext } from '../../components/Notifications/Notifications';
 import { SERVER, PORT, ACCESS_TOKEN, USER_DATA } from '../../_CONSTS_';
 import './create.css';
 
 const CreatePage = ({ isOpen, onClose }) => {
+    const { addNotification, removeNotification } = useContext(NotificationsContext);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [value, setValue] = useState('');
 
@@ -34,6 +35,7 @@ const CreatePage = ({ isOpen, onClose }) => {
 
         let resp = await response.json();
         setIsSubmitting(false);
+        addNotification('Post added Successfully', 'success');
     };
 
     if (!isOpen) return null; // Only render if open

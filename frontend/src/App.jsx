@@ -12,6 +12,8 @@ import ProfileView from './Pages/ProfileView/ProfileView';
 import ResetPassword from './Pages/ResetPassword/ResetPassword';
 import ThemeProvider from './components/ThemeProvider/ThemeProvider';
 import UILoader from './components/UILoader/UILoader';
+import MediaUploader from './components/MediaUploader/ImageUploader';
+import NotificationsProvider from './components/Notifications/Notifications';
 
 // CONSTS
 import { SERVER, PORT, ACCESS_TOKEN, REFRESH_TOKEN, THEME_MODE, USER_DATA, BLOG_FONT_SIZE, CODE_THEME } from './_CONSTS_';
@@ -113,17 +115,24 @@ const App = () => {
     }, []);
 
     const router = createBrowserRouter([
-        { path: "/", element: isAuthenticated ? <ThemeProvider><Home /></ThemeProvider> : <LoginForm /> },
-        { path: "/resetpassword", element: <ThemeProvider><ResetPassword /></ThemeProvider> },
+        { path: "/", element: isAuthenticated ? <Home /> : <LoginForm /> },
+        { path: "/resetpassword", element: <ResetPassword /> },
         { path: "/signup", element: isAuthenticated ? <Navigate to="/" /> : <SignUpForm /> },
-        { path: "/post/:id", element: isAuthenticated ? <ThemeProvider><PostViewWrapper /></ThemeProvider> : <LoginForm /> },
-        { path: "/create", element: isAuthenticated ? <ThemeProvider><CreatePage /></ThemeProvider> : <LoginForm /> },
-        { path: ":username", element: isAuthenticated ? <ThemeProvider><ProfileView /></ThemeProvider> : <LoginForm /> }
+        { path: "/post/:id", element: isAuthenticated ? <PostViewWrapper /> : <LoginForm /> },
+        { path: "/create", element: isAuthenticated ? <CreatePage /> : <LoginForm /> },
+        { path: ":username", element: isAuthenticated ? <ProfileView /> : <LoginForm /> },
     ]);
 
     if (loading) return <UILoader />;
 
-    return <RouterProvider router={router} />;
+    return (
+        <ThemeProvider>
+            <NotificationsProvider value={0}>
+                <RouterProvider router={router} />
+                <MediaUploader />
+            </NotificationsProvider>
+        </ThemeProvider>
+    );
 };
 
 export default App;

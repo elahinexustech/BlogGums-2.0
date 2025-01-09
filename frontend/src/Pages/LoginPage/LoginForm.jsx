@@ -1,17 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useForm } from 'react-hook-form';
-import { Link, useNavigate } from 'react-router-dom';
+import { NotificationsContext } from '../../components/Notifications/Notifications';
 import { Helmet } from 'react-helmet';
 import './login.css';
 import Footer from '../../components/Footer/Footer';
-import LabelField from '../../components/LabelField/LabelField';
-import LabelPasswordField from '../../components/LabelPasswordField/LabelPasswordField';
+import FormView from '../../components/FormView/FormView';
 import { ACCESS_TOKEN, REFRESH_TOKEN } from '../../_CONSTS_';
 
 const LoginForm = () => {
-    const [passVisibility, setPassVisibility] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
+    const { addNotification, removeNotification } = useContext(NotificationsContext)
 
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
     const username = watch('username');
@@ -25,86 +24,72 @@ const LoginForm = () => {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Accept': 'application/json'
+                    'Accept': 'application/json',
                 },
                 body: JSON.stringify(data)
             });
 
             const resp = await r.json();
             if (resp.access && resp.refresh) {
-                localStorage.clear();
                 localStorage.setItem(ACCESS_TOKEN, resp.access);
                 localStorage.setItem(REFRESH_TOKEN, resp.refresh);
-                location.reload();
+                addNotification('Logeed In', 'success')
+                window.location.href = '/';
             } else {
                 setErrorMessage('Invalid credentials. Please try again.');
+                addNotification(errorMessage, 'error')
             }
         } catch (error) {
             console.error('Error during submission:', error);
             setErrorMessage('An error occurred. Please try again later.');
+            addNotification(errorMessage, 'error')
         } finally {
             setIsSubmitting(false);
         }
     };
+
+    const fields = [
+        {
+            label: 'Username',
+            type: 'text',
+            id: 'username',
+            placeholder: 'Enter your username',
+            requiredMessage: 'Username is required',
+        },
+        {
+            label: 'Password',
+            type: 'password',
+            id: 'password',
+            placeholder: 'Enter your password',
+            requiredMessage: 'Password is required',
+        }
+    ];
+
+    const features = [
+        { icon: 'bi bi-book', text: 'Access your saved articles' },
+        { icon: 'bi bi-pencil-square', text: 'Write and publish your own articles' },
+        { icon: 'bi bi-chat-dots', text: 'Interact with other users' }
+    ];
 
     return (
         <>
             <Helmet>
                 <title>Login to BlogGums</title>
             </Helmet>
-            <div className='container flex login-container'>
-                <div className="content-container flex">
-                    <div className="left flex ai-start jc-start direction-col">
-                        <p className="title">Login</p>
-                        <p className="subtitle">to BlogGums</p>
-                        <br /><hr /><br />
-                        <ul className='features-list'>
-                            <p className="heading">What offers in login</p>
-                            <li className='caption'><i className="bi bi-plus-circle"></i> &nbsp;Create your own blogs.</li>
-                            <li className='caption'><i className="bi bi-person-hearts"></i> &nbsp;Interact with different users.</li>
-                            <li className='caption'><i className="bi bi-balloon-heart-fill"></i> &nbsp;Blog Interactions <span className="heading">+</span> Sharing blogs.</li>
-                            <li className='caption'><i className="bi bi-emoji-smile-upside-down-fill"></i> &nbsp;And many more...</li>
-                        </ul>
-                    </div>
-                    <div className="form-container right flex direction-col">
-                        <p className="title">Login</p>
-                        {errorMessage && <p className="error">{errorMessage}</p>}
-                        <form className='flex direction-col jc-start ai-start' onSubmit={handleSubmit(onSubmit)}>
-                            <>
-                                <p className="heading-2 grey">Username</p>
-                                <LabelField
-                                    id="username"
-                                    placeholder="username"
-                                    register={register}
-                                    requiredMessage="Username is required"
-                                    errors={errors}
-                                />
-                            </>
-                            <br />
-                            <>
-                                <p className="heading-2 grey">Pass***d</p>
-                                <LabelPasswordField
-                                    id="password"
-                                    placeholder="password"
-                                    register={register}
-                                    requiredMessage="Password is required"
-                                    errors={errors}
-                                    passVisibility={passVisibility}
-                                    setPassVisibility={setPassVisibility}
-                                />
-                            </>
-                            <br />
-                            <Link to={'/resetpassword'} className='caption grey flex'><i className="bi bi-repeat"></i>&nbsp; Reset Password</Link>
-                            <br />
-                            <button className='theme' type="submit" disabled={!username || !password || isSubmitting}>
-                                <i className="bi bi-box-arrow-right"></i> &nbsp;Login
-                            </button>
-                            <br />
-                            <p className='caption'>Don't have an account, <Link className='colored' to="/signup">create one</Link></p>
-                        </form>
-                    </div>
-                </div>
-            </div>
+            <FormView
+                type={'login'}
+                title={'Login'}
+                subtitle={'to BlogGums'}
+                features={features}
+                step={1}
+                fields={fields}
+                errorMessage={errorMessage}
+                onSubmit={handleSubmit(onSubmit)}
+                buttonText={'Login'}
+                linkMessage={{ msg: 'Don\'t have an account?', link: '/signup', linkText: 'Register' }}
+                register={register}
+                errors={errors}
+            />
             <Footer />
         </>
     );

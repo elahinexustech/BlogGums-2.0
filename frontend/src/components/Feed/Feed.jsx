@@ -50,12 +50,12 @@ const Feed = () => {
 
     return (
         <div className="container flex direction-col">
-            <h2 className="title fancy grey text-center">Feed</h2>
+            <h2 className="title text-center">BlogGums 2.0</h2>
             <br />
             <div className="flex direction-col post-container">
                 {posts.length > 0 ? (
                     posts.map((post) => (
-                        <Post key={post.id} ID={post.id} post={post} author={post.author} totalLikes={post.total_likes} changeTitle={false}/>
+                        <Post key={post.id} ID={post.id} post={post} author={post.author} totalLikes={post.total_likes} changeTitle={false} setPost={setPosts} />
                     ))
                 ) : (
                     <p className="text-center">No posts available at the moment.</p>

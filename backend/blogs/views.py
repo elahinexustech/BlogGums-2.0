@@ -5,8 +5,9 @@ from django.shortcuts import get_object_or_404
 from rest_framework import generics
 from rest_framework import status
 from django.utils import timezone
+from supabase import create_client
 from .serializers import BlogSerializer, PostSerializer, CommentsSerializer, AuthorSerializer
-from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.permissions import IsAuthenticated
 from .models import BlogPost, Likes, Comments, Views
 from django.http import JsonResponse
 import json
@@ -29,6 +30,7 @@ class PostListView(generics.ListAPIView):
         return BlogPost.objects.annotate(total_likes=Count('likes')).order_by('-published_at', '-id')
 
     def get(self, request, *args, **kwargs):
+        user = request.user
         queryset = self.get_queryset()
         paginator = PostPagination()
         page = paginator.paginate_queryset(queryset, request)
@@ -36,6 +38,7 @@ class PostListView(generics.ListAPIView):
         response_data = []
         for post in page:
             author_data = AuthorSerializer(post.author).data  # Serialize author data
+            user_has_liked = post.likes.filter(like_by=user).exists()
             response_data.append({
                 'id': post.id,
                 'title': post.title,
@@ -45,6 +48,7 @@ class PostListView(generics.ListAPIView):
                 'comment_count': post.comment_count(),
                 'updated_at': post.updated_at,
                 'published_at': post.published_at,
+                'has_liked': user_has_liked
             })
         
         return JsonResponse({
@@ -110,9 +114,36 @@ class CreatePostView(generics.CreateAPIView):
 class DeletePostView(generics.CreateAPIView):
     def post(self, req):
         
-        print(req.data.post_id)
+        data = json.loads(req.body)
         
-        return JsonResponse({"msg": "Deleting post"})
+        if not data.get('post_id'):
+            return JsonResponse({"msg": "Missing post_id parameter."}, status=400)
+        else:
+            post_id = data['post_id']
+            try:
+                post = BlogPost.objects.get(id=post_id)
+                try:
+                    Comments.objects.filter(post=post).delete()
+                except Exception as e:
+                    print(f"Error deleting comments: {e}")
+
+                try:
+                    Likes.objects.filter(post_liked=post).delete()
+                except Exception as e:
+                    print(f"Error deleting likes: {e}")
+
+                try:
+                    Views.objects.filter(post=post).delete()
+                except Exception as e:
+                    print(f"Error deleting views: {e}")
+                post.delete()
+            except BlogPost.DoesNotExist:
+                return JsonResponse({"msg": "Post not found.", "status": 404}, status=404)
+            except Exception as e:
+                print(f"Error: {e}")
+                return JsonResponse({"msg": "Error deleting post.", "status": 500}, status=500)
+        
+        return JsonResponse({"msg": "Post deleted", "status": 200})
 
 class AddLikeView(generics.CreateAPIView):
     permission_classes = [IsAuthenticated]
@@ -152,8 +183,7 @@ class GetUserPost(generics.ListAPIView):
 
         return JsonResponse({"post": serialized_posts.data, "status":status.HTTP_200_OK})
     
-    
-from django.shortcuts import get_object_or_404
+
 
 class PostComment(generics.GenericAPIView):
     permission_classes = [IsAuthenticated]
@@ -228,3 +258,28 @@ class GetMorePost(generics.CreateAPIView):
         except Exception as e:
             print(f"Error: {e}")
             return JsonResponse({"msg": "Error fetching posts."}, status=500)
+
+
+
+class UploadMedia(generics.CreateAPIView):
+    permission_classes = [IsAuthenticated]
+    
+    # Add your Supabase URL and KEY here
+    URL = 'https://yfcnkjxsrwvycucsebnl.supabase.co'
+    KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlmY25ranhzcnd2eWN1Y3NlYm5sIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mjk3OTE2MzEsImV4cCI6MjA0NTM2NzYzMX0.ZZ3Kb-X29KDahOx2H_P0aQLbPSC4Cp54q0Z6IwzBObQ'
+    CLIENT = create_client(URL, KEY)
+    
+    def post(self, req):
+        # Check if files are included
+        if not req.FILES:
+            return JsonResponse({'error': 'No files uploaded'}, status=400)
+
+        # Iterate over uploaded files
+        file_names = [file.name for file in req.FILES.values()]
+        
+        
+
+        # Example response with file names
+        return JsonResponse({'uploaded_files': file_names}, status=200)
+        
+        

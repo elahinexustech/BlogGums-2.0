@@ -1,0 +1,66 @@
+.notifications {
+    width: 400px;
+    position: fixed;
+    top: var(--top);
+    right: -10%;
+    padding: 1rem 1.5rem;
+    border-radius: var(--border-radius);
+    transition: 0.3s;
+    visibility: hidden;
+    opacity: 0;
+}
+
+.notifications button.closeBtn {
+    position: absolute;
+    top: -5%;
+    left: -2%;
+    padding: 0.8rem;
+    width: 20px;
+    height: 20px;
+}
+
+.notifications button.closeBtn i.bi {
+    font-size: 1rem;
+}
+
+.notifications.show {
+    right: 1%;
+    visibility: visible;
+    opacity: 1;
+}
+
+.notifications.success {
+    background: hsl(112, 50%, 85%);
+    border: solid 1px hsl(112, 50%, 50%);
+    box-shadow: 0px 0px 10px var(--box-shadow-color);
+}
+
+body.dark-theme .notifications.success {
+    background: hsl(113, 50%, 7%);
+    border: solid 1px hsl(113, 50%, 15%);
+    box-shadow: 0px 0px 10px var(--box-shadow-color);
+}
+
+.notifications.error {
+    background: hsl(0, 50%, 85%);
+    border: solid 1px hsl(0, 50%, 50%);
+    box-shadow: 0px 0px 10px var(--box-shadow-color);
+}
+
+body.dark-theme .notifications.error {
+    background: hsl(0, 50%, 7%);
+    border: solid 1px hsl(0, 50%, 25%);
+    box-shadow: 0px 0px 10px var(--box-shadow-color);
+}
+
+.notifications.warning {
+    background: hsl(48, 50%, 90%);
+    border: solid 1px hsl(48, 50%, 50%);
+    box-shadow: 0px 0px 10px var(--box-shadow-color);
+}
+
+body.dark-theme .notifications.warning {
+    background: hsl(48, 50%, 7%);
+    border: solid 1px hsl(48, 50%, 25%);
+    box-shadow: 0px 0px 10px var(--box-shadow-color);
+}

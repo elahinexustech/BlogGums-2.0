@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import NavigationMenu from '../../components/NavigationMenu/NavigationMenu';
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
+import { NotificationsContext } from '../../components/Notifications/Notifications';
 
 // Components
 import UILoader from '../../components/UILoader/UILoader';
 import MarkdownViewer from '../PostView/MDDisplayer';
-import ImageUploader from '../../components/ImageUploader/ImageUploader';
+import ProfileImageUploader from '../../components/ProfileImageUploader/ProfileImageUploader';
 import OptionMenu from '../../components/PostOptionMenu/OptionMenu';
 
 import { USER_DATA } from '../../_CONSTS_';
@@ -18,11 +19,10 @@ import { USER, updateUser } from '../../Functions/user';
 
 import './style.css';
 
-import DEFAULT_PIC from '../../assets/imgs/default_pic.png'
-
 
 
 const ProfileView = () => {
+    const { addNotifications, removeNotifications } = useContext(NotificationsContext);
     const navigate = useNavigate();
     const { username } = useParams();
     const [user, setUser] = useState(null);
@@ -38,32 +38,33 @@ const ProfileView = () => {
     const loggedInUser = JSON.parse(localStorage.getItem(USER_DATA)); // Get current logged-in user
     const CURRENT_USER_STATE_VAR = loggedInUser.user.username === username;
     const [openMenuId, setOpenMenuId] = useState(null); // State to track which post's menu is open
-
-
+    const [isChanged, setIsChanged] = useState(false)
+    const [userUpdated, setUserUpdated] = useState(false);
 
     const handleMouseDown = () => {
-        setClicked(false); // Reset click state on mouse down
-        setPressTimer(setTimeout(() => {
-            setShowLargeImage(true); // Show large image after holding
-        }, 500)); // Time threshold for "press and hold"
+        setClicked(false);
+        setPressTimer(
+            setTimeout(() => {
+                setShowLargeImage(true);
+            }, 500)
+        );
     };
 
     const handleMouseUp = () => {
-        clearTimeout(pressTimer); // Clear the press timer on mouse up
+        clearTimeout(pressTimer);
         if (!clicked) {
-            setClicked(true); // Mark as clicked if it's a quick release
+            setClicked(true);
         }
     };
-
 
     const fetchUserData = async () => {
         setLoading(true);
         const data = await USER(username);
         if (data) {
             setUser(data);
-            setNewDetails(data); // Initialize newDetails with fetched user data
+            setNewDetails(data);
         } else {
-            console.error("Failed to fetch user data.");
+            console.error('Failed to fetch user data.');
         }
     };
 
@@ -72,7 +73,6 @@ const ProfileView = () => {
         setPost(posts.post);
         setLoading(false);
     };
-
 
     const handleDetailChange = (e) => {
         setNewDetails({ ...newDetails, [e.target.name]: e.target.value });
@@ -83,82 +83,82 @@ const ProfileView = () => {
     };
 
     const selectImage = () => {
-        setShowUploader(true); // Show the ImageUploader component
+        setShowUploader(true);
     };
 
     const handleCloseUploader = () => {
-        setShowUploader(false); // Hide the ImageUploader component
+        setShowUploader(false);
     };
 
     const handleDetailDoubleClick = (field) => {
-        if (isEditing) {
-            setIsEditing(false);
-        } else {
-            setIsEditing(true);
-        }
+        setIsEditing(!isEditing);
     };
 
     const handleCancel = () => {
-        setNewDetails(user); // Revert to original user data
-        setIsEditing(false); // Exit editing mode
+        setNewDetails(user);
+        setIsEditing(false);
     };
 
     const updateDetails = async () => {
         setIsSubmitting(true);
         let r = await updateUser(newDetails);
         if (r.status === 200) {
-            setIsEditing(!isEditing);
+            setIsEditing(false);
             setIsSubmitting(false);
-            location.reload();
+            setUserUpdated(true); // Set the flag for user update
         }
-    }
-
+    };
 
     const toggleMenu = (e, id) => {
         e.stopPropagation();
         if (openMenuId === id) {
-            setOpenMenuId(null); // Close the menu if it's already open
+            setOpenMenuId(null);
         } else {
-            setOpenMenuId(id); // Open the clicked menu
+            setOpenMenuId(id);
         }
     };
 
     const handleClickOutside = (event) => {
-        // Find the menu element
         const optionMenu = document.querySelector(`#optionMenu-${openMenuId}`);
         const button = document.querySelector(`#menuButton-${openMenuId}`);
-
-        // Check if click is inside the menu or the button
         if (
-            optionMenu && !optionMenu.contains(event.target) &&
-            button && !button.contains(event.target)
+            optionMenu &&
+            !optionMenu.contains(event.target) &&
+            button &&
+            !button.contains(event.target)
         ) {
-            setOpenMenuId(null); // Close the menu if clicked outside
+            setOpenMenuId(null);
         }
     };
-
 
     useEffect(() => {
         if (openMenuId !== null) {
             window.addEventListener('click', handleClickOutside);
         }
-
-        // Cleanup event listener on unmount or when the menu is closed
         return () => {
             window.removeEventListener('click', handleClickOutside);
         };
     }, [openMenuId]);
 
-
     useEffect(() => {
         fetchUserData();
-    }, [username]);
+    }, [setIsChanged]);
 
     useEffect(() => {
         if (user) {
             fetchPostsData();
         }
     }, [user]);
+
+    // New effect to fetch user data after updates
+    useEffect(() => {
+        if (userUpdated) {
+            fetchUserData().then(() => {
+                fetchPostsData();
+                setUserUpdated(false); // Reset the flag
+            });
+        }
+    }, [userUpdated]);
 
     return (
         <>
@@ -177,7 +177,7 @@ const ProfileView = () => {
                                 <>
                                     <div className='image-container flex'>
                                         <img
-                                            src={user.profile_image_url || DEFAULT_PIC}
+                                            src={user.profile_image_url || './imgs/default_pic.png'}
                                             className="profile-picture size-l"
                                             alt="Profile image"
                                             onMouseDown={handleMouseDown}
@@ -196,7 +196,7 @@ const ProfileView = () => {
                                                     <button onClick={handleCloseUploader} className="transparent closeBtn icon">
                                                         <i className="bi bi-x-lg"></i>
                                                     </button>
-                                                    <ImageUploader />
+                                                    <ProfileImageUploader />
                                                 </div>
                                             </div>
                                         )}
@@ -319,7 +319,10 @@ const ProfileView = () => {
                                     </div>
                                 ))
                             ) : (
-                                <p>No posts available.</p>
+                                <>
+                                    <br /> <br />
+                                    <p className='subtitle grey'>No posts available.</p>
+                                </>
                             )}
                         </div>
                     </div>

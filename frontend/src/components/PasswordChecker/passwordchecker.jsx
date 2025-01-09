@@ -1,16 +1,42 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
+import { NotificationsContext } from '../Notifications/Notifications';
 import { ACCESS_TOKEN, PORT, REFRESH_TOKEN, SERVER, USER_DATA } from '../../_CONSTS_';
 
 import LabelPasswordField from '../LabelPasswordField/labelpasswordfield';
 
-const PasswordChecker = ({ isOpen, onClose, deletPost, id }) => {
+
+const PasswordChecker = ({ isOpen, onClose, id }) => {
+    const {addNotification, removeNotification} = useContext(NotificationsContext)
     const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm();
     const [passVisibility, setPassVisibility] = useState(false);
     const [password, setPassword] = useState('');
 
     const { user } = JSON.parse(localStorage.getItem(USER_DATA));
+
+
+    const deleteBlogPost = async (id) => {
+
+        const response = await fetch(`${SERVER}:${PORT}/blogs/post/delete`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`
+            },
+            body: JSON.stringify({ refresh: localStorage.getItem(REFRESH_TOKEN), post_id: id })
+        })
+
+        const data = await response.json();
+        if(data.status === 200){ 
+            addNotification('Blog Post deleted successfully', 'success');
+        } else if(data.status == 404) {
+            addNotification('Blog Post not Found', 'error');
+        } else if(data.status == 500) {
+            addNotification('There is a server error in the request', 'error');
+        }
+    }
 
     const onSubmit = async (data) => {
         const response = await fetch(`${SERVER}:${PORT}/api/user/check_password`, {
@@ -24,9 +50,11 @@ const PasswordChecker = ({ isOpen, onClose, deletPost, id }) => {
         })
 
         const result = await response.json();
+
+        console.log(result)
+
         if(result.status === 200) {
-            onClose();
-            deletPost(id);
+            deleteBlogPost(id);
         }
     };
 

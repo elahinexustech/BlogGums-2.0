@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import MarkdownViewer from '../../Pages/PostView/MDDisplayer';
 import { Helmet } from 'react-helmet';
 import { useNavigate, Link } from 'react-router-dom';
-
-import DEFAULT_PIC from '../../assets/imgs/default_pic.png';
 import './post.css'
 
 // Components
@@ -11,9 +9,9 @@ import LikeButton from '../LikeButton/LikeButton';
 import OptionMenu from '../PostOptionMenu/OptionMenu';
 import { USER_DATA } from '../../_CONSTS_';
 
-const Post = ({ ID, author, post, totalLikes, changeTitle=true }) => {
+const Post = ({ ID, author, post, totalLikes, changeTitle = true, setPost }) => {
+    console.log(setPost)
     const [openMenuId, setOpenMenuId] = useState(null); // State to track which post's menu is open
-    const [hasLiked, sethasLiked] = useState(false);
     const loggedInUser = JSON.parse(localStorage.getItem(USER_DATA)); // Get current logged-in user
     const CURRENT_USER_STATE_VAR = loggedInUser.user.username === author.username; // Check if the current user is the author of the post
 
@@ -63,7 +61,7 @@ const Post = ({ ID, author, post, totalLikes, changeTitle=true }) => {
             <div className='post obj'>
                 <section className="header flex jc-spb">
                     <section className="left flex">
-                        <img src={author.profile_image_url || DEFAULT_PIC} className="post-header-img" alt={`${author.username}'s profile`} />&nbsp;&nbsp;
+                        <img src={author.profile_image_url || './imgs/default_pic.png'} className="post-header-img" alt={`${author.username}'s profile`} />&nbsp;&nbsp;
                         <section className='username-section'>
                             <p className="heading">{author.first_name} {author.last_name}</p>
                             <Link className='caption colored' to={`/${author.username}`}>@{author.username}</Link>
@@ -84,7 +82,7 @@ const Post = ({ ID, author, post, totalLikes, changeTitle=true }) => {
 
                     {/* Option Menu that only shows for the specific post */}
                     <OptionMenu item={post} openMenuId={openMenuId} CURRENT_USER_STATE_VAR={CURRENT_USER_STATE_VAR} />
-                    
+
                 </section>
 
                 <br /><br />
@@ -101,14 +99,18 @@ const Post = ({ ID, author, post, totalLikes, changeTitle=true }) => {
                     <LikeButton
                         postId={ID}
                         initialLikes={totalLikes}
-                        hasLiked={false}
-                        onLikeChange={(likeCount) => {
-                            setPost((prevPost) => ({
-                                ...prevPost,
-                                totalLikes: likeCount,
-                            }));
+                        hasLiked={post.has_liked}
+                        onLikeChange={(likeCount, liked) => {
+                            setPost((prevPosts) =>
+                                prevPosts.map((prevPost) =>
+                                    prevPost.id === ID
+                                        ? { ...prevPost, total_likes: likeCount, has_liked: liked }
+                                        : prevPost
+                                )
+                            );
                         }}
                     />
+
 
                     <button className='icon'>
                         <i onClick={() => { renderPost(ID) }} className="bi bi-book-half"></i>

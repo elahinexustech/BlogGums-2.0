@@ -149,6 +149,10 @@ button:hover {
     align-items: start;
 }
 
+.flex.ai-end {
+    align-items: end;
+}
+
 .flex.direction-row {
     flex-direction: row;
 }

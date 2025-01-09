@@ -109,6 +109,8 @@ class UserDetail(generics.GenericAPIView):
             'dob': user.date_of_birth,
             'profile_image_url': user.profile_image_url
         }
+        
+        print(user)
         return JsonResponse(user_data)
 
 
@@ -222,7 +224,6 @@ class CheckPassword(generics.CreateAPIView):
         # Parse the request body to get the username and password
         data = json.loads(req.body)
         user = req.user
-        print(user)
         password = data.get('password')
 
         # Check if the password is provided
@@ -232,7 +233,7 @@ class CheckPassword(generics.CreateAPIView):
 
         # Check if the provided password matches the stored password
         if check_password(password, user.password):
-            return JsonResponse({"msg": "Password is correct"}, status=200)
+            return JsonResponse({"msg": "Password is correct", "status": 200})
         else:
             return JsonResponse({"msg": "Password is incorrect"}, status=400)
 

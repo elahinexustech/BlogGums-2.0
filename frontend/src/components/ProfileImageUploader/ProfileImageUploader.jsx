@@ -5,7 +5,7 @@ import { getCroppedImg } from '../../Functions/CropImageHelper';
 import './style.css'
 import { ACCESS_TOKEN, PORT, SERVER } from '../../_CONSTS_';
 
-const ImageUploader = ({ onClose }) => {
+const ProfileImageUploader = ({ onClose }) => {
     const [imageSrc, setImageSrc] = useState(null);
     const [crop, setCrop] = useState({ x: 0, y: 0 });
     const [zoom, setZoom] = useState(1);
@@ -87,4 +87,4 @@ const ImageUploader = ({ onClose }) => {
     );
 };
 
-export default ImageUploader;
+export default ProfileImageUploader;

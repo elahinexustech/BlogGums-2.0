@@ -18,7 +18,7 @@
     --error-clr: #ffd0d0;
     --success: #27b012;
     --success-clr: #ddffd7;
-    --alert: #f2c821;
+    --warning: #f2c821;
     --box-after: #ffffffb1;
 }
 
@@ -202,8 +202,8 @@ header ul li a.active i.bi {
     color: var(--error);
 }
 
-.alert {
-    color: var(--alert);
+.warning {
+    color: var(--warning);
 }
 
 footer {

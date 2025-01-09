@@ -15,23 +15,6 @@ const OptionMenu = ({ item, openMenuId, CURRENT_USER_STATE_VAR }) => {
         navigate(`/post/${id}`);
     }
 
-    const deleteBlogPost = async (id) => {
-
-        const response = await fetch(`${SERVER}:${PORT}/blogs/post/delete`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`
-            },
-            body: JSON.stringify({ refresh: localStorage.getItem(REFRESH_TOKEN), post_id: id })
-        })
-
-        const data = await response.json();
-        console.log(data)
-
-    }
-
     const handleDeleteClick = async (id) => {
         setPostID(id);
         setShowPassPage(prevState => !prevState);
@@ -54,7 +37,7 @@ const OptionMenu = ({ item, openMenuId, CURRENT_USER_STATE_VAR }) => {
             </section>
 
 
-            <PasswordChecker isOpen={showPassPage} onClose={handleDeleteClick} deletPost={deleteBlogPost} id={postID}/>
+            <PasswordChecker isOpen={showPassPage} onClose={handleDeleteClick} id={postID}/>
         </>
     );
 };

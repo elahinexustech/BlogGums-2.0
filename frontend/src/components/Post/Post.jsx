@@ -10,7 +10,6 @@ import OptionMenu from '../PostOptionMenu/OptionMenu';
 import { USER_DATA } from '../../_CONSTS_';
 
 const Post = ({ ID, author, post, totalLikes, changeTitle = true, setPost }) => {
-    console.log(setPost)
     const [openMenuId, setOpenMenuId] = useState(null); // State to track which post's menu is open
     const loggedInUser = JSON.parse(localStorage.getItem(USER_DATA)); // Get current logged-in user
     const CURRENT_USER_STATE_VAR = loggedInUser.user.username === author.username; // Check if the current user is the author of the post

@@ -27,7 +27,6 @@ const Feed = () => {
 
             if (response.ok) {
                 const resp = await response.json();
-                console.log("Posts", resp.data);
                 if (Array.isArray(resp.data)) {
                     setPosts((prevPosts) => [...prevPosts, ...resp.data]);
                     setHasMore(!!resp.next);

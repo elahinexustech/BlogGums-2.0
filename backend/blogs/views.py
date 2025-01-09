@@ -263,23 +263,76 @@ class GetMorePost(generics.CreateAPIView):
 
 class UploadMedia(generics.CreateAPIView):
     permission_classes = [IsAuthenticated]
-    
-    # Add your Supabase URL and KEY here
-    URL = 'https://yfcnkjxsrwvycucsebnl.supabase.co'
-    KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlmY25ranhzcnd2eWN1Y3NlYm5sIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mjk3OTE2MzEsImV4cCI6MjA0NTM2NzYzMX0.ZZ3Kb-X29KDahOx2H_P0aQLbPSC4Cp54q0Z6IwzBObQ'
-    CLIENT = create_client(URL, KEY)
-    
-    def post(self, req):
-        # Check if files are included
-        if not req.FILES:
-            return JsonResponse({'error': 'No files uploaded'}, status=400)
 
-        # Iterate over uploaded files
-        file_names = [file.name for file in req.FILES.values()]
-        
-        
+    # Supabase configuration
+    SUPABASE_URL = 'https://yfcnkjxsrwvycucsebnl.supabase.co'
+    SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlmY25ranhzcnd2eWN1Y3NlYm5sIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mjk3OTE2MzEsImV4cCI6MjA0NTM2NzYzMX0.ZZ3Kb-X29KDahOx2H_P0aQLbPSC4Cp54q0Z6IwzBObQ'
+    CLIENT = create_client(SUPABASE_URL, SUPABASE_KEY)
 
-        # Example response with file names
-        return JsonResponse({'uploaded_files': file_names}, status=200)
+    def post(self, request):
+        """
+        Handles media file uploads to Supabase.
+        """
+        # Access uploaded files from request.FILES
+        media_files = request.FILES.getlist('media')
+
+        if not media_files:
+            return JsonResponse({"error": "No media files uploaded"}, status=400)
+
+        user = request.user  # Use the username as a folder name
+
+        uploaded_files = []
+        try:
+            for media_file in media_files:
+                success, url = self.upload_media(user.username, media_file)
+                if success:
+                    uploaded_files.append(url)
+                else:
+                    return JsonResponse(
+                        {"error": f"Failed to upload file: {media_file.name}"}, 
+                        status=500
+                    )
+
+            return JsonResponse({
+                "message": "Media files uploaded successfully!",
+                "uploaded_files": uploaded_files,
+                "status": 200
+            })
+
+        except Exception as e:
+            return JsonResponse(
+                {"error": f"An unexpected error occurred: {str(e)}"}, 
+                status=500
+            )
+
+    def upload_media(self, username, media_file):
+        """
+        Uploads a media file to the Supabase storage.
+        """
+        try:
+            # Generate a unique file path for the uploaded file
+            file_extension = media_file.name.split('.')[-1]
+            file_name = f'{username}/{media_file.name}'
+
+            # Read file content
+            file_content = media_file.read()
+
+            # Upload the file to Supabase storage
+            response = UploadMedia.CLIENT.storage.from_('users').upload(
+                file_name, file_content, {"content-type": media_file.content_type}
+            )
+
+            # Handle Supabase response
+            if hasattr(response, "error") and response.error:
+                raise Exception(response.error.message)
+
+            # Get the public URL of the uploaded file
+            public_url = UploadMedia.CLIENT.storage.from_('users').get_public_url(file_name)
+            return True, public_url
+
+        except Exception as e:
+            print(f"Upload failed: {str(e)}")
+            return False, None
+
         
         

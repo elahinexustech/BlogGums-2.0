@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { AddLike } from '../../Functions/AddLike';
 
 const LikeButton = ({ postId, initialLikes = 0, hasLiked, onLikeChange }) => {
-    console.log(hasLiked)
     const [liked, setLiked] = useState(hasLiked);
     const [totalLikes, setTotalLikes] = useState(initialLikes);
 

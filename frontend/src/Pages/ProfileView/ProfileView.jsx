@@ -203,7 +203,7 @@ const ProfileView = () => {
                                     </div>
                                     {showLargeImage && (
                                         <div className="large-image-overlay" onClick={handleImageClick}>
-                                            <img src={user.profile_image_url || DEFAULT_PIC} alt="Large view" className="large-image" />
+                                            <img src={user.profile_image_url || './imgs/default_pic.png'} alt="Large view" className="large-image" />
                                         </div>
                                     )}
                                     <br /><br />

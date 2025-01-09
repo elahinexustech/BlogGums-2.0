@@ -12,6 +12,7 @@ const NotificationsProvider = ({ children }) => {
     };
 
     const removeNotification = (id) => {
+        console.log("HEYYEY DELETING NOTIFICATIOn")
         setNotifications((prev) => prev.filter((notification) => notification.id !== id));
     };
 
@@ -25,6 +26,7 @@ const NotificationsProvider = ({ children }) => {
                     key={id}
                     className={`notifications ${notifications.length ? "show" : ""} ${type}`}
                     style={{ position: 'fixed', '--top': `${ (index+1) * 10 }px` }}
+                    id={id}
                 >
                     <div className={`notification flex jc-start`}>
                         {type === "success" && (

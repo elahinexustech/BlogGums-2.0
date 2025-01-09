@@ -1,4 +1,7 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
+
+// Components
+import { NotificationsContext } from '../../components/Notifications/Notifications';
 
 // CSS
 import './uploader.css';
@@ -7,6 +10,8 @@ import { ACCESS_TOKEN, PORT, SERVER } from '../../_CONSTS_';
 const MediaUploader = () => {
     const [errorMessage, setErrorMessage] = useState('');
     const [uploadedFiles, setUploadedFiles] = useState([]);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const {addNotification, removeNotification} = useContext(NotificationsContext);
 
     const allowedFileTypes = [
         'image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/tiff', 'image/heic',
@@ -37,10 +42,12 @@ const MediaUploader = () => {
 
 
     const handleFileUpload = async () => {
-        
+
+        setIsSubmitting(true);
+
         const formData = new FormData();
         uploadedFiles.forEach((file, index) => {
-            formData.append(`file${index + 1}`, file); // Append files to the FormData
+            formData.append('media', file); // Append files to the FormData
         });
 
 
@@ -50,9 +57,17 @@ const MediaUploader = () => {
                 'Authorization': `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`
             },
             body: formData
-        })
-    }
+        });
 
+        let resp = await r.json();
+
+        if(resp.status === 200) {
+            addNotification(`${resp.uploaded_files.length} file${(resp.uploaded_files.length > 1)? 's': ''} uploaded succesfully!`, 'success');
+            setUploadedFiles([]);
+            setIsSubmitting(false);
+        }
+        
+    }
 
     const triggerFileInput = () => {
         document.getElementById('file-input').click();
@@ -70,7 +85,7 @@ const MediaUploader = () => {
                 style={{ display: 'none' }}
             />
             {/* Button to Trigger File Input */}
-            <button className="obj" onClick={triggerFileInput}>
+            <button className="obj" onClick={triggerFileInput} disabled={isSubmitting}>
                 <i className="bi bi-upload"></i>
             </button>
             {errorMessage &&
@@ -86,7 +101,16 @@ const MediaUploader = () => {
                         <li className='caption' key={index}>{file.name}</li>
                     ))}
                     <br />
-                    <button className='uploadBtn' onClick={handleFileUpload}><i className="bi bi-check"></i></button>
+                    <section className='flex jc-end'>
+
+                        <button className='closeBtn circle small' onClick={()=> {setUploadedFiles([])}} disabled={isSubmitting}>
+                            <i className="bi bi-x error"></i>
+                        </button>
+
+                        <button className='uploadBtn circle small' onClick={handleFileUpload} disabled={isSubmitting}>
+                            <i className="bi bi-check-lg"></i>
+                        </button>
+                    </section>
                 </ul>
             )}
         </div>

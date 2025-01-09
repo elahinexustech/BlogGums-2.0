@@ -137,6 +137,10 @@ button:hover {
     justify-content: start;
 }
 
+.flex.jc-end {
+    justify-content: end;
+}
+
 .flex.jc-left {
     justify-content: left;
 }

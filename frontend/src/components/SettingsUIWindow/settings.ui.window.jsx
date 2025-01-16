@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { ThemeContext } from '../ThemeProvider/ThemeProvider';
-import { BLOG_FONT_SIZE, CODE_THEME } from '../../_CONSTS_';
+import { BLOG_FONT_SIZE, CODE_THEME, USER_DATA } from '../../_CONSTS_';
 import { FSContext } from '../../Context/useFontSize';
+
+import { useNavigate, Link } from 'react-router-dom';
 
 
 import './settings.css';
@@ -11,6 +13,10 @@ const SettingsUIWindow = ({ stat }) => {
     const [selectedColor, setSelectedColor] = useState(localStorage.getItem('color') || 'original');
     const { fontSize, setFontSize } = useContext(FSContext);
     const [selectedTheme, setSelectedTheme] = useState('dark-plus'); // Default to 'dark-plus'
+    const { user } = JSON.parse(localStorage.getItem(USER_DATA));
+
+
+    const navigate = useNavigate();
 
     // Load theme from localStorage on component mount
     useEffect(() => {
@@ -60,23 +66,50 @@ const SettingsUIWindow = ({ stat }) => {
                 <p className="heading text-center grey">Settings</p>
             </section>
             <section className='body'>
-                <section className='settings-sections general'>
-                    <p className="caption grey">General</p><br />
-                    <label className='flex jc-spb'>
-                        <p>Send Email Notifications</p>
-                        <label className="switch">
-                            <input type="checkbox" />
-                            <span className="slider"></span>
-                        </label>
+
+                <section className="settings-sections information">
+                    <p className="caption grey">General</p>
+                    <label className='flex jc-start account-label' onClick={() => { navigate(`/${user.username}`) }}>
+                        <img src={user.profile_image_url} className="profile-picture size-m" />
+                        &nbsp;
+                        <section>
+                            <p className="heading-2 grey">@{user.username}</p>
+                            <p className="heading">{user.first_name} {user.last_name}</p>
+                        </section>
                     </label>
 
-                    <label className='flex jc-spb'>
-                        <p>SMS Notifications</p>
-                        <label className="switch">
-                            <input type="checkbox" />
-                            <span className="slider"></span>
-                        </label>
-                    </label>
+                    <br /><hr /><br />
+
+                    <Link to="/pricing" className="flex jc-start information-label pricing">
+                        <i className="bi bi-currency-dollar"></i>
+                        <p className="caption">Pricing</p>
+                    </Link>
+
+                    <Link to="/terms-conditions" className="flex jc-start information-label terms-conditions">
+                        <i className="bi bi-newspaper"></i>
+                        <p className="caption">Terms & Conditions</p>
+                    </Link>
+
+                    <Link to="/privacy" className="flex jc-start information-label privacy">
+                        <i className="bi bi-shield-shaded"></i>
+                        <p className="caption">Privacy</p>
+                    </Link>
+
+                    <Link to="/learn" className="flex jc-start information-label learn">
+                        <i className="bi bi-book-half"></i>
+                        <p className="caption">Learn</p>
+                    </Link>
+
+                    <Link to="/about" className="flex jc-start information-label about">
+                        <i className="bi bi-info-circle-fill"></i>
+                        <p className="caption">About</p>
+                    </Link>
+
+                    <Link to="/featured" className="flex jc-start information-label featured">
+                        <i className="bi bi-circle-fill"></i>
+                        <p className="caption">Featured</p>
+                    </Link>
+
                 </section>
 
                 <section className='settings-sections appearance'>

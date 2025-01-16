@@ -8,6 +8,12 @@ import SignUpForm from './Pages/SignupPage/SignUpForm';
 import Home from './Pages/HomePage/home';
 import PostView from './Pages/PostView/PostView';
 import CreatePage from './Pages/CreatePostPage/create';
+import TermsConditions from './Pages/TermsConditionsPage/TermsConditions';
+import Pricing from './Pages/PricingPage/Pricing';
+import Privacy from './Pages/PrivacyPage/Pricing';
+import Learn from './Pages/LearnPage/Learn';
+import AboutUs from './Pages/AboutPage/AboutUS';
+import Features from './Pages/FeaturedPage/FeaturedPage';
 import ProfileView from './Pages/ProfileView/ProfileView';
 import ResetPassword from './Pages/ResetPassword/ResetPassword';
 import ThemeProvider from './components/ThemeProvider/ThemeProvider';
@@ -120,6 +126,13 @@ const App = () => {
         { path: "/signup", element: isAuthenticated ? <Navigate to="/" /> : <SignUpForm /> },
         { path: "/post/:id", element: isAuthenticated ? <PostViewWrapper /> : <LoginForm /> },
         { path: "/create", element: isAuthenticated ? <CreatePage /> : <LoginForm /> },
+        { path: "/pricing", element: isAuthenticated ? <Pricing /> : <LoginForm /> },
+        { path: "/terms-conditions", element: <TermsConditions /> },
+        { path: "/privacy", element: <Privacy /> },
+        { path: "/learn", element: <Learn /> },
+        { path: "/about", element: <AboutUs /> },
+        { path: "/featured", element: <Features /> },
+
         { path: ":username", element: isAuthenticated ? <ProfileView /> : <LoginForm /> },
     ]);
 
@@ -129,7 +142,9 @@ const App = () => {
         <ThemeProvider>
             <NotificationsProvider value={0}>
                 <RouterProvider router={router} />
-                <MediaUploader />
+                {isAuthenticated && (
+                    <MediaUploader />
+                )}
             </NotificationsProvider>
         </ThemeProvider>
     );

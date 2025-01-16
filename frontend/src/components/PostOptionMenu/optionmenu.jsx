@@ -26,7 +26,6 @@ const OptionMenu = ({ item, openMenuId, CURRENT_USER_STATE_VAR }) => {
                 <p className="caption grey">More options</p>
                 <br /><hr /><br />
                 <ul>
-                    <li className='li'><i className="bi bi-translate"></i> &nbsp; Translate</li>
                     <li onClick={() => { renderPost(item.id) }} className='li'><i className="bi bi-box-arrow-up-right"></i> &nbsp; View in Full</li>
                     <br /><hr /><br />
                     {CURRENT_USER_STATE_VAR ? (

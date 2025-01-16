@@ -5,7 +5,7 @@
     width: 450px;
     height: 600px;
     padding: 1rem;
-    border-radius: 30px;
+    border-radius: var(--border-radius);
     transform: scale(0.1);
     opacity: 0;
     visibility: hidden;
@@ -22,13 +22,65 @@
 .settings section.body section.settings-sections {
     margin-top: 30px;
     background: var(--object-bg-trans);
-    padding: 2rem;
+    padding: 2rem 1rem;
     border-radius: 14px;
 }
 
 .settings section.body section.settings-sections label {
     margin: 10px 0 0 0;
 }
+
+.settings section.body section.settings-sections label.account-label,
+.settings section.body section.settings-sections .information-label {
+    cursor: pointer;
+    padding: 1rem 0.5rem;
+    border-radius: calc(2rem - var(--border-radius));
+    position: relative;
+}
+
+.settings section.body section.settings-sections label.account-label i.bi,
+.settings section.body section.settings-sections .information-label i.bi {
+    margin-right: 1rem;
+    font-size: 1.1rem;
+}
+
+.settings section.body section.settings-sections label.account-label p,
+.settings section.body section.settings-sections .information-label p {
+    font-size: 1.1rem;
+}
+
+
+
+
+.settings section.body section.settings-sections label.account-label::after,
+.settings section.body section.settings-sections .information-label::after {
+    content: '\F134';
+    font-family: 'bootstrap-icons';
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    top: 50%;
+    right: 6%;
+    transform: translateY(-50%);
+    color: var(--grey);
+    opacity: 0;
+    visibility: hidden;
+    transition: 0.3s;
+}
+
+.settings section.body section.settings-sections label.account-label:hover,
+.settings section.body section.settings-sections .information-label:hover {
+    background: var(--object-bg-2);
+}
+
+
+.settings section.body section.settings-sections label.account-label:hover::after,
+.settings section.body section.settings-sections .information-label:hover::after {
+    right: 3%;
+    visibility: visible;
+    opacity: 1;
+}
+
 
 .settings section.body section.settings-sections span.color-circles {
     width: 25px;
@@ -88,6 +140,8 @@
 }
 
 
+
+
 @media screen and (max-width: 768px) {
     .settings {
         width: 90%;
@@ -111,6 +165,5 @@
         opacity: 1;
         visibility: visible;
     }
-    
-}
 
+}

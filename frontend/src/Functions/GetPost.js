@@ -1,9 +1,9 @@
 // Functions/GetPosts.js
 import { SERVER, PORT, ACCESS_TOKEN, USER_DATA } from "../_CONSTS_";
-
+import Cookies from "js-cookie";
 
 export default async function GetPosts(username) {
-    const access_token = localStorage.getItem(ACCESS_TOKEN);
+    const access_token = Cookies.get(ACCESS_TOKEN);
     const r = await fetch(`${SERVER}:${PORT}/blogs/getuserposts`, {
         method: 'POST',
         headers: {

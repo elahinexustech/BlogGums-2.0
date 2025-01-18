@@ -145,7 +145,6 @@ const PostView = ({ id, user }) => {
 
     return (
         <FSContext.Provider value={{ fontSize, setFontSize }}>
-            <NavigationMenu />
             {loading && <UILoader />}
             {error && <p className='error'>Error: {error}</p>}
             {post && (

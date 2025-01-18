@@ -4,14 +4,15 @@ import MDEditor from '../../components/MDEditor/MDEditor';
 import { NotificationsContext } from '../../components/Notifications/Notifications';
 import { SERVER, PORT, ACCESS_TOKEN, USER_DATA } from '../../_CONSTS_';
 import './create.css';
+import { AuthContext } from '../../components/AuthUser/AuthProvider';
 
 const CreatePage = ({ isOpen, onClose }) => {
+    const  {userData } = useContext(AuthContext);
     const { addNotification, removeNotification } = useContext(NotificationsContext);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [value, setValue] = useState('');
 
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
-    const { user } = JSON.parse(localStorage.getItem(USER_DATA));
 
     const onSubmit = async (data) => {
         setIsSubmitting(true);
@@ -37,7 +38,6 @@ const CreatePage = ({ isOpen, onClose }) => {
         setIsSubmitting(false);
         addNotification('Post added Successfully', 'success');
     };
-
     if (!isOpen) return null; // Only render if open
 
     return (
@@ -48,8 +48,8 @@ const CreatePage = ({ isOpen, onClose }) => {
             <div className="window opened dialogue-container">
 
                 <section className='flex jc-start'>
-                    <img src={user.profile_image_url || ""} alt={`${user.username} picture`} className='profile-picture size-icon' />
-                    <p className="heading">{user.first_name} {user.last_name}</p>
+                    <img src={userData.user.profile_image_url || ""} alt={`${userData.user.username} picture`} className='profile-picture size-icon' />
+                    <p className="heading">{userData.user.first_name} {userData.user.last_name}</p>
                 </section>
 
                 <form className="flex direction-col jc-start ai-start" onSubmit={handleSubmit(onSubmit)}>

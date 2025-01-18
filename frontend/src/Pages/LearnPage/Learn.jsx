@@ -12,8 +12,6 @@ const Learn = () => {
             <div className="container">
                 <p className="title">Learn</p>
             </div>
-
-            <NavigationMenu />
         </>
     )
 }

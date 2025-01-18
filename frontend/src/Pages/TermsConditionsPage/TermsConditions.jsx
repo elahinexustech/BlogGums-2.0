@@ -12,8 +12,6 @@ const TermsConditions = () => {
             <div className="container">
                 <p className="title">Terms & Conditions</p>
             </div>
-
-            <NavigationMenu />
         </>
     )
 }

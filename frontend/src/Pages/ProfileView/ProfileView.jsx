@@ -4,6 +4,7 @@ import NavigationMenu from '../../components/NavigationMenu/NavigationMenu';
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { NotificationsContext } from '../../components/Notifications/Notifications';
+import Cookies from 'js-cookie';
 
 // Components
 import UILoader from '../../components/UILoader/UILoader';
@@ -35,7 +36,7 @@ const ProfileView = () => {
     const [pressTimer, setPressTimer] = useState(null); // Timer for detecting long press
     const [clicked, setClicked] = useState(false); // Track if it's a quick click
     const [showUploader, setShowUploader] = useState(false);
-    const loggedInUser = JSON.parse(localStorage.getItem(USER_DATA)); // Get current logged-in user
+    const loggedInUser = JSON.parse(Cookies.get(USER_DATA)); // Get current logged-in user
     const CURRENT_USER_STATE_VAR = loggedInUser.user.username === username;
     const [openMenuId, setOpenMenuId] = useState(null); // State to track which post's menu is open
     const [isChanged, setIsChanged] = useState(false)

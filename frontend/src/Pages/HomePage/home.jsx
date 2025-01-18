@@ -14,7 +14,6 @@ const Home = () => {
             <Helmet>
                 <title>Home • BlogGums</title>
             </Helmet>
-            <NavigationMenu />
             <Feed />
         </>
     )

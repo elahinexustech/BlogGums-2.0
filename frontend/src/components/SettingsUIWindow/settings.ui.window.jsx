@@ -1,22 +1,22 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { ThemeContext } from '../ThemeProvider/ThemeProvider';
-import { BLOG_FONT_SIZE, CODE_THEME, USER_DATA } from '../../_CONSTS_';
+import { BLOG_FONT_SIZE, CODE_THEME } from '../../_CONSTS_';
 import { FSContext } from '../../Context/useFontSize';
+import { AuthContext } from '../AuthUser/AuthProvider'; // Import AuthContext
 
-import { useNavigate, Link } from 'react-router-dom';
-
+import { Link } from 'react-router-dom';
 
 import './settings.css';
 
 const SettingsUIWindow = ({ stat }) => {
     const { darkTheme, toggleTheme } = useContext(ThemeContext);
+    const { userData, logout } = useContext(AuthContext); // Get user from AuthContext
+    const user = userData.user
     const [selectedColor, setSelectedColor] = useState(localStorage.getItem('color') || 'original');
     const { fontSize, setFontSize } = useContext(FSContext);
     const [selectedTheme, setSelectedTheme] = useState('dark-plus'); // Default to 'dark-plus'
-    const { user } = JSON.parse(localStorage.getItem(USER_DATA));
 
-
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
     // Load theme from localStorage on component mount
     useEffect(() => {
@@ -59,7 +59,6 @@ const SettingsUIWindow = ({ stat }) => {
         localStorage.setItem(BLOG_FONT_SIZE, newSize); // Save to localStorage for persistence
     };
 
-
     return (
         <div className={`settings obj ${stat ? "show" : ""}`}>
             <section className="header flex">
@@ -69,14 +68,16 @@ const SettingsUIWindow = ({ stat }) => {
 
                 <section className="settings-sections information">
                     <p className="caption grey">General</p>
-                    <label className='flex jc-start account-label' onClick={() => { navigate(`/${user.username}`) }}>
-                        <img src={user.profile_image_url} className="profile-picture size-m" />
-                        &nbsp;
-                        <section>
-                            <p className="heading-2 grey">@{user.username}</p>
-                            <p className="heading">{user.first_name} {user.last_name}</p>
-                        </section>
-                    </label>
+                    {user && (
+                        <label className='flex jc-start account-label' onClick={() => { navigate(`/${user.username}`) }}>
+                            <img src={user.profile_image_url} className="profile-picture size-m" />
+                            &nbsp;
+                            <section>
+                                <p className="heading-2 grey">@{user.username}</p>
+                                <p className="heading">{user.first_name} {user.last_name}</p>
+                            </section>
+                        </label>
+                    )}
 
                     <br /><hr /><br />
 
@@ -237,9 +238,8 @@ const SettingsUIWindow = ({ stat }) => {
                         <p>Logout</p>
                         <button className='error' onClick={() => {
                             if (window.confirm("Are you sure to logout!")) {
-                                document.body.classList.add("disabled");
-                                localStorage.clear();
-                                window.location.reload();
+                                logout()
+                                window.location = "/"
                             }
                         }}>Logout</button>
                     </label>

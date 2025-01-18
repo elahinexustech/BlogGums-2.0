@@ -1,8 +1,9 @@
 // Functions/GetUser.js
 import { SERVER, PORT, ACCESS_TOKEN, USER_DATA } from "../_CONSTS_";
+import Cookies from 'js-cookie'; // Import js-cookie
 
 export const USER = async (username = '') => {
-    const access_token = localStorage.getItem(ACCESS_TOKEN);
+    const access_token = Cookies.get(ACCESS_TOKEN); // Get the token from cookies
 
     try {
         if (!username) {
@@ -17,7 +18,8 @@ export const USER = async (username = '') => {
 
             if (res.status === 200) {
                 const data = await res.json();
-                localStorage.setItem(USER_DATA, JSON.stringify(data));
+                // Store user data in cookies instead of localStorage
+                Cookies.set(USER_DATA, JSON.stringify(data), { expires: 7 }); // Set expiration as needed
                 return data;
             }
         } else {
@@ -41,8 +43,7 @@ export const USER = async (username = '') => {
 };
 
 export const updateUser = async (data) => {
-
-    const access_token = localStorage.getItem(ACCESS_TOKEN);
+    const access_token = Cookies.get(ACCESS_TOKEN); // Get the token from cookies
 
     const res = await fetch(`${SERVER}:${PORT}/api/user/update`, {
         method: 'POST',
@@ -55,4 +56,4 @@ export const updateUser = async (data) => {
     });
 
     return await res.json();
-}
+};

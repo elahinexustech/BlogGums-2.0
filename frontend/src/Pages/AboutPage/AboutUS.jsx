@@ -12,8 +12,6 @@ const AboutUs = () => {
             <div className="container">
                 <p className="title">About Us</p>
             </div>
-
-            <NavigationMenu />
         </>
     )
 }

@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import MarkdownViewer from '../../Pages/PostView/MDDisplayer';
 import { Helmet } from 'react-helmet';
-import { useNavigate, Link } from 'react-router-dom';
 import './post.css'
+import Cookies from 'js-cookie';
+import { Link } from 'react-router-dom';
 
 // Components
 import LikeButton from '../LikeButton/LikeButton';
@@ -11,7 +12,7 @@ import { USER_DATA } from '../../_CONSTS_';
 
 const Post = ({ ID, author, post, totalLikes, changeTitle = true, setPost }) => {
     const [openMenuId, setOpenMenuId] = useState(null); // State to track which post's menu is open
-    const loggedInUser = JSON.parse(localStorage.getItem(USER_DATA)); // Get current logged-in user
+    const loggedInUser = JSON.parse(Cookies.get(USER_DATA)); // Get current logged-in user
     const CURRENT_USER_STATE_VAR = loggedInUser.user.username === author.username; // Check if the current user is the author of the post
 
 

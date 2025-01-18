@@ -1,13 +1,14 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, createBrowserRouter, RouterProvider, Navigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
+import Cookies from 'js-cookie'; // Import js-cookie
 
 // Import Components/Pages
 import LoginForm from './Pages/LoginPage/LoginForm';
 import SignUpForm from './Pages/SignupPage/SignUpForm';
 import Home from './Pages/HomePage/home';
 import PostView from './Pages/PostView/PostView';
-import CreatePage from './Pages/CreatePostPage/create';
+import NavigationMenu from './components/NavigationMenu/NavigationMenu';
 import TermsConditions from './Pages/TermsConditionsPage/TermsConditions';
 import Pricing from './Pages/PricingPage/Pricing';
 import Privacy from './Pages/PrivacyPage/Pricing';
@@ -33,6 +34,7 @@ import './assets/css/windows.css';
 
 // Functions
 import { USER } from './Functions/user';
+import { AuthProvider } from './components/AuthUser/AuthProvider';
 
 const PostViewWrapper = () => {
     const { id } = useParams();
@@ -68,7 +70,7 @@ const App = () => {
     }, [darkTheme]);
 
     const checkAuthStatus = useCallback(async () => {
-        const token = localStorage.getItem(ACCESS_TOKEN);
+        const token = Cookies.get(ACCESS_TOKEN); // Get token from cookies
         if (!token) {
             setIsAuthenticated(false);
         } else {
@@ -83,7 +85,7 @@ const App = () => {
     }, []);
 
     const refreshToken = useCallback(async () => {
-        const refreshToken = localStorage.getItem(REFRESH_TOKEN);
+        const refreshToken = Cookies.get(REFRESH_TOKEN); // Get refresh token from cookies
         try {
             const res = await fetch(`${SERVER}:${PORT}/api/token/refresh/`, {
                 method: 'POST',
@@ -95,7 +97,7 @@ const App = () => {
             });
             if (res.status === 200) {
                 const { access } = await res.json();
-                localStorage.setItem(ACCESS_TOKEN, access);
+                Cookies.set(ACCESS_TOKEN, access); // Save new access token in cookies
                 setIsAuthenticated(true);
             } else {
                 setIsAuthenticated(false);
@@ -109,7 +111,6 @@ const App = () => {
     const getUser = useCallback(async () => {
         try {
             const user = await USER();
-            if (user) localStorage.setItem(USER_DATA, JSON.stringify(user));
         } catch (error) {
             console.error("Error fetching user:", error);
         }
@@ -121,17 +122,16 @@ const App = () => {
     }, []);
 
     const router = createBrowserRouter([
-        { path: "/", element: isAuthenticated ? <Home /> : <LoginForm /> },
+        { path: "/", element: isAuthenticated ? <><NavigationMenu /><Home /></> : <LoginForm /> },
         { path: "/resetpassword", element: <ResetPassword /> },
         { path: "/signup", element: isAuthenticated ? <Navigate to="/" /> : <SignUpForm /> },
         { path: "/post/:id", element: isAuthenticated ? <PostViewWrapper /> : <LoginForm /> },
-        { path: "/create", element: isAuthenticated ? <CreatePage /> : <LoginForm /> },
-        { path: "/pricing", element: isAuthenticated ? <Pricing /> : <LoginForm /> },
-        { path: "/terms-conditions", element: <TermsConditions /> },
-        { path: "/privacy", element: <Privacy /> },
-        { path: "/learn", element: <Learn /> },
-        { path: "/about", element: <AboutUs /> },
-        { path: "/featured", element: <Features /> },
+        { path: "/pricing", element: <><NavigationMenu /><Pricing /></> },
+        { path: "/terms-conditions", element: <><NavigationMenu /><TermsConditions /></> },
+        { path: "/privacy", element: <><NavigationMenu /><Privacy /></> },
+        { path: "/learn", element: <><NavigationMenu /><Learn /> </> },
+        { path: "/about", element: <><NavigationMenu /> <AboutUs /> </> },
+        { path: "/featured", element: <><NavigationMenu /><Features /> </> },
 
         { path: ":username", element: isAuthenticated ? <ProfileView /> : <LoginForm /> },
     ]);
@@ -139,14 +139,21 @@ const App = () => {
     if (loading) return <UILoader />;
 
     return (
-        <ThemeProvider>
-            <NotificationsProvider value={0}>
-                <RouterProvider router={router} />
-                {isAuthenticated && (
-                    <MediaUploader />
-                )}
-            </NotificationsProvider>
-        </ThemeProvider>
+        <AuthProvider>
+            <ThemeProvider>
+                <NotificationsProvider value={0}>
+                    <RouterProvider router={router}>
+                        <h1>HEYL</h1>
+                    </RouterProvider>
+                    {isAuthenticated && (
+                        <>
+
+                            <MediaUploader />
+                        </>
+                    )}
+                </NotificationsProvider>
+            </ThemeProvider>
+        </AuthProvider>
     );
 };
 

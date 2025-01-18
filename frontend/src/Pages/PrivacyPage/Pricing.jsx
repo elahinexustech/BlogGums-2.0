@@ -12,8 +12,6 @@ const Privacy = () => {
             <div className="container">
                 <p className="title">Privacy</p>
             </div>
-
-            <NavigationMenu />
         </>
     )
 }

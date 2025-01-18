@@ -12,8 +12,6 @@ const Pricing = () => {
             <div className="container">
                 <p className="title">Pricing</p>
             </div>
-
-            <NavigationMenu />
         </>
     )
 }

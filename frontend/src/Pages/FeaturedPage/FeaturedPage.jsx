@@ -12,8 +12,6 @@ const Features = () => {
             <div className="container">
                 <p className="title">Features</p>
             </div>
-
-            <NavigationMenu />
         </>
     )
 }

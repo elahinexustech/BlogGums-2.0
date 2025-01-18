@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import UILoader from '../UILoader/UILoader';
 import Post from '../Post/Post';
 import './feed.css';
+import Cookies from 'js-cookie';
 import { ACCESS_TOKEN, PORT, SERVER } from '../../_CONSTS_';
 
 const Feed = () => {
@@ -16,7 +17,7 @@ const Feed = () => {
     }, [page]);
 
     const getPosts = async (page = 1) => {
-        const token = localStorage.getItem(ACCESS_TOKEN);
+        const token = Cookies.get(ACCESS_TOKEN);
         setLoading(true);
         setError(null);
 

@@ -6,6 +6,7 @@ import './login.css';
 import Footer from '../../components/Footer/Footer';
 import FormView from '../../components/FormView/FormView';
 import { ACCESS_TOKEN, REFRESH_TOKEN } from '../../_CONSTS_';
+import Cookies from 'js-cookie'; // Import js-cookie
 
 const LoginForm = () => {
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -31,18 +32,19 @@ const LoginForm = () => {
 
             const resp = await r.json();
             if (resp.access && resp.refresh) {
-                localStorage.setItem(ACCESS_TOKEN, resp.access);
-                localStorage.setItem(REFRESH_TOKEN, resp.refresh);
-                addNotification('Logeed In', 'success')
+                // Save tokens in cookies
+                Cookies.set(ACCESS_TOKEN, resp.access, { expires: 7 }); // Token expires in 7 days
+                Cookies.set(REFRESH_TOKEN, resp.refresh, { expires: 7 }); // Token expires in 7 days
+                addNotification('Logged In', 'success');
                 window.location.href = '/';
             } else {
                 setErrorMessage('Invalid credentials. Please try again.');
-                addNotification(errorMessage, 'error')
+                addNotification(errorMessage, 'error');
             }
         } catch (error) {
             console.error('Error during submission:', error);
             setErrorMessage('An error occurred. Please try again later.');
-            addNotification(errorMessage, 'error')
+            addNotification(errorMessage, 'error');
         } finally {
             setIsSubmitting(false);
         }

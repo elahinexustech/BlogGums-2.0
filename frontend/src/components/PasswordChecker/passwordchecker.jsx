@@ -5,15 +5,15 @@ import { NotificationsContext } from '../Notifications/Notifications';
 import { ACCESS_TOKEN, PORT, REFRESH_TOKEN, SERVER, USER_DATA } from '../../_CONSTS_';
 
 import LabelPasswordField from '../LabelPasswordField/labelpasswordfield';
+import { AuthContext } from '../AuthUser/AuthProvider';
 
 
 const PasswordChecker = ({ isOpen, onClose, id }) => {
-    const {addNotification, removeNotification} = useContext(NotificationsContext)
+    const {addNotification, removeNotification} = useContext(NotificationsContext);
+    const {user} = useContext(AuthContext)
     const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm();
     const [passVisibility, setPassVisibility] = useState(false);
     const [password, setPassword] = useState('');
-
-    const { user } = JSON.parse(localStorage.getItem(USER_DATA));
 
 
     const deleteBlogPost = async (id) => {

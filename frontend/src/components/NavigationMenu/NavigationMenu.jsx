@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { AuthContext } from '../AuthUser/AuthProvider';
 import { NavLink } from 'react-router-dom';
 import SettingsUIWindow from '../../components/SettingsUIWindow/settings.ui.window';
 import CreatePage from '../../Pages/CreatePostPage/create';
@@ -7,10 +8,10 @@ import './Navigation.css';
 import { USER_DATA } from '../../_CONSTS_';
 
 const NavigationMenu = () => {
+    const { isAuthenticated, userData, logout } = useContext(AuthContext)
     const [showSettingsWin, setShowSettingsWin] = useState(false);
     const [showCreatePage, setShowCreatePage] = useState(false);
 
-    const user = JSON.parse(localStorage.getItem(USER_DATA));
 
     const toggleSettingsWin = () => {
         setShowSettingsWin(prevState => !prevState);
@@ -21,7 +22,7 @@ const NavigationMenu = () => {
     };
 
     // Return statement needs to directly evaluate JSX
-    // if (!user) return null; // If user doesn't exist, return nothing
+    if (!userData) return null; // If user doesn't exist, return nothing
 
     return (
         <>
@@ -39,7 +40,7 @@ const NavigationMenu = () => {
                     </li>
                     <li>
                         <NavLink
-                            to={`/${user?.user?.username ?? ''}`}
+                            to={`/${userData?.user?.username ?? ''}`}
                             className={({ isActive }) => (isActive ? "active" : "")}
                             aria-label="Profile"
                         >

@@ -33,11 +33,7 @@ const ResetPasswordForm = () => {
     }, []);
 
     const handleCodeInput = () => {
-        const inputs = document.querySelectorAll('.otp-input');
-        let code = '';
-        inputs.forEach(input => {
-            code += input.value;
-        });
+        const code = document.getElementById('otp').value;
         return code;
     };
 

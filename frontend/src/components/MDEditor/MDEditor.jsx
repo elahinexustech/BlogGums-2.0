@@ -1,9 +1,13 @@
-// src/MDEditor.js
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { marked } from 'marked';
+import Cookies from 'js-cookie'
 import './editor.css';
+import { ACCESS_TOKEN, PORT, SERVER } from '../../_CONSTS_';
 
 const MDEditor = ({ value, onChange }) => {
+    const [imageReferences, setImageReferences] = useState([]);
+    const [showImageDropdown, setShowImageDropdown] = useState(false);
+
     const handleChange = (event) => {
         onChange(event.target.value);
     };
@@ -27,54 +31,99 @@ const MDEditor = ({ value, onChange }) => {
         textarea.setSelectionRange(start + cursorPosition, start + cursorPosition);
     };
 
+    // Fetch image references from the backend
+    useEffect(() => {
+        const fetchImages = async () => {
+            try {
+                const response = await fetch(`${SERVER}:${PORT}/blogs/get/media`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-type': 'application/json',
+                        'Authorization': `Bearer ${Cookies.get(ACCESS_TOKEN)}`
+                    }
+                });
+                const data = await response.json();
+                setImageReferences(data.data);
+            } catch (error) {
+                console.error("Error fetching images:", error);
+            }
+        };
+
+        fetchImages();
+    }, []);
+
+    const handleImageClick = (imageUrl) => {
+        insertMarkdown(`![Alt Text](${imageUrl})`);
+        setShowImageDropdown(false); // Hide dropdown after selection
+    };
+
     return (
         <div className="editor flex ai-start direction-col obj-trans">
             <div className="header">
                 <div className="toolbar flex">
-                    <button className='transparent' type="button" onClick={() => insertMarkdown('**  **')}>
+                    <button className="transparent" type="button" onClick={() => insertMarkdown('**  **')}>
                         <i className="bi bi-type-bold"></i> {/* Bold Icon */}
                     </button>
-                    <button className='transparent' type="button" onClick={() => insertMarkdown('*  *')}>
+                    <button className="transparent" type="button" onClick={() => insertMarkdown('*  *')}>
                         <i className="bi bi-type-italic"></i> {/* Italic Icon */}
                     </button>
-                    <button className='transparent' type="button" onClick={() => insertMarkdown('~~  ~~')}>
+                    <button className="transparent" type="button" onClick={() => insertMarkdown('~~  ~~')}>
                         <i className="bi bi-type-strikethrough"></i> {/* Strikethrough Icon */}
                     </button>
-                    <button className='transparent' type="button" onClick={() => insertMarkdown('# ')}>
+                    <button className="transparent" type="button" onClick={() => insertMarkdown('# ')}>
                         <i className="bi bi-type-h1"></i> {/* H1 Icon */}
                     </button>
-                    <button className='transparent' type="button" onClick={() => insertMarkdown('## ')}>
+                    <button className="transparent" type="button" onClick={() => insertMarkdown('## ')}>
                         <i className="bi bi-type-h2"></i> {/* H2 Icon */}
                     </button>
-                    <button className='transparent' type="button" onClick={() => insertMarkdown('### ')}>
+                    <button className="transparent" type="button" onClick={() => insertMarkdown('### ')}>
                         <i className="bi bi-type-h3"></i> {/* H3 Icon */}
                     </button>
-                    <button className='transparent' type="button" onClick={() => insertMarkdown('#### ')}>
+                    <button className="transparent" type="button" onClick={() => insertMarkdown('#### ')}>
                         <i className="bi bi-type-h4"></i> {/* H4 Icon */}
                     </button>
-                    <button className='transparent' type="button" onClick={() => insertMarkdown('##### ')}>
+                    <button className="transparent" type="button" onClick={() => insertMarkdown('##### ')}>
                         <i className="bi bi-type-h5"></i> {/* H5 Icon */}
                     </button>
-                    <button className='transparent' type="button" onClick={() => insertMarkdown('###### ')}>
+                    <button className="transparent" type="button" onClick={() => insertMarkdown('###### ')}>
                         <i className="bi bi-type-h6"></i> {/* H6 Icon */}
                     </button>
-                    <button className='transparent' type="button" onClick={() => insertMarkdown('- ')}>
+                    <button className="transparent" type="button" onClick={() => insertMarkdown('- ')}>
                         <i className="bi bi-list-ul"></i> {/* Unordered List Icon */}
                     </button>
-                    <button className='transparent' type="button" onClick={() => insertMarkdown('1. ')}>
+                    <button className="transparent" type="button" onClick={() => insertMarkdown('1. ')}>
                         <i className="bi bi-list-ol"></i> {/* Ordered List Icon */}
                     </button>
-                    <button className='transparent' type="button" onClick={() => insertMarkdown('[Link Text](URL)')}>
+                    <button className="transparent" type="button" onClick={() => insertMarkdown('[Link Text](URL)')}>
                         <i className="bi bi-link-45deg"></i> {/* Link Icon */}
                     </button>
-                    <button className='transparent' type="button" onClick={() => insertMarkdown('![Alt Text](Image URL)')}>
-                        <i className="bi bi-image"></i> {/* Image Icon */}
-                    </button>
-                    <button className='transparent' type="button" onClick={() => insertMarkdown('``')}>
+                    <button className="transparent" type="button" onClick={() => insertMarkdown('``')}>
                         <i className="bi bi-code-slash"></i> {/* Inline Code Icon */}
                     </button>
-                    <button className='transparent' type="button" onClick={() => insertMarkdown('```\n  \n```')}>
+                    <button className="transparent" type="button" onClick={() => insertMarkdown('```\n  \n```')}>
                         <i className="bi bi-file-earmark-code"></i> {/* Code Block Icon */}
+                    </button>
+                    {/* Image Dropdown Toggle Button */}
+                    <button className="transparent image-dropdown-btn" type="button"onClick={() => setShowImageDropdown(!showImageDropdown)}>
+
+
+                        <i className="bi bi-image"></i> {/* Image Button */}
+                        {showImageDropdown && (
+                            <div className="image-dropdown">
+                                <ul>
+                                    {imageReferences.length > 0 ? (
+                                        imageReferences.map((image, index) => (
+                                            <li key={index} onClick={() => handleImageClick(image.url)}>
+                                                <img src={image.url} alt="Image reference" className="image-thumbnail" />
+                                                <span>{image.name}</span>
+                                            </li>
+                                        ))
+                                    ) : (
+                                        <li>No images available</li>
+                                    )}
+                                </ul>
+                            </div>
+                        )}
                     </button>
                 </div>
             </div>
@@ -86,12 +135,6 @@ const MDEditor = ({ value, onChange }) => {
                     onChange={handleChange}
                     placeholder="Type your markdown here..."
                 />
-                {/* <div className="preview">
-                    <div
-                        className="preview-content"
-                        dangerouslySetInnerHTML={getMarkdown()}
-                    />
-                </div> */}
             </div>
         </div>
     );

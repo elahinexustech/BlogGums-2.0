@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import Cropper from 'react-easy-crop';
 import { getCroppedImg } from '../../Functions/CropImageHelper';
+import Cookies from 'js-cookie';
 
 import './style.css'
 import { ACCESS_TOKEN, PORT, SERVER } from '../../_CONSTS_';
@@ -43,7 +44,7 @@ const ProfileImageUploader = ({ onClose }) => {
             const response = await fetch(`${SERVER}:${PORT}/api/user/update_profile_pic`, {
                 method: 'POST',
                 headers: {
-                    'Authorization': `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`
+                    'Authorization': `Bearer ${Cookies.get(ACCESS_TOKEN)}`
                 },
                 body: formData,
             });

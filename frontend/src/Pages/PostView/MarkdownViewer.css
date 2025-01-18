@@ -60,3 +60,9 @@
     border-radius: 3px;
     font-family: monospace;
 }
+
+.markdown-viewer img {
+    width: 300px;
+    display: block;
+    margin: auto;
+}

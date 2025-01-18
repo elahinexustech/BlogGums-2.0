@@ -143,7 +143,6 @@ const App = () => {
             <ThemeProvider>
                 <NotificationsProvider value={0}>
                     <RouterProvider router={router}>
-                        <h1>HEYL</h1>
                     </RouterProvider>
                     {isAuthenticated && (
                         <>

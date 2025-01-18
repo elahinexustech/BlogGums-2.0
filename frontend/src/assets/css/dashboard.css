@@ -1,6 +1,6 @@
 body.dark-theme {
     --default-clr: 267;
-    --theme-color: hsl(var(--default-clr), 51%, 60%);
+    --theme-color: hsl(var(--default-clr), 84%, 15%);
     --btn-color: #1a1a1a;
     --body-bg: #0a0a0a;
     --object-bg: #171717;
@@ -20,23 +20,23 @@ body.dark-theme {
 
 body.dark-theme.theme-color-orange {
     --default-clr: 34;
-    --theme-color: hsl(var(--default-clr), 100%, 40%);
 }
 
 body.dark-theme.theme-color-blue {
     --default-clr: 213;
-    --theme-color: hsl(var(--default-clr), 100%, 40%);
 }
 
 body.dark-theme.theme-color-red {
     --default-clr: 0;
-    --theme-color: hsl(var(--default-clr), 100%, 40%);
 }
 
 body.dark-theme.theme-color-green {
     --default-clr: 133;
-    --theme-color: hsl(var(--default-clr), 70%, 40%);
     --btn-color: hsl(var(--default-clr), 100%, 25%);
+}
+
+body.dark-theme nav ul li .active i.bi {
+    color: hsl(var(--default-clr), 84%, 55%);
 }
 
 .dark-theme ::selection {
@@ -49,7 +49,7 @@ body.dark-theme.theme-color-green {
 
 .dark-theme .colored,
 .dark-theme a.colored {
-    color: hsl(var(--dark-clr, var(--default-clr)), 100%, var(--lightness, 60%));
+    color: hsl(var(--default-clr), 84%, 55%);
 }
 
 .dark-theme button.colored {
@@ -62,7 +62,7 @@ body.dark-theme.theme-color-green {
 
 .dark-theme .post p.colored,
 .dark-theme .post-container .colored {
-    color: hsl(var(--dark-clr, var(--default-clr)), 100%, var(--lightness, 50%));
+    color: hsl(var(--default-clr), 84%, 55%);
 }
 
 .dark-theme button.transparent {
@@ -70,7 +70,7 @@ body.dark-theme.theme-color-green {
 }
 
 .dark-theme .post button i.bi.liked {
-    color: hsl(var(--light-clr, var(--default-clr)), 100%, var(--lightness, 50%));
+    color: hsl(var(--default-clr), 84%, 55%);
 }
 
 .dark-theme .gradient-text {
@@ -80,6 +80,10 @@ body.dark-theme.theme-color-green {
     -webkit-text-fill-color: transparent;
 }
 
+.dark-theme button.theme {
+    background: var(--theme-color);
+}
+
 .dark-theme button i.bi.liked {
-    color: hsl(var(--light-clr, var(--default-clr)), 100%, var(--lightness, 50%));
+    color: hsl(var(--default-clr), 84%, 55%);
 }

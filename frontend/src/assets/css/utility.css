@@ -116,7 +116,11 @@ button:disabled {
 }
 
 .dark-theme button.icon i.bi {
-    color: var(--theme-color);
+    color: hsl(var(--default-clr), 84%, 55%);
+}
+
+.dark-theme button.icon:hover i.bi {
+    color: hsl(var(--default-clr), 84%, 65%);
 }
 
 button:hover {
@@ -230,7 +234,7 @@ a.hoverable:hover i {
 
 .colored,
 a.colored {
-    color: hsl(var(--light-clr, var(--default-clr)), 100%, var(--lightness, 50%));
+    color: var(--theme-color);
 }
 
 a {

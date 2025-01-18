@@ -336,3 +336,27 @@ class UploadMedia(generics.CreateAPIView):
 
         
         
+        
+        
+class GetMedia(generics.GenericAPIView):
+    permission_classes = [IsAuthenticated]
+
+    SUPABASE_URL = 'https://yfcnkjxsrwvycucsebnl.supabase.co'  # Replace with your URL
+    SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlmY25ranhzcnd2eWN1Y3NlYm5sIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mjk3OTE2MzEsImV4cCI6MjA0NTM2NzYzMX0.ZZ3Kb-X29KDahOx2H_P0aQLbPSC4Cp54q0Z6IwzBObQ'  # Replace with your API key
+    CLIENT = create_client(SUPABASE_URL, SUPABASE_KEY)
+
+    def post(self, request):
+        username = request.user.username  # Ensure this returns the username
+
+        try: response = GetMedia.CLIENT.storage.from_('users').list(f'{request.user}')
+        except Exception as e: return JsonResponse({"msg": e}, status=500)
+        
+        imgs = []
+        
+        for data in response:
+            imgs.append({'name': data['name'], 'url': GetMedia.CLIENT.storage.from_(f'users/{username}').get_public_url(data['name'])})
+
+
+        print(imgs)
+
+        return JsonResponse({"data": imgs})

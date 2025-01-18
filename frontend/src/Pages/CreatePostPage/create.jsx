@@ -5,6 +5,7 @@ import { NotificationsContext } from '../../components/Notifications/Notificatio
 import { SERVER, PORT, ACCESS_TOKEN, USER_DATA } from '../../_CONSTS_';
 import './create.css';
 import { AuthContext } from '../../components/AuthUser/AuthProvider';
+import Cookies from 'js-cookie';
 
 const CreatePage = ({ isOpen, onClose }) => {
     const  {userData } = useContext(AuthContext);
@@ -16,7 +17,7 @@ const CreatePage = ({ isOpen, onClose }) => {
 
     const onSubmit = async (data) => {
         setIsSubmitting(true);
-        let access_token = localStorage.getItem(ACCESS_TOKEN);
+        let access_token = Cookies.get(ACCESS_TOKEN);
 
         const postData = {
             ...data,

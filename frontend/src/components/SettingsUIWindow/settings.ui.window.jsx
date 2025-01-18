@@ -14,7 +14,7 @@ const SettingsUIWindow = ({ stat }) => {
     const user = userData.user
     const [selectedColor, setSelectedColor] = useState(localStorage.getItem('color') || 'original');
     const { fontSize, setFontSize } = useContext(FSContext);
-    const [selectedTheme, setSelectedTheme] = useState('dark-plus'); // Default to 'dark-plus'
+    const [selectedTheme, setSelectedTheme] = useState('dark-plus');
 
     // const navigate = useNavigate();
 
@@ -69,14 +69,16 @@ const SettingsUIWindow = ({ stat }) => {
                 <section className="settings-sections information">
                     <p className="caption grey">General</p>
                     {user && (
-                        <label className='flex jc-start account-label' onClick={() => { navigate(`/${user.username}`) }}>
-                            <img src={user.profile_image_url} className="profile-picture size-m" />
-                            &nbsp;
-                            <section>
-                                <p className="heading-2 grey">@{user.username}</p>
-                                <p className="heading">{user.first_name} {user.last_name}</p>
-                            </section>
-                        </label>
+                        <Link to={`/${user.username}`}>
+                            <label className='flex jc-start account-label'>
+                                <img src={user.profile_image_url} className="profile-picture size-m" />
+                                &nbsp;
+                                <section>
+                                    <p className="heading-2 grey">@{user.username}</p>
+                                    <p className="heading">{user.first_name} {user.last_name}</p>
+                                </section>
+                            </label>
+                        </Link>
                     )}
 
                     <br /><hr /><br />

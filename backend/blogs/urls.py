@@ -11,4 +11,5 @@ urlpatterns = [
     path("more_post", views.GetMorePost.as_view()),
     path("post_comment", views.PostComment.as_view()),
     path("upload/media", views.UploadMedia.as_view()),
+    path("get/media", views.GetMedia.as_view()),
 ]

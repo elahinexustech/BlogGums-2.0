@@ -5,7 +5,7 @@ import { Helmet } from 'react-helmet';
 import './login.css';
 import Footer from '../../components/Footer/Footer';
 import FormView from '../../components/FormView/FormView';
-import { ACCESS_TOKEN, REFRESH_TOKEN } from '../../_CONSTS_';
+import { ACCESS_TOKEN, REFRESH_TOKEN, SERVER } from '../../_CONSTS_';
 import Cookies from 'js-cookie'; // Import js-cookie
 
 const LoginForm = () => {
@@ -21,7 +21,7 @@ const LoginForm = () => {
         setIsSubmitting(true);
         setErrorMessage('');
         try {
-            const r = await fetch('http://127.0.0.1:8000/api/token/', {
+            const r = await fetch(`${SERVER}:${PORT}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

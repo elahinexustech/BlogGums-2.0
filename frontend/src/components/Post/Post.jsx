@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import MarkdownViewer from '../../Pages/PostView/MDDisplayer';
+import MarkdownViewer from '../MarkdownViewer/MarkdownViewer';
 import { Helmet } from 'react-helmet';
 import './post.css';
 import Cookies from 'js-cookie';

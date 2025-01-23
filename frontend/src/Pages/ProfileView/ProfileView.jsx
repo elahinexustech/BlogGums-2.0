@@ -8,7 +8,7 @@ import Cookies from 'js-cookie';
 
 // Components
 import UILoader from '../../components/UILoader/UILoader';
-import MarkdownViewer from '../PostView/MDDisplayer';
+import MarkdownViewer from '../../components/MarkdownViewer/MarkdownViewer';
 import ProfileImageUploader from '../../components/ProfileImageUploader/ProfileImageUploader';
 import OptionMenu from '../../components/PostOptionMenu/OptionMenu';
 

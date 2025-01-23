@@ -109,8 +109,8 @@ class UserDetail(generics.GenericAPIView):
             'dob': user.date_of_birth,
             'profile_image_url': user.profile_image_url
         }
-        
-        print(user)
+
+
         return JsonResponse(user_data)
 
 

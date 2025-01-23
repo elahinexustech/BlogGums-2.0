@@ -1,0 +1,39 @@
+div.details-header {
+    padding: var(--padding);
+    background-image:linear-gradient(#0000007e, #000000c3), url('../../../public/imgs/error.jpeg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    color: white;
+    height: 30vh;
+}
+
+.container {
+    min-height: 100vh;
+}
+.container .side-bar {
+    width: 15%;
+    border-right: solid 3px var(--border-color);
+}
+.container .side-bar ul li {
+    padding: 0.5rem 2rem;
+    list-style: none;
+    cursor: pointer;
+}
+.container .side-bar ul li.active.grey {
+    color: hsl(var(--default-clr), 84%, 55%);
+}
+
+.container .content {
+    width: 85%;
+    margin-left: 4rem;
+}
+
+.container .content ul li {
+    list-style-type: number;
+    margin-left: 2rem;
+    margin-top: 1rem;
+    color: var(--grey);
+}
+
+

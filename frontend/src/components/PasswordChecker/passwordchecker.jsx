@@ -1,4 +1,5 @@
 import React, { useState, useContext } from 'react';
+import Cookies from 'js-cookie'
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import { NotificationsContext } from '../Notifications/Notifications';
@@ -7,14 +8,13 @@ import { ACCESS_TOKEN, PORT, REFRESH_TOKEN, SERVER, USER_DATA } from '../../_CON
 import LabelPasswordField from '../LabelPasswordField/labelpasswordfield';
 import { AuthContext } from '../AuthUser/AuthProvider';
 
+import './passwordchecker.css';
 
 const PasswordChecker = ({ isOpen, onClose, id }) => {
-    const {addNotification, removeNotification} = useContext(NotificationsContext);
-    const {user} = useContext(AuthContext)
+    const { addNotification } = useContext(NotificationsContext);
+    const { userData } = useContext(AuthContext)
     const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm();
     const [passVisibility, setPassVisibility] = useState(false);
-    const [password, setPassword] = useState('');
-
 
     const deleteBlogPost = async (id) => {
 
@@ -23,17 +23,17 @@ const PasswordChecker = ({ isOpen, onClose, id }) => {
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`
+                'Authorization': `Bearer ${Cookies.get(ACCESS_TOKEN)}`
             },
-            body: JSON.stringify({ refresh: localStorage.getItem(REFRESH_TOKEN), post_id: id })
+            body: JSON.stringify({ refresh: Cookies.get(REFRESH_TOKEN), post_id: id })
         })
 
         const data = await response.json();
-        if(data.status === 200){ 
+        if (data.status === 200) {
             addNotification('Blog Post deleted successfully', 'success');
-        } else if(data.status == 404) {
+        } else if (data.status == 404) {
             addNotification('Blog Post not Found', 'error');
-        } else if(data.status == 500) {
+        } else if (data.status == 500) {
             addNotification('There is a server error in the request', 'error');
         }
     }
@@ -44,16 +44,16 @@ const PasswordChecker = ({ isOpen, onClose, id }) => {
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`
+                'Authorization': `Bearer ${Cookies.get(ACCESS_TOKEN)}`
             },
-            body: JSON.stringify({ refresh: localStorage.getItem(REFRESH_TOKEN), password: data.password })
+            body: JSON.stringify({ refresh: Cookies.get(REFRESH_TOKEN), password: data.password })
         })
 
         const result = await response.json();
 
         console.log(result)
 
-        if(result.status === 200) {
+        if (result.status === 200) {
             deleteBlogPost(id);
         }
     };
@@ -62,22 +62,22 @@ const PasswordChecker = ({ isOpen, onClose, id }) => {
 
     return (
 
-        <div className="windows opened" style={{ position: 'fixed', top: '0', left: '0', width: '100%', height: '100%', zIndex: '100' }}>
-            <button onClick={onClose} className="transparent closeBtn icon">
-                <i className="bi bi-x-lg"></i>
-            </button>
-            <div className="window opened dialogue-container" style={{ width: '40%' }}>
-
-                <section className='flex jc-start'>
-                    <img src={user.profile_image_url || ""} alt={`${user.username} picture`} className='profile-picture size-icon' />
-                    <p className="heading">{user.first_name} {user.last_name}</p>
+        <div className="passchecker windows opened" style={{ position: 'fixed', top: '0', left: '0', width: '100%', height: '100%', zIndex: '100' }}>
+            <div className="window opened pass-dialogue-container" style={{ width: '40%' }}>
+                <button onClick={onClose} className="transparent closeBtn icon">
+                    <i className="bi bi-x-lg"></i>
+                </button>
+                <br /><br />
+                <section className='flex direction-col header'>
+                    <img src={userData.user.profile_image_url || ""} alt={`${userData.user.username} picture`} className='profile-picture size-m' />
+                    <br />
+                    <p className="text">{userData.user.first_name} {userData.user.last_name}</p>
                 </section>
 
                 <br />
 
                 <form className="flex direction-col jc-start ai-start" onSubmit={handleSubmit(onSubmit)}>
-                    <p className="subtitle">Enter your Password!</p>
-                    <br /><br />
+                    <p className="heading-2">Enter your Password!</p>
                     <LabelPasswordField
                         id="password"
                         placeholder="password"

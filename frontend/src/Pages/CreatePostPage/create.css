@@ -1,6 +1,8 @@
-.dialogue-container {
+.create-dialogue-container {
     padding: 2rem;
-    width: 1200px;
+    /* width: 1200px; */
+    width: 900px;
+    min-height: 900px;
 }
 
 .content-container form {
@@ -11,7 +13,7 @@
     overflow: hidden;
 }
 
-.dialogue-container form input#title {
+.create-dialogue-container form input#title {
     width: 100%;
     padding: 1rem;
     background: transparent;
@@ -34,10 +36,19 @@
     margin-right: 0.5rem;
 }
 
+.success-i.bi {
+    font-size: 4rem;
+    color: var(--success);
+}
+
+.success-p.subtitle {
+    font-size: 4rem;
+    font-weight: 400;
+}
 
 
 @media screen and (min-width: 768px) {
-    .dialogue-container {
+    .create-dialogue-container {
         padding: 4rem;
     }
 
@@ -49,5 +60,5 @@
     .content-container form button.submit-btn {
         font-size: 1.5rem;
     }
-    
+
 }

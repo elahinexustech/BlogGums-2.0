@@ -1,11 +1,12 @@
 import { SERVER, PORT, ACCESS_TOKEN, REFRESH_TOKEN } from "../_CONSTS_"
+import Cookies from 'js-cookie';
 
 
 export const AddLike = async (id) => {
 
     console.log(id);
 
-    let access_token = localStorage.getItem(ACCESS_TOKEN);
+    let access_token = Cookies.get(ACCESS_TOKEN);
     let r = await fetch(`${SERVER}:${PORT}/blogs/addlike`, {
         method: 'POST',
         headers: {

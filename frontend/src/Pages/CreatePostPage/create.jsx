@@ -8,10 +8,11 @@ import { AuthContext } from '../../components/AuthUser/AuthProvider';
 import Cookies from 'js-cookie';
 
 const CreatePage = ({ isOpen, onClose }) => {
-    const  {userData } = useContext(AuthContext);
+    const { userData } = useContext(AuthContext);
     const { addNotification, removeNotification } = useContext(NotificationsContext);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [value, setValue] = useState('');
+    const [pageState, setPageState] = useState(1)
 
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
 
@@ -38,42 +39,53 @@ const CreatePage = ({ isOpen, onClose }) => {
         let resp = await response.json();
         setIsSubmitting(false);
         addNotification('Post added Successfully', 'success');
+        setPageState(2);
     };
     if (!isOpen) return null; // Only render if open
 
     return (
         <div className="windows opened">
+            <div className="window opened create-dialogue-container flex direction-col">
                 <button onClick={onClose} className="transparent closeBtn icon">
                     <i className="bi bi-x-lg"></i>
                 </button>
-            <div className="window opened dialogue-container">
+                {pageState === 1? (
+                    <>
+                        <section className='flex jc-start'>
+                            <img src={userData.user.profile_image_url || ""} alt={`${userData.user.username} picture`} className='profile-picture size-icon' />
+                            <p className="heading">{userData.user.first_name} {userData.user.last_name}</p>
+                        </section>
 
-                <section className='flex jc-start'>
-                    <img src={userData.user.profile_image_url || ""} alt={`${userData.user.username} picture`} className='profile-picture size-icon' />
-                    <p className="heading">{userData.user.first_name} {userData.user.last_name}</p>
-                </section>
-
-                <form className="flex direction-col jc-start ai-start" onSubmit={handleSubmit(onSubmit)}>
-                    <input
-                        type="text"
-                        placeholder="Blog Title"
-                        id="title"
-                        autoFocus
-                        {...register("title", { required: "Enter a good title" })}
-                    />
-                    {errors.title && <span className="error">{errors.title.message}</span>}
-                    <br /><br />
-                    <MDEditor
-                        className="blogeditor"
-                        value={value}
-                        onChange={setValue}
-                        id="blog"
-                    />
-                    <br /><br />
-                    <button disabled={isSubmitting} className="submit-btn">
-                        {isSubmitting ? 'Saving...' : 'Save Post'}
-                    </button>
-                </form>
+                        <form className="flex direction-col jc-start ai-start" onSubmit={handleSubmit(onSubmit)}>
+                            <input
+                                type="text"
+                                placeholder="Blog Title"
+                                id="title"
+                                autoFocus
+                                {...register("title", { required: "Enter a good title" })}
+                            />
+                            {errors.title && <span className="error">{errors.title.message}</span>}
+                            <br /><br />
+                            <MDEditor
+                                className="blogeditor"
+                                value={value}
+                                onChange={setValue}
+                                id="blog"
+                            />
+                            <br /><br />
+                            <button disabled={isSubmitting} className="submit-btn">
+                                {isSubmitting ? 'Saving...' : 'Save Post'}
+                            </button>
+                        </form>
+                    </>
+                ): (
+                    <>
+                        <section className="flex direction-col">
+                            <i className="bi bi-check-circle success-i"></i>  
+                            <p className="subtitle success-p">Post Added</p>
+                        </section>
+                    </>
+                )}
             </div>
         </div>
     );

@@ -7,14 +7,8 @@ import Cookies from 'js-cookie'; // Import js-cookie
 import LoginForm from './Pages/LoginPage/LoginForm';
 import SignUpForm from './Pages/SignupPage/SignUpForm';
 import Home from './Pages/HomePage/home';
-import PostView from './Pages/PostView/PostView';
 import NavigationMenu from './components/NavigationMenu/NavigationMenu';
-import TermsConditions from './Pages/TermsConditionsPage/TermsConditions';
-import Pricing from './Pages/PricingPage/Pricing';
-import Privacy from './Pages/PrivacyPage/Pricing';
-import Learn from './Pages/LearnPage/Learn';
-import AboutUs from './Pages/AboutPage/AboutUS';
-import Features from './Pages/FeaturedPage/FeaturedPage';
+import DetailaView from './Pages/DetailsPage/DetailaView';
 import ProfileView from './Pages/ProfileView/ProfileView';
 import ResetPassword from './Pages/ResetPassword/ResetPassword';
 import ThemeProvider from './components/ThemeProvider/ThemeProvider';
@@ -28,7 +22,7 @@ import { SERVER, PORT, ACCESS_TOKEN, REFRESH_TOKEN, THEME_MODE, USER_DATA, BLOG_
 // Import CSS
 import './assets/css/main.css';
 import './assets/css/container.css';
-import './assets/css/dashboard.css';
+import './assets/css/darkmode.css';
 import './assets/css/utility.css';
 import './assets/css/windows.css';
 
@@ -36,11 +30,6 @@ import './assets/css/windows.css';
 import { USER } from './Functions/user';
 import { AuthProvider } from './components/AuthUser/AuthProvider';
 
-const PostViewWrapper = () => {
-    const { id } = useParams();
-    const user = JSON.parse(localStorage.getItem(USER_DATA));
-    return <PostView id={id} user={user} />;
-};
 
 const App = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(null);
@@ -125,14 +114,7 @@ const App = () => {
         { path: "/", element: isAuthenticated ? <><NavigationMenu /><Home /></> : <LoginForm /> },
         { path: "/resetpassword", element: <ResetPassword /> },
         { path: "/signup", element: isAuthenticated ? <Navigate to="/" /> : <SignUpForm /> },
-        { path: "/post/:id", element: isAuthenticated ? <PostViewWrapper /> : <LoginForm /> },
-        { path: "/pricing", element: <><NavigationMenu /><Pricing /></> },
-        { path: "/terms-conditions", element: <><NavigationMenu /><TermsConditions /></> },
-        { path: "/privacy", element: <><NavigationMenu /><Privacy /></> },
-        { path: "/learn", element: <><NavigationMenu /><Learn /> </> },
-        { path: "/about", element: <><NavigationMenu /> <AboutUs /> </> },
-        { path: "/featured", element: <><NavigationMenu /><Features /> </> },
-
+        { path: "/support", element: <DetailaView /> },
         { path: ":username", element: isAuthenticated ? <ProfileView /> : <LoginForm /> },
     ]);
 
@@ -144,12 +126,7 @@ const App = () => {
                 <NotificationsProvider value={0}>
                     <RouterProvider router={router}>
                     </RouterProvider>
-                    {isAuthenticated && (
-                        <>
-
-                            <MediaUploader />
-                        </>
-                    )}
+                    {isAuthenticated && (<MediaUploader />)}
                 </NotificationsProvider>
             </ThemeProvider>
         </AuthProvider>

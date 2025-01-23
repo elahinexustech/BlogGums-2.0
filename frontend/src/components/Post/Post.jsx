@@ -1,20 +1,51 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import MarkdownViewer from '../../Pages/PostView/MDDisplayer';
 import { Helmet } from 'react-helmet';
-import './post.css'
+import './post.css';
 import Cookies from 'js-cookie';
 import { Link } from 'react-router-dom';
+import postCmnt from '../../Functions/PostComment';
+import { ACCESS_TOKEN, REFRESH_TOKEN, USER_DATA } from '../../_CONSTS_';
 
 // Components
 import LikeButton from '../LikeButton/LikeButton';
+import CommentBox from '../CommentBox/CommentBox';
 import OptionMenu from '../PostOptionMenu/OptionMenu';
-import { USER_DATA } from '../../_CONSTS_';
+import { set } from 'react-hook-form';
 
 const Post = ({ ID, author, post, totalLikes, changeTitle = true, setPost }) => {
+    const [loading, setLoading] = useState(false);
     const [openMenuId, setOpenMenuId] = useState(null); // State to track which post's menu is open
-    const loggedInUser = JSON.parse(Cookies.get(USER_DATA)); // Get current logged-in user
-    const CURRENT_USER_STATE_VAR = loggedInUser.user.username === author.username; // Check if the current user is the author of the post
+    const loggedInUser = Cookies.get(USER_DATA) ? JSON.parse(Cookies.get(USER_DATA)) : null; // Get current logged-in user
+    const CURRENT_USER_STATE_VAR = loggedInUser && author ? loggedInUser.user.username === author.username : false; // Check if the current user is the author of the post
 
+    const postComment = async (data) => {
+        data.postId = parseInt(ID);
+
+        try {
+            const response = await postCmnt(data);
+            if (response.status === 200) {
+                const resp = response;
+                setPost((prevPosts) => 
+                    prevPosts.map((post) => {
+                        if (post.id === response.blog_id) {
+                            return {
+                                ...post,
+                                comments: response.comments,
+                                total_comments: response.total_comments
+                            };
+                        }
+                        return post;
+                    })
+                );
+                setLoading(false);
+            }
+
+
+        } catch (error) {
+            console.error("Error posting comment:", error);
+        }
+    };
 
     const toggleMenu = (e, id) => {
         e.stopPropagation();
@@ -39,8 +70,6 @@ const Post = ({ ID, author, post, totalLikes, changeTitle = true, setPost }) => 
         }
     };
 
-
-
     // Add event listener to detect clicks outside the menu
     useEffect(() => {
         if (openMenuId !== null) {
@@ -52,6 +81,10 @@ const Post = ({ ID, author, post, totalLikes, changeTitle = true, setPost }) => 
             window.removeEventListener('click', handleClickOutside);
         };
     }, [openMenuId]);
+
+    if (!author || !post) {
+        return null; // Return null if author or post is not defined
+    }
 
     return (
         <>
@@ -95,7 +128,7 @@ const Post = ({ ID, author, post, totalLikes, changeTitle = true, setPost }) => 
 
                 <br /><br />
 
-                <section className="foot flex">
+                <section className="foot flex ai-start">
                     <LikeButton
                         postId={ID}
                         initialLikes={totalLikes}
@@ -111,10 +144,8 @@ const Post = ({ ID, author, post, totalLikes, changeTitle = true, setPost }) => 
                         }}
                     />
 
+                    <CommentBox post={post} postComment={postComment} loading={loading} />
 
-                    <button className='icon'>
-                        <i onClick={() => { renderPost(ID) }} className="bi bi-book-half"></i>
-                    </button>
                 </section>
             </div >
         </>

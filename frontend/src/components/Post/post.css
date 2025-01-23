@@ -1,6 +1,6 @@
 .post {
     width: 60%;
-    min-height: 40px;
+    min-height: 600px;
     border-radius: 0;
     overflow: hidden;
     padding: 2rem;
@@ -23,6 +23,17 @@
     border-radius: 50%;
 }
 
+.post section.body {
+    margin-bottom: 4rem;
+}
+
+.post section.foot {
+    position: absolute;
+    bottom: 2%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
 .post section.foot button {
     padding: 0.5rem;
     background: transparent;
@@ -35,7 +46,6 @@
 }
 
 .post section.foot i.bi:hover {
-    color: var(--theme-color);
     transform: scale(1.1);
     cursor: pointer;
 }

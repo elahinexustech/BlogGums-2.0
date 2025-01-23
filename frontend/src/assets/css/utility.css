@@ -12,6 +12,11 @@ hr {
     box-shadow: 0px 0px 15px var(--box-shadow-color);
 }
 
+.profile-picture.size-m {
+    width: 80px;
+    height: 80px;
+}
+
 .profile-picture.size-l {
     width: 200px;
     height: 200px;
@@ -108,7 +113,7 @@ button.transparent:hover i.bi {
 }
 
 button:disabled {
-    opacity: 0.6;
+    opacity: 0.1;
 }
 
 .dark-theme button.icon {
@@ -236,6 +241,19 @@ a.hoverable:hover i {
 a.colored {
     color: var(--theme-color);
 }
+
+.original-color {
+    color: var(--text-color);
+}
+
+.bg-colored {
+    background: var(--theme-color);
+    color: hsl(var(--default-clr), 100%, 90%);
+    padding: 0.5rem;
+    font-size: 1rem;
+    border-radius: var(--border-radius);
+}
+
 
 a {
     cursor: pointer;

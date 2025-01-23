@@ -20,7 +20,7 @@
     background-color: var(--object-bg);
     min-width: 30%;
     max-height: 70vh;
-    border-radius: calc(var(--border-radius) + 1rem);
+    border-radius: var(--border-radius);
     position: fixed;
     top: 50%;
     left: 50%;
@@ -37,15 +37,16 @@
 
 
 .windows button.closeBtn {
-    position: fixed;
-    top: 10%;
-    left: 20%;
+    position: absolute;
+    top: 2%;
+    left: 1%;
     background: transparent;
     z-index: 500000;
 }
 
 .windows button.closeBtn i.bi{
-    color: #fff;
+    color: var(--grey);
+    font-size: 1.5rem;
 }
 
 

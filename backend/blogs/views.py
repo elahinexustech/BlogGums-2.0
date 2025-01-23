@@ -32,6 +32,7 @@ class PostListView(generics.ListAPIView):
     def get(self, request, *args, **kwargs):
         user = request.user
         queryset = self.get_queryset()
+        comments = Comments.objects.filter(post__in=queryset)
         paginator = PostPagination()
         page = paginator.paginate_queryset(queryset, request)
         
@@ -48,7 +49,8 @@ class PostListView(generics.ListAPIView):
                 'comment_count': post.comment_count(),
                 'updated_at': post.updated_at,
                 'published_at': post.published_at,
-                'has_liked': user_has_liked
+                'has_liked': user_has_liked,
+                'comments': CommentsSerializer(comments.filter(post=post), many=True).data
             })
         
         return JsonResponse({
@@ -70,7 +72,7 @@ class PostView(generics.CreateAPIView):
         serialized_post = PostSerializer(post)
 
         # Get all comments related to this post and serialize them
-        comments = post.comments.all()
+        comments = post.comments.all().order_by('-created_at')
         serialized_comments = CommentsSerializer(comments, many=True)
 
         # Get all likes related to this post
@@ -93,7 +95,6 @@ class CreatePostView(generics.CreateAPIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, req):
-        print("hey")
         data = json.loads(req.body)
         try:
             BlogPost.objects.create(
@@ -103,7 +104,6 @@ class CreatePostView(generics.CreateAPIView):
                 updated_at=timezone.now(),
                 published_at=timezone.now()
             )
-            print("DONE")
 
             return JsonResponse({"status": status.HTTP_200_OK})
         except Exception as e:
@@ -192,7 +192,6 @@ class PostComment(generics.GenericAPIView):
         data = json.loads(req.body)
 
         try:
-            print(data)
             # Get the BlogPost instance or return a 404
             post = get_object_or_404(BlogPost, id=data['postId'])
 
@@ -219,6 +218,7 @@ class PostComment(generics.GenericAPIView):
                 "msg": "Comment uploaded successfully!",
                 "comments": serialized_comments.data,
                 "total_comments": comments.count(),
+                "blog_id": post.id,
                 "status": status.HTTP_200_OK
             },
             safe=False
@@ -230,7 +230,6 @@ class GetMorePost(generics.CreateAPIView):
     
     def post(self, request):
         data = json.loads(request.body)
-        print(data)
         
         current_post_id = data.get('current_post', None)  # Get current post ID from request
         
@@ -355,8 +354,5 @@ class GetMedia(generics.GenericAPIView):
         
         for data in response:
             imgs.append({'name': data['name'], 'url': GetMedia.CLIENT.storage.from_(f'users/{username}').get_public_url(data['name'])})
-
-
-        print(imgs)
 
         return JsonResponse({"data": imgs})

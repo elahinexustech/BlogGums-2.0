@@ -1,0 +1,54 @@
+.comment-section-container {
+    position: relative;
+}
+
+.commentBox {
+    min-width: 500px;
+    max-width: 600px;
+    height: 400px;
+    overflow-y: auto;
+    padding: 0rem;
+    border-radius: var(--border-radius);
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    top: -600%;
+    left: 50%;
+    transform: translateX(-50%) scale(0.2);
+    transform-origin: bottom;
+    transition: 0.5s;
+    z-index: 1000; /* Increase z-index to ensure it appears on top */
+}
+
+.commentBox form {
+    position: sticky;
+    bottom: 0;
+    padding: 0.5rem;
+    width: 100%;
+    border-radius: 0;
+}
+
+.commentBox textarea {
+    height: auto;
+    border-radius: calc(var(--border-radius) - 1rem);
+    font-family: inherit;
+    width: 100%;
+}
+
+.commentBox .comments-section {
+    padding: 0.5rem;
+    width: 100%;
+}
+
+.commentBox .comments-section .comment {
+    padding: 1rem;
+    border-bottom: solid 1px var(--border-color);
+}
+
+.commentBox.active {
+    visibility: visible;
+    opacity: 1;
+    top: -700%;
+    transform: scale(1) translateX(-50%);
+    z-index: 1000; /* Ensure active state also has a high z-index */
+}

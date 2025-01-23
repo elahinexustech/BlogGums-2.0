@@ -8,7 +8,7 @@
     --object-bg: #fff;
     --object-bg-2: #dadada;
     --object-bg-trans: #fafafaaf;
-    --grey: hsl(var(--default-clr), 5%, 50%);
+    --grey: #7b7b7b;
     --border-color: #c2c2c2;
     --box-shadow-color: #767676a8;
     --text-color: #000;
@@ -69,25 +69,21 @@ body.disabled {
 body.theme-color-orange {
     --default-clr: 34;
     --theme-color: hsl(var(--default-clr), 100%, 45%);
-    --grey: hsl(var(--default-clr), 17%, 71%);
 }
 
 body.theme-color-blue {
     --default-clr: 213;
     --theme-color: hsl(var(--default-clr), 100%, 50%);
-    --grey: hsl(var(--default-clr), 17%, 71%);
 }
 
 body.theme-color-red {
     --default-clr: 0;
     --theme-color: hsl(var(--default-clr), 100%, 50%);
-    --grey: hsl(var(--default-clr), 17%, 71%);
 }
 
 body.theme-color-green {
     --default-clr: 84;
     --theme-color: hsl(var(--default-clr), 100%, 40%);
-    --grey: hsl(var(--default-clr), 13%, 71%);
 }
 
 main {

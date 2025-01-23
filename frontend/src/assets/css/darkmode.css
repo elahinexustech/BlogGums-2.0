@@ -6,7 +6,7 @@ body.dark-theme {
     --object-bg: #171717;
     --object-bg-2: #1a1a1a;
     --object-bg-trans: #121212d4;
-    --grey: hsl(var(--default-clr), 5%, 50%);
+    --grey: #797979;
     --border-color: #292929;
     --box-shadow-color: #0b0b0bca;
     --text-color: #ffffff;
@@ -86,4 +86,17 @@ body.dark-theme nav ul li .active i.bi {
 
 .dark-theme button i.bi.liked {
     color: hsl(var(--default-clr), 84%, 55%);
+}
+
+.dark-theme .dot-spinner {
+    --uib-color: hsl(var(--default-clr), 84%, 55%);
+}
+
+.dark-theme .footer ul li a:hover {
+    color: hsl(var(--default-clr), 84%, 55%);
+}
+
+.dark-theme .bg-colored {
+    background: var(--theme-color);
+    color: hsl(var(--default-clr), 100%, 50%);
 }

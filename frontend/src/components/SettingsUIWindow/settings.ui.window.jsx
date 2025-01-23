@@ -80,39 +80,6 @@ const SettingsUIWindow = ({ stat }) => {
                             </label>
                         </Link>
                     )}
-
-                    <br /><hr /><br />
-
-                    <Link to="/pricing" className="flex jc-start information-label pricing">
-                        <i className="bi bi-currency-dollar"></i>
-                        <p className="caption">Pricing</p>
-                    </Link>
-
-                    <Link to="/terms-conditions" className="flex jc-start information-label terms-conditions">
-                        <i className="bi bi-newspaper"></i>
-                        <p className="caption">Terms & Conditions</p>
-                    </Link>
-
-                    <Link to="/privacy" className="flex jc-start information-label privacy">
-                        <i className="bi bi-shield-shaded"></i>
-                        <p className="caption">Privacy</p>
-                    </Link>
-
-                    <Link to="/learn" className="flex jc-start information-label learn">
-                        <i className="bi bi-book-half"></i>
-                        <p className="caption">Learn</p>
-                    </Link>
-
-                    <Link to="/about" className="flex jc-start information-label about">
-                        <i className="bi bi-info-circle-fill"></i>
-                        <p className="caption">About</p>
-                    </Link>
-
-                    <Link to="/featured" className="flex jc-start information-label featured">
-                        <i className="bi bi-circle-fill"></i>
-                        <p className="caption">Featured</p>
-                    </Link>
-
                 </section>
 
                 <section className='settings-sections appearance'>

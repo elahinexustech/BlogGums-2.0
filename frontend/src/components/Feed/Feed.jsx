@@ -50,8 +50,6 @@ const Feed = () => {
 
     return (
         <div className="container flex direction-col">
-            <h2 className="title text-center">BlogGums 2.0</h2>
-            <br />
             <div className="flex direction-col post-container">
                 {posts.length > 0 ? (
                     posts.map((post) => (

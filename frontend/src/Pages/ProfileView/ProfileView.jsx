@@ -10,7 +10,7 @@ import Cookies from 'js-cookie';
 import UILoader from '../../components/UILoader/UILoader';
 import MarkdownViewer from '../../components/MarkdownViewer/MarkdownViewer';
 import ProfileImageUploader from '../../components/ProfileImageUploader/ProfileImageUploader';
-import OptionMenu from '../../components/PostOptionMenu/OptionMenu';
+// import OptionMenu from '../../components/PostOptionMenu/OptionMenu';
 
 import { USER_DATA } from '../../_CONSTS_';
 
@@ -311,7 +311,7 @@ const ProfileView = () => {
                                         </section>
 
                                         {/* Option Menu that only shows for the specific post */}
-                                        <OptionMenu item={item} openMenuId={openMenuId} CURRENT_USER_STATE_VAR={CURRENT_USER_STATE_VAR} />
+                                        {/* <OptionMenu item={item} openMenuId={openMenuId} CURRENT_USER_STATE_VAR={CURRENT_USER_STATE_VAR} /> */}
 
                                         <p className="heading">{item.title}</p>
                                         <MarkdownViewer className="grey" markdownText={item.content} />

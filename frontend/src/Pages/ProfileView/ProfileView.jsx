@@ -10,7 +10,7 @@ import Cookies from 'js-cookie';
 import UILoader from '../../components/UILoader/UILoader';
 import MarkdownViewer from '../../components/MarkdownViewer/MarkdownViewer';
 import ProfileImageUploader from '../../components/ProfileImageUploader/ProfileImageUploader';
-import OptionMenu from '../../components/PostOptionMenu/OptionMenu';
+import OptionMenu from '../../components/PostOptionMenu/optionmenu';
 
 // Import environment variables
 const USER_DATA = import.meta.env.VITE_USER_DATA;

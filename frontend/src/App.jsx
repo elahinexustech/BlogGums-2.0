@@ -28,6 +28,13 @@ const CODE_THEME = import.meta.env.VITE_CODE_THEME;
 
 const BASE_URL = (SERVER && PORT) ? `${SERVER}:${PORT}` : '/choreo-apis/bloggums/backend/v1';
 
+
+console.log(
+    SERVER, PORT, ACCESS_TOKEN, REFRESH_TOKEN, THEME_MODE, BLOG_FONT_SIZE, CODE_THEME
+)
+
+
+
 // Import CSS
 import './assets/css/main.css';
 import './assets/css/container.css';

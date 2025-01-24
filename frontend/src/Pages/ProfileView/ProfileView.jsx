@@ -12,7 +12,8 @@ import MarkdownViewer from '../../components/MarkdownViewer/MarkdownViewer';
 import ProfileImageUploader from '../../components/ProfileImageUploader/ProfileImageUploader';
 import OptionMenu from '../../components/PostOptionMenu/OptionMenu';
 
-import { USER_DATA } from '../../_CONSTS_';
+// Import environment variables
+const USER_DATA = import.meta.env.VITE_USER_DATA;
 
 // Functions
 import GetPosts from '../../Functions/GetPost';

@@ -5,8 +5,14 @@ import { Helmet } from 'react-helmet';
 import './login.css';
 import Footer from '../../components/Footer/Footer';
 import FormView from '../../components/FormView/FormView';
-import { ACCESS_TOKEN, REFRESH_TOKEN, SERVER } from '../../_CONSTS_';
 import Cookies from 'js-cookie'; // Import js-cookie
+
+
+// Import environment variables
+const SERVER = import.meta.env.VITE_SERVER;
+const PORT = import.meta.env.VITE_PORT;
+const ACCESS_TOKEN = import.meta.env.VITE_ACCESS_TOKEN;
+const REFRESH_TOKEN = import.meta.env.VITE_REFRESH_TOKEN;
 
 const LoginForm = () => {
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -14,14 +20,12 @@ const LoginForm = () => {
     const { addNotification, removeNotification } = useContext(NotificationsContext)
 
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
-    const username = watch('username');
-    const password = watch('password');
 
     const onSubmit = async (data) => {
         setIsSubmitting(true);
         setErrorMessage('');
         try {
-            const r = await fetch(`${SERVER}:${PORT}`, {
+            const r = await fetch(`${SERVER}:${PORT}/api/token/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -29,6 +33,7 @@ const LoginForm = () => {
                 },
                 body: JSON.stringify(data)
             });
+
 
             const resp = await r.json();
             if (resp.access && resp.refresh) {

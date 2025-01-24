@@ -3,7 +3,12 @@ import UILoader from '../UILoader/UILoader';
 import Post from '../Post/Post';
 import './feed.css';
 import Cookies from 'js-cookie';
-import { ACCESS_TOKEN, PORT, SERVER } from '../../_CONSTS_';
+
+
+// Import environment variables
+const SERVER = import.meta.env.VITE_SERVER;
+const PORT = import.meta.env.VITE_PORT;
+const ACCESS_TOKEN = import.meta.env.VITE_ACCESS_TOKEN;
 
 const Feed = () => {
     const [posts, setPosts] = useState([]);

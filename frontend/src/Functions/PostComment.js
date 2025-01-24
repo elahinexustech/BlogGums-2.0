@@ -1,6 +1,9 @@
-import { ACCESS_TOKEN, PORT, SERVER } from "../_CONSTS_";
-
 import Cookies from 'js-cookie'
+
+// Import environment variables
+const SERVER = import.meta.env.VITE_SERVER;
+const PORT = import.meta.env.VITE_PORT;
+const ACCESS_TOKEN = import.meta.env.VITE_ACCESS_TOKEN;
 
 export default async function postComment(data) {
     const access_token = Cookies.get(ACCESS_TOKEN);

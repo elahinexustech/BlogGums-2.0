@@ -3,10 +3,14 @@ import Cookies from 'js-cookie'
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import { NotificationsContext } from '../Notifications/Notifications';
-import { ACCESS_TOKEN, PORT, REFRESH_TOKEN, SERVER, USER_DATA } from '../../_CONSTS_';
-
 import LabelPasswordField from '../LabelPasswordField/labelpasswordfield';
 import { AuthContext } from '../AuthUser/AuthProvider';
+
+// Import environment variables
+const SERVER = import.meta.env.VITE_SERVER;
+const PORT = import.meta.env.VITE_PORT;
+const ACCESS_TOKEN = import.meta.env.VITE_ACCESS_TOKEN;
+const REFRESH_TOKEN = import.meta.env.VITE_REFRESH_TOKEN;
 
 import './passwordchecker.css';
 

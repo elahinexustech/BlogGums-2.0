@@ -2,14 +2,18 @@ import React, { useState, useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import MDEditor from '../../components/MDEditor/MDEditor';
 import { NotificationsContext } from '../../components/Notifications/Notifications';
-import { SERVER, PORT, ACCESS_TOKEN, USER_DATA } from '../../_CONSTS_';
 import './create.css';
 import { AuthContext } from '../../components/AuthUser/AuthProvider';
 import Cookies from 'js-cookie';
 
+// Import environment variables
+const SERVER = import.meta.env.VITE_SERVER;
+const PORT = import.meta.env.VITE_PORT;
+const ACCESS_TOKEN = import.meta.env.VITE_ACCESS_TOKEN;
+
 const CreatePage = ({ isOpen, onClose }) => {
     const { userData } = useContext(AuthContext);
-    const { addNotification, removeNotification } = useContext(NotificationsContext);
+    const { addNotification } = useContext(NotificationsContext);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [value, setValue] = useState('');
     const [pageState, setPageState] = useState(1)

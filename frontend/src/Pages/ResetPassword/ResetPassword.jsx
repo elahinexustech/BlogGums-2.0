@@ -4,8 +4,14 @@ import { Link, useNavigate } from 'react-router-dom';
 import Footer from '../../components/Footer/Footer';
 import FormView from '../../components/FormView/FormView';
 import './reset.css';
-import { ACCESS_TOKEN, PORT, SERVER, USER_DATA } from '../../_CONSTS_';
 import { Helmet } from 'react-helmet';
+
+
+// Import environment variables
+const SERVER = import.meta.env.VITE_SERVER;
+const PORT = import.meta.env.VITE_PORT;
+const ACCESS_TOKEN = import.meta.env.VITE_ACCESS_TOKEN;
+const USER_DATA = import.meta.env.VITE_USER_DATA;
 
 const ResetPasswordForm = () => {
     const [step, setStep] = useState(1);

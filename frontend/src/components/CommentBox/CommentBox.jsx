@@ -1,9 +1,6 @@
-import React, { useState, useCallback, useRef, useEffect } from 'react';
-import Cookies from 'js-cookies';
+import React, { useState, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
-
-import { ACCESS_TOKEN, REFRESH_TOKEN } from '../../_CONSTS_';
 
 import './commentbox.css';
 

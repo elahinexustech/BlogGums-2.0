@@ -5,7 +5,12 @@ import { NotificationsContext } from '../../components/Notifications/Notificatio
 
 // CSS
 import './uploader.css';
-import { ACCESS_TOKEN, PORT, SERVER } from '../../_CONSTS_';
+
+// Import environment variables
+const SERVER = import.meta.env.VITE_SERVER;
+const PORT = import.meta.env.VITE_PORT;
+const ACCESS_TOKEN = import.meta.env.VITE_ACCESS_TOKEN;
+
 
 const MediaUploader = () => {
     const [errorMessage, setErrorMessage] = useState('');

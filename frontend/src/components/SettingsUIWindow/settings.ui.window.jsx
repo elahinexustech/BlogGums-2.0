@@ -1,12 +1,16 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { ThemeContext } from '../ThemeProvider/ThemeProvider';
-import { BLOG_FONT_SIZE, CODE_THEME } from '../../_CONSTS_';
 import { FSContext } from '../../Context/useFontSize';
 import { AuthContext } from '../AuthUser/AuthProvider'; // Import AuthContext
 
 import { Link } from 'react-router-dom';
 
 import './settings.css';
+
+
+// Import environment variables
+const BLOG_FONT_SIZE = import.meta.env.VITE_BLOG_FONT_SIZE;
+const CODE_THEME = import.meta.env.VITE_CODE_THEME;
 
 const SettingsUIWindow = ({ stat }) => {
     const { darkTheme, toggleTheme } = useContext(ThemeContext);

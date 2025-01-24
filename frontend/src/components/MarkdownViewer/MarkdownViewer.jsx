@@ -8,7 +8,10 @@ import { unified } from 'unified';
 import { transformerCopyButton } from '@rehype-pretty/transformers';
 
 import './MarkdownViewer.css'; // Import your CSS file for styling
-import { CODE_THEME } from '../../_CONSTS_';
+
+
+// Import environment variables
+const CODE_THEME = import.meta.env.VITE_CODE_THEME;
 
 const MarkdownViewer = ({ markdownText }) => {
     const [htmlContent, setHtmlContent] = useState('');

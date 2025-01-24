@@ -1,7 +1,11 @@
 import React, { createContext, useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
-import { ACCESS_TOKEN, REFRESH_TOKEN, USER_DATA } from '../../_CONSTS_'; // Adjust the import path if needed
 import { USER } from '../../Functions/user'; // Adjust the import path if needed
+
+// Import environment variables
+const ACCESS_TOKEN = import.meta.env.VITE_ACCESS_TOKEN;
+const REFRESH_TOKEN = import.meta.env.VITE_REFRESH_TOKEN;
+const USER_DATA = import.meta.env.VITE_USER_DATA;
 
 // Create the AuthContext
 export const AuthContext = createContext();

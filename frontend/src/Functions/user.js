@@ -1,6 +1,10 @@
-// Functions/GetUser.js
-import { SERVER, PORT, ACCESS_TOKEN, USER_DATA } from "../_CONSTS_";
 import Cookies from 'js-cookie'; // Import js-cookie
+
+// Import environment variables
+const SERVER = import.meta.env.VITE_SERVER;
+const PORT = import.meta.env.VITE_PORT;
+const ACCESS_TOKEN = import.meta.env.VITE_ACCESS_TOKEN;
+const USER_DATA = import.meta.env.VITE_USER_DATA;
 
 export const USER = async (username = '') => {
     const access_token = Cookies.get(ACCESS_TOKEN); // Get the token from cookies

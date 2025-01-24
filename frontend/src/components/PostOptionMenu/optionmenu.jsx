@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import PasswordChecker from '../PasswordChecker/passwordchecker';
 
 import './optionmenu.css'
-import { ACCESS_TOKEN, PORT, REFRESH_TOKEN, SERVER } from '../../_CONSTS_';
 
 const OptionMenu = ({ item, openMenuId, CURRENT_USER_STATE_VAR }) => {
     const navigate = useNavigate();

@@ -2,7 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { marked } from 'marked';
 import Cookies from 'js-cookie'
 import './editor.css';
-import { ACCESS_TOKEN, PORT, SERVER } from '../../_CONSTS_';
+
+// Import environment variables
+const SERVER = import.meta.env.VITE_SERVER;
+const PORT = import.meta.env.VITE_PORT;
+const ACCESS_TOKEN = import.meta.env.VITE_ACCESS_TOKEN;
 
 const MDEditor = ({ value, onChange }) => {
     const [imageReferences, setImageReferences] = useState([]);

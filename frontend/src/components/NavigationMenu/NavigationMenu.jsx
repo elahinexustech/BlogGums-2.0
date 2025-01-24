@@ -5,8 +5,6 @@ import SettingsUIWindow from '../../components/SettingsUIWindow/settings.ui.wind
 import CreatePage from '../../Pages/CreatePostPage/create';
 import './Navigation.css';
 
-import { USER_DATA } from '../../_CONSTS_';
-
 const NavigationMenu = () => {
     const { isAuthenticated, userData, logout } = useContext(AuthContext)
     const [showSettingsWin, setShowSettingsWin] = useState(false);

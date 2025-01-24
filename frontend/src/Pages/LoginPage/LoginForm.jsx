@@ -14,6 +14,9 @@ const PORT = import.meta.env.VITE_PORT;
 const ACCESS_TOKEN = import.meta.env.VITE_ACCESS_TOKEN;
 const REFRESH_TOKEN = import.meta.env.VITE_REFRESH_TOKEN;
 
+const BASE_URL = (SERVER && PORT) ? `${SERVER}:${PORT}` : '/choreo-apis/bloggums/backend/v1';
+
+
 const LoginForm = () => {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');

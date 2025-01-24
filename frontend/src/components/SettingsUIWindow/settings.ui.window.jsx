@@ -12,6 +12,7 @@ import './settings.css';
 const BLOG_FONT_SIZE = import.meta.env.VITE_BLOG_FONT_SIZE;
 const CODE_THEME = import.meta.env.VITE_CODE_THEME;
 
+
 const SettingsUIWindow = ({ stat }) => {
     const { darkTheme, toggleTheme } = useContext(ThemeContext);
     const { userData, logout } = useContext(AuthContext); // Get user from AuthContext

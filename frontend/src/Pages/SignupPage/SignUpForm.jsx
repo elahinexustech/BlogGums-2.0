@@ -11,6 +11,9 @@ import FormView from '../../components/FormView/FormView';
 const SERVER = import.meta.env.VITE_SERVER;
 const PORT = import.meta.env.VITE_PORT;
 
+const BASE_URL = (SERVER && PORT) ? `${SERVER}:${PORT}` : '/choreo-apis/bloggums/backend/v1';
+
+
 const SignUpForm = () => {
     const { addNotification, removeNotification } = useContext(NotificationsContext)
     const [isSubmitting, setIsSubmitting] = useState(false);

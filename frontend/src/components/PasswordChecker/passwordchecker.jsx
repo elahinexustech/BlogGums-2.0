@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { NotificationsContext } from '../Notifications/Notifications';
 import LabelPasswordField from '../LabelPasswordField/labelpasswordfield';
 import { AuthContext } from '../AuthUser/AuthProvider';
+import './passwordchecker.css';
 
 // Import environment variables
 const SERVER = import.meta.env.VITE_SERVER;
@@ -12,7 +13,9 @@ const PORT = import.meta.env.VITE_PORT;
 const ACCESS_TOKEN = import.meta.env.VITE_ACCESS_TOKEN;
 const REFRESH_TOKEN = import.meta.env.VITE_REFRESH_TOKEN;
 
-import './passwordchecker.css';
+
+const BASE_URL = (SERVER && PORT) ? `${SERVER}:${PORT}` : '/choreo-apis/bloggums/backend/v1';
+
 
 const PasswordChecker = ({ isOpen, onClose, id }) => {
     const { addNotification } = useContext(NotificationsContext);

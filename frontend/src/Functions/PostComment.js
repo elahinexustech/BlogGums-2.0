@@ -5,6 +5,10 @@ const SERVER = import.meta.env.VITE_SERVER;
 const PORT = import.meta.env.VITE_PORT;
 const ACCESS_TOKEN = import.meta.env.VITE_ACCESS_TOKEN;
 
+
+const BASE_URL = (SERVER && PORT) ? `${SERVER}:${PORT}` : '/choreo-apis/bloggums/backend/v1';
+
+
 export default async function postComment(data) {
     const access_token = Cookies.get(ACCESS_TOKEN);
     const r = await fetch(`${BASE_URL}/blogs/post_comment`, {

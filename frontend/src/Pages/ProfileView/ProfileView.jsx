@@ -21,8 +21,6 @@ import { USER, updateUser } from '../../Functions/user';
 
 import './style.css';
 
-
-
 const ProfileView = () => {
     const { addNotifications, removeNotifications } = useContext(NotificationsContext);
     const navigate = useNavigate();

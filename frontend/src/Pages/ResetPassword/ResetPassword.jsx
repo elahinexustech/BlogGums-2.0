@@ -13,6 +13,8 @@ const PORT = import.meta.env.VITE_PORT;
 const ACCESS_TOKEN = import.meta.env.VITE_ACCESS_TOKEN;
 const USER_DATA = import.meta.env.VITE_USER_DATA;
 
+const BASE_URL = (SERVER && PORT) ? `${SERVER}:${PORT}` : '/choreo-apis/bloggums/backend/v1';
+
 const ResetPasswordForm = () => {
     const [step, setStep] = useState(1);
     const [isSubmitting, setIsSubmitting] = useState(false);

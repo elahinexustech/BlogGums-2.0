@@ -48,7 +48,7 @@ const ResetPasswordForm = () => {
         setErrorMessage('');
         try {
             if (step === 1) {
-                const response = await fetch(`${SERVER}:${PORT}/api/sendcode`, {
+                const response = await fetch(`${BASE_URL}/api/sendcode`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -66,7 +66,7 @@ const ResetPasswordForm = () => {
                 }
             } else if (step === 2) {
                 const code = handleCodeInput();
-                const response = await fetch(`${SERVER}:${PORT}/api/verifycode`, {
+                const response = await fetch(`${BASE_URL}/api/verifycode`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -88,7 +88,7 @@ const ResetPasswordForm = () => {
                     return;
                 }
 
-                const response = await fetch(`${SERVER}:${PORT}/api/reset`, {
+                const response = await fetch(`${BASE_URL}/api/reset`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

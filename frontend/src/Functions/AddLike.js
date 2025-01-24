@@ -7,7 +7,7 @@ const ACCESS_TOKEN = import.meta.env.VITE_ACCESS_TOKEN;
 export const AddLike = async (id) => {
 
     let access_token = Cookies.get(ACCESS_TOKEN);
-    let r = await fetch(`${SERVER}:${PORT}/blogs/addlike`, {
+    let r = await fetch(`${BASE_URL}/blogs/addlike`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

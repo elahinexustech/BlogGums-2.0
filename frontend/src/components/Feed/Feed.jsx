@@ -27,7 +27,7 @@ const Feed = () => {
         setError(null);
 
         try {
-            const response = await fetch(`${SERVER}:${PORT}/blogs/get/?page=${page}`, {
+            const response = await fetch(`${BASE_URL}/blogs/get/?page=${page}`, {
                 headers: { 'Authorization': `Bearer ${token}` },
             });
 

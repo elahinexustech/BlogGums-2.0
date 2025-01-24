@@ -30,7 +30,7 @@ const CreatePage = ({ isOpen, onClose }) => {
             status: watch('status')
         };
 
-        let response = await fetch(`${SERVER}:${PORT}/blogs/post/create`, {
+        let response = await fetch(`${BASE_URL}/blogs/post/create`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

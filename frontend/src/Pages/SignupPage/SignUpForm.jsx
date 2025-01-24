@@ -35,7 +35,7 @@ const SignUpForm = () => {
             return;
         }
         try {
-            const response = await fetch(`${SERVER}:${PORT}/api/user/register/`, {
+            const response = await fetch(`${BASE_URL}/api/user/register/`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data),
@@ -51,7 +51,7 @@ const SignUpForm = () => {
 
     const onOtpSubmit = async (data) => {
         try {
-            const response = await fetch(`${SERVER}:${PORT}/api/verifycode`, {
+            const response = await fetch(`${BASE_URL}/api/verifycode`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ type: 'TEMP', email, code: data.otp })

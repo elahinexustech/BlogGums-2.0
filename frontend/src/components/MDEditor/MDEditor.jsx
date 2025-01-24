@@ -39,7 +39,7 @@ const MDEditor = ({ value, onChange }) => {
     useEffect(() => {
         const fetchImages = async () => {
             try {
-                const response = await fetch(`${SERVER}:${PORT}/blogs/get/media`, {
+                const response = await fetch(`${BASE_URL}/blogs/get/media`, {
                     method: 'POST',
                     headers: {
                         'Content-type': 'application/json',

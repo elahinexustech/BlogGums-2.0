@@ -7,7 +7,7 @@ const ACCESS_TOKEN = import.meta.env.VITE_ACCESS_TOKEN;
 
 export default async function postComment(data) {
     const access_token = Cookies.get(ACCESS_TOKEN);
-    const r = await fetch(`${SERVER}:${PORT}/blogs/post_comment`, {
+    const r = await fetch(`${BASE_URL}/blogs/post_comment`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

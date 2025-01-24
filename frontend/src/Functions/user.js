@@ -11,7 +11,7 @@ export const USER = async (username = '') => {
 
     try {
         if (!username) {
-            const res = await fetch(`${SERVER}:${PORT}/api/user/check-auth/`, {
+            const res = await fetch(`${BASE_URL}/api/user/check-auth/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -27,7 +27,7 @@ export const USER = async (username = '') => {
                 return data;
             }
         } else {
-            const res = await fetch(`${SERVER}:${PORT}/api/get/?username=${username}`, {
+            const res = await fetch(`${BASE_URL}/api/get/?username=${username}`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
@@ -49,7 +49,7 @@ export const USER = async (username = '') => {
 export const updateUser = async (data) => {
     const access_token = Cookies.get(ACCESS_TOKEN); // Get the token from cookies
 
-    const res = await fetch(`${SERVER}:${PORT}/api/user/update`, {
+    const res = await fetch(`${BASE_URL}/api/user/update`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

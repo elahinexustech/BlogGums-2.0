@@ -56,7 +56,7 @@ const MediaUploader = () => {
         });
 
 
-        let r = await fetch(`${SERVER}:${PORT}/blogs/upload/media`, {
+        let r = await fetch(`${BASE_URL}/blogs/upload/media`, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`

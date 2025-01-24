@@ -26,6 +26,8 @@ const THEME_MODE = import.meta.env.VITE_THEME_MODE;
 const BLOG_FONT_SIZE = import.meta.env.VITE_BLOG_FONT_SIZE;
 const CODE_THEME = import.meta.env.VITE_CODE_THEME;
 
+const BASE_URL = (SERVER && PORT) ? `${SERVER}:${PORT}` : '/choreo-apis/bloggums/backend/v1';
+
 // Import CSS
 import './assets/css/main.css';
 import './assets/css/container.css';
@@ -83,7 +85,7 @@ const App = () => {
     const refreshToken = useCallback(async () => {
         const refreshToken = Cookies.get(REFRESH_TOKEN); // Get refresh token from cookies
         try {
-            const res = await fetch(`${SERVER}:${PORT}/api/token/refresh/`, {
+            const res = await fetch(`${BASE_URL}/api/token/refresh/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

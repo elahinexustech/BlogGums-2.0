@@ -22,7 +22,7 @@ const PasswordChecker = ({ isOpen, onClose, id }) => {
 
     const deleteBlogPost = async (id) => {
 
-        const response = await fetch(`${SERVER}:${PORT}/blogs/post/delete`, {
+        const response = await fetch(`${BASE_URL}/blogs/post/delete`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -43,7 +43,7 @@ const PasswordChecker = ({ isOpen, onClose, id }) => {
     }
 
     const onSubmit = async (data) => {
-        const response = await fetch(`${SERVER}:${PORT}/api/user/check_password`, {
+        const response = await fetch(`${BASE_URL}/api/user/check_password`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

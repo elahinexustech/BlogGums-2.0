@@ -45,7 +45,7 @@ const ProfileImageUploader = ({ onClose }) => {
             const formData = new FormData();
             formData.append('image', croppedImage, 'cropped-image.jpg');
 
-            const response = await fetch(`${SERVER}:${PORT}/api/user/update_profile_pic`, {
+            const response = await fetch(`${BASE_URL}/api/user/update_profile_pic`, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${Cookies.get(ACCESS_TOKEN)}`

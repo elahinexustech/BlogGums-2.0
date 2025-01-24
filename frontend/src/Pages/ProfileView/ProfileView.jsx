@@ -10,7 +10,7 @@ import Cookies from 'js-cookie';
 import UILoader from '../../components/UILoader/UILoader';
 import MarkdownViewer from '../../components/MarkdownViewer/MarkdownViewer';
 import ProfileImageUploader from '../../components/ProfileImageUploader/ProfileImageUploader';
-import OptionMenu from '../../components/PostOptionMenu/optionmenu';
+// import OptionMenu from '../../components/PostOptionMenu/optionmenu';
 
 // Import environment variables
 const USER_DATA = import.meta.env.VITE_USER_DATA;
@@ -312,7 +312,7 @@ const ProfileView = () => {
                                         </section>
 
                                         
-                                        <OptionMenu item={item} openMenuId={openMenuId} CURRENT_USER_STATE_VAR={CURRENT_USER_STATE_VAR} />
+                                        {/* <OptionMenu item={item} openMenuId={openMenuId} CURRENT_USER_STATE_VAR={CURRENT_USER_STATE_VAR} /> */}
 
                                         <p className="heading">{item.title}</p>
                                         <MarkdownViewer className="grey" markdownText={item.content} />

@@ -25,7 +25,7 @@ const LoginForm = () => {
         setIsSubmitting(true);
         setErrorMessage('');
         try {
-            const r = await fetch(`${SERVER}:${PORT}/api/token/`, {
+            const r = await fetch(`/choreo-apis/bloggums/backend/v1/api/token/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

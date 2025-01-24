@@ -1,0 +1,12 @@
+schemaVersion: "1.1"
+endpoints:
+    - name: rest-apti-be2
+      displayName: REST APTI
+      service:
+        basePath: /
+        port: 8000
+      type: REST
+      networkVisibilities:
+        - Project
+        - Public
+      schemaFilePath: .

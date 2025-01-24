@@ -8,10 +8,12 @@ import { Helmet } from 'react-helmet';
 
 
 // Import environment variables
-const SERVER = import.meta.env.VITE_SERVER;
-const PORT = import.meta.env.VITE_PORT;
-const ACCESS_TOKEN = import.meta.env.VITE_ACCESS_TOKEN;
-const USER_DATA = import.meta.env.VITE_USER_DATA;
+import {
+    SERVER,
+    PORT,
+    ACCESS_TOKEN,
+    USER_DATA
+} from '../../_CONSTS_.js';
 
 const BASE_URL = (SERVER && PORT) ? `${SERVER}:${PORT}` : '/choreo-apis/bloggums/backend/v1';
 

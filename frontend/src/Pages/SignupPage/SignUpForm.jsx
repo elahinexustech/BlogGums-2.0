@@ -8,8 +8,10 @@ import Footer from '../../components/Footer/Footer';
 import FormView from '../../components/FormView/FormView';
 
 // Import environment variables
-const SERVER = import.meta.env.VITE_SERVER;
-const PORT = import.meta.env.VITE_PORT;
+import {
+    SERVER,
+    PORT
+} from '../../_CONSTS_.js';
 
 const BASE_URL = (SERVER && PORT) ? `${SERVER}:${PORT}` : '/choreo-apis/bloggums/backend/v1';
 

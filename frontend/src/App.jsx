@@ -17,23 +17,19 @@ import MediaUploader from './components/MediaUploader/ImageUploader';
 import NotificationsProvider from './components/Notifications/Notifications';
 
 
-// Import environment variables
-const SERVER = import.meta.env.VITE_SERVER;
-const PORT = import.meta.env.VITE_PORT;
-const ACCESS_TOKEN = import.meta.env.VITE_ACCESS_TOKEN;
-const REFRESH_TOKEN = import.meta.env.VITE_REFRESH_TOKEN;
-const THEME_MODE = import.meta.env.VITE_THEME_MODE;
-const BLOG_FONT_SIZE = import.meta.env.VITE_BLOG_FONT_SIZE;
-const CODE_THEME = import.meta.env.VITE_CODE_THEME;
+
+
+import {
+    SERVER,
+    PORT,
+    ACCESS_TOKEN,
+    REFRESH_TOKEN,
+    THEME_MODE,
+    BLOG_FONT_SIZE,
+    CODE_THEME, USER_DATA
+} from './_CONSTS_.js';
 
 const BASE_URL = (SERVER && PORT) ? `${SERVER}:${PORT}` : '/choreo-apis/bloggums/backend/v1';
-
-
-console.log(
-    SERVER, PORT, ACCESS_TOKEN, REFRESH_TOKEN, THEME_MODE, BLOG_FONT_SIZE, CODE_THEME
-)
-
-
 
 // Import CSS
 import './assets/css/main.css';

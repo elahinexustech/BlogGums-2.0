@@ -11,7 +11,9 @@ import './MarkdownViewer.css'; // Import your CSS file for styling
 
 
 // Import environment variables
-const CODE_THEME = import.meta.env.VITE_CODE_THEME;
+import {
+    CODE_THEME
+} from '../../_CONSTS_.js';
 
 const MarkdownViewer = ({ markdownText }) => {
     const [htmlContent, setHtmlContent] = useState('');

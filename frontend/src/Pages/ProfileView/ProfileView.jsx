@@ -13,7 +13,9 @@ import ProfileImageUploader from '../../components/ProfileImageUploader/ProfileI
 // import OptionMenu from '../../components/PostOptionMenu/optionmenu';
 
 // Import environment variables
-const USER_DATA = import.meta.env.VITE_USER_DATA;
+import {
+    USER_DATA
+} from '../../_CONSTS_.js';
 
 // Functions
 import GetPosts from '../../Functions/GetPost';
@@ -309,7 +311,7 @@ const ProfileView = () => {
                                             </button>
                                         </section>
 
-                                        
+
                                         {/* <OptionMenu item={item} openMenuId={openMenuId} CURRENT_USER_STATE_VAR={CURRENT_USER_STATE_VAR} /> */}
 
                                         <p className="heading">{item.title}</p>

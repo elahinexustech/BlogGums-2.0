@@ -9,8 +9,10 @@ import './settings.css';
 
 
 // Import environment variables
-const BLOG_FONT_SIZE = import.meta.env.VITE_BLOG_FONT_SIZE;
-const CODE_THEME = import.meta.env.VITE_CODE_THEME;
+import {
+    BLOG_FONT_SIZE,
+    CODE_THEME
+} from '../../_CONSTS_.js';
 
 
 const SettingsUIWindow = ({ stat }) => {

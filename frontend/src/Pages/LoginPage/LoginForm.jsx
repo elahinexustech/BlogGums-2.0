@@ -9,10 +9,12 @@ import Cookies from 'js-cookie'; // Import js-cookie
 
 
 // Import environment variables
-const SERVER = import.meta.env.VITE_SERVER;
-const PORT = import.meta.env.VITE_PORT;
-const ACCESS_TOKEN = import.meta.env.VITE_ACCESS_TOKEN;
-const REFRESH_TOKEN = import.meta.env.VITE_REFRESH_TOKEN;
+import {
+    SERVER,
+    PORT,
+    ACCESS_TOKEN,
+    REFRESH_TOKEN
+} from '../../_CONSTS_.js';
 
 const BASE_URL = (SERVER && PORT) ? `${SERVER}:${PORT}` : '/choreo-apis/bloggums/backend/v1';
 

@@ -1,21 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import MarkdownViewer from '../MarkdownViewer/MarkdownViewer';
 import { Helmet } from 'react-helmet';
 import './post.css';
 import Cookies from 'js-cookie';
 import { Link } from 'react-router-dom';
 import postCmnt from '../../Functions/PostComment';
+import { ACCESS_TOKEN, REFRESH_TOKEN, USER_DATA } from '../../_CONSTS_';
 
 // Components
 import LikeButton from '../LikeButton/LikeButton';
 import CommentBox from '../CommentBox/CommentBox';
-import OptionMenu from '../PostOptionMenu/OptionMenu';
-
-
-// Import environment variables
-const USER_DATA = import.meta.env.VITE_USER_DATA;
-
-
 
 const Post = ({ ID, author, post, totalLikes, changeTitle = true, setPost }) => {
     const [loading, setLoading] = useState(false);
@@ -116,9 +110,6 @@ const Post = ({ ID, author, post, totalLikes, changeTitle = true, setPost }) => 
                             <i className="bi bi-three-dots-vertical"></i>
                         </button>
                     </section>
-
-                    {/* Option Menu that only shows for the specific post */}
-                    <OptionMenu item={post} openMenuId={openMenuId} CURRENT_USER_STATE_VAR={CURRENT_USER_STATE_VAR} />
 
                 </section>
 

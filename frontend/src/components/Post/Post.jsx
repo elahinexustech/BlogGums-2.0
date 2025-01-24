@@ -5,11 +5,13 @@ import './post.css';
 import Cookies from 'js-cookie';
 import { Link } from 'react-router-dom';
 import postCmnt from '../../Functions/PostComment';
-import { ACCESS_TOKEN, REFRESH_TOKEN, USER_DATA } from '../../_CONSTS_';
 
 // Components
 import LikeButton from '../LikeButton/LikeButton';
 import CommentBox from '../CommentBox/CommentBox';
+
+
+const USER_DATA = process.env.REACT_APP_USER_DATA;
 
 const Post = ({ ID, author, post, totalLikes, changeTitle = true, setPost }) => {
     const [loading, setLoading] = useState(false);

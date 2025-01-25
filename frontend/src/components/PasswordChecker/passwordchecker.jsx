@@ -3,7 +3,7 @@ import Cookies from 'js-cookie'
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import { NotificationsContext } from '../Notifications/Notifications';
-import LabelPasswordField from '../LabelPasswordField/labelpasswordfield.jsx';
+import LabelPasswordField from '../LabelPasswordField/LabelPasswordField';
 import { AuthContext } from '../AuthUser/AuthProvider';
 import './passwordchecker.css';
 

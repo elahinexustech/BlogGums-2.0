@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
-from .models import BlogPost, Comments, Likes, Views
+from .models import BlogPost, Comments, Likes
 
 User = get_user_model()
 
@@ -42,12 +42,4 @@ class LikesSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Likes
-        fields = "__all__"
-
-class ViewsSerializer(serializers.ModelSerializer):
-    user = AuthorSerializer(source='user')  # Correct field name is 'user'
-    author = AuthorSerializer(source='author')  # Correct field name is 'author'
-
-    class Meta:
-        model = Views
         fields = "__all__"

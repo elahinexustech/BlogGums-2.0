@@ -8,7 +8,7 @@ from django.utils import timezone
 from supabase import create_client
 from .serializers import BlogSerializer, PostSerializer, CommentsSerializer, AuthorSerializer
 from rest_framework.permissions import IsAuthenticated
-from .models import BlogPost, Likes, Comments, Views
+from .models import BlogPost, Likes, Comments
 from django.http import JsonResponse
 import json
 
@@ -132,11 +132,10 @@ class DeletePostView(generics.CreateAPIView):
                 except Exception as e:
                     print(f"Error deleting likes: {e}")
 
-                try:
-                    Views.objects.filter(post=post).delete()
-                except Exception as e:
-                    print(f"Error deleting views: {e}")
+
                 post.delete()
+                
+                
             except BlogPost.DoesNotExist:
                 return JsonResponse({"msg": "Post not found.", "status": 404}, status=404)
             except Exception as e:

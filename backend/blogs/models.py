@@ -49,15 +49,4 @@ class Comments(models.Model):
         return self.comment
 
 
-# Views model
-class Views(models.Model):
-    id = models.AutoField(primary_key=True)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)  # Changed user_id to user
-    post = models.ForeignKey(BlogPost, on_delete=models.CASCADE, null=True)  # Changed post_id to post
-    author = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE,
-        related_name='views_as_author',
-        default=""
-    )
-    view_time = models.DateTimeField(auto_now=True)
+

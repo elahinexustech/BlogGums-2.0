@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const PasswordInput = ({ id, placeholder, register, requiredMessage, errors }) => {
+const LabelPasswordField = ({ id, placeholder, register, requiredMessage, errors }) => {
     const [passVisibility, setPassVisibility] = useState(false);
 
     return (
@@ -26,4 +26,4 @@ const PasswordInput = ({ id, placeholder, register, requiredMessage, errors }) =
     );
 };
 
-export default PasswordInput;
+export default LabelPasswordField;

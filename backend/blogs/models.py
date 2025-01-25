@@ -16,7 +16,7 @@ class BlogPost(models.Model):
     def like_count(self):
         return self.likes.count()  # Changed to related_name "likes" for clarity
 
-    def comment_count(self):
+    def total_comments(self):
         return self.comments.count()  # Changed to related_name "comments" for clarity
 
     class Meta:

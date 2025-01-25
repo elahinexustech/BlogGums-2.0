@@ -13,8 +13,8 @@ hr {
 }
 
 .profile-picture.size-m {
-    width: 80px;
-    height: 80px;
+    width: 40px;
+    height: 40px;
 }
 
 .profile-picture.size-l {
@@ -23,8 +23,8 @@ hr {
 }
 
 .profile-picture.size-icon {
-    width: 40px;
-    height: 40px;
+    width: 20px;
+    height: 20px;
 }
 
 .obj {
@@ -113,7 +113,25 @@ button.transparent:hover i.bi {
 }
 
 button:disabled {
-    opacity: 0.1;
+    opacity: 0.5;
+}
+
+button.loader:disabled::after {
+    content: '';
+    display: inline-block;
+    width: 1rem;
+    height: 1rem;
+    border: 2px solid var(--border-color);
+    border-radius: 50%;
+    border-top-color: hsl(var(--default-clr), 100%, 90%);
+    animation: spin 1s ease-in-out infinite;
+    margin-left: 1rem;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 .dark-theme button.icon {
@@ -131,6 +149,14 @@ button:disabled {
 button:hover {
     transform: scale(1.05);
 }
+
+
+
+/* LIKE BUTTON */
+button i.bi.bi-heart-fill {
+    color: hsl(var(--default-clr), 84%, 65%);
+}
+
 
 /* Display Properties */
 .flex {
@@ -260,7 +286,7 @@ a {
 }
 
 .title {
-    font-size: calc(var(--fs) + 2.5rem);
+    font-size: calc(var(--fs) + 2rem);
     font-weight: 700;
 }
 
@@ -288,7 +314,7 @@ a {
 }
 
 .text {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     font-weight: 500;
 }
 

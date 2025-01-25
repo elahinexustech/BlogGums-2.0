@@ -8,9 +8,8 @@ import Cookies from 'js-cookie';
 
 // Components
 import UILoader from '../../components/UILoader/UILoader';
-import MarkdownViewer from '../../components/MarkdownViewer/MarkdownViewer';
 import ProfileImageUploader from '../../components/ProfileImageUploader/ProfileImageUploader';
-// import OptionMenu from '../../components/PostOptionMenu/optionmenu';
+import Post from '../../components/Post/Post';
 
 // Import environment variables
 import {
@@ -24,7 +23,6 @@ import { USER, updateUser } from '../../Functions/user';
 import './style.css';
 
 const ProfileView = () => {
-    const { addNotifications, removeNotifications } = useContext(NotificationsContext);
     const navigate = useNavigate();
     const { username } = useParams();
     const [user, setUser] = useState(null);
@@ -299,26 +297,14 @@ const ProfileView = () => {
                         <div className="profile-body flex direction-col">
                             {post.length > 0 ? (
                                 post.map((item) => (
-                                    <div className="obj posts flex direction-col ai-start" key={item.id}>
-                                        <section className="right">
-                                            <button id={`menuButton-${item.id}`} className="transparent circle"
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    toggleMenu(e, item.id);
-                                                }}
-                                            >
-                                                <i className="bi bi-three-dots-vertical"></i>
-                                            </button>
-                                        </section>
-
-
-                                        {/* <OptionMenu item={item} openMenuId={openMenuId} CURRENT_USER_STATE_VAR={CURRENT_USER_STATE_VAR} /> */}
-
-                                        <p className="heading">{item.title}</p>
-                                        <MarkdownViewer className="grey" markdownText={item.content} />
-                                        <br /><br />
-                                        <i onClick={() => { renderPost(item.id) }} className="bi bi-box-arrow-in-up-right caption"></i>
-                                    </div>
+                                    <Post
+                                        key={item.id}
+                                        ID={item.id}
+                                        post={item}
+                                        author={item.author}
+                                        totalLikes={item.total_likes}
+                                        setPost={setPost}
+                                    />
                                 ))
                             ) : (
                                 <>

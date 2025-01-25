@@ -181,12 +181,6 @@ const DetailaView = () => {
     ];
 
 
-
-
-    useEffect(() => {
-        console.log(active)
-    }, [active]);
-
     return (
         <>
             {isAuthenticated && <NavigationMenu />}

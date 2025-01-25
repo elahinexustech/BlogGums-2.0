@@ -17,6 +17,7 @@ const FormView = ({
     linkMessage,
     register,
     errors,
+    disabled,
 }) => {
     return (
         <div className='container flex auth-container'>
@@ -31,7 +32,7 @@ const FormView = ({
                     <p className="subtitle">{subtitle}</p>
                     <br /><hr /><br />
                     <ul className='features-list'>
-                        <p className="heading">Reset your password to:</p>
+                        <p className="heading">Features</p>
                         {features.length > 0 ? (
                             features.map((feature, index) => (
                                 <li key={index} className='feature-item'>
@@ -87,7 +88,7 @@ const FormView = ({
                             </>
                         }
 
-                        <button className='theme' type="submit">
+                        <button className='theme loader' type="submit" disabled={disabled}>
                             <i className="bi bi-box-arrow-right"></i> &nbsp;{buttonText}
                         </button>
                     </form>

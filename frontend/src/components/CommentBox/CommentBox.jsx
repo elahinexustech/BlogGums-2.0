@@ -6,6 +6,7 @@ import './commentbox.css';
 
 const CommentBox = ({ post, postComment, loading }) => {
 
+
     const [showCommentBox, setShowCommentBox] = useState(false);
     const commentBoxRef = useRef(null);
     const buttonRef = useRef(null);
@@ -30,30 +31,28 @@ const CommentBox = ({ post, postComment, loading }) => {
                 >
                     <i className="bi bi-chat caption"></i>
                 </button>
-                <p className="grey caption">{post?.comment_count}</p>
+                <p className="grey caption">{post?.total_comments}</p>
             </div>
 
             <div ref={commentBoxRef} className={`obj-trans commentBox ${showCommentBox ? "active" : ""} flex direction-col jc-start ai-start`}>
-                {(post && post.comment_count) && (
-                    <>
-                        <div className="comments-section">
-                            {post.comments.map((comment, index) => (
-                                <div key={index} className="comment">
-                                    <section className='flex jc-start'>
-                                        <img src={comment.user.profile_image_url} className="profile-picture size-icon" />
-                                        <span>
-                                            <Link to={`/${comment.user.username}`} className='grey caption'>{comment.user.username}</Link>
-                                            <p className='caption'>{comment.user.first_name} {comment.user.last_name}</p>
-                                        </span>
-                                    </section>
-                                    <br />
-                                    <p className='heading'>{comment.comment}</p>
-                                    <br />
-                                    <span className="grey caption">{new Date(comment.created_at).toLocaleString()}</span>
-                                </div>
-                            ))}
-                        </div>
-                    </>
+                {post?.comments?.length > 0 && (
+                    <div className="comments-section">
+                        {post.comments.map((comment, index) => (
+                            <div key={index} className="comment">
+                                <section className='flex jc-start'>
+                                    <img src={comment.user.profile_image_url} className="profile-picture size-icon" />
+                                    <span>
+                                        <Link to={`/${comment.user.username}`} className='grey caption'>{comment.user.username}</Link>
+                                        <p className='caption'>{comment.user.first_name} {comment.user.last_name}</p>
+                                    </span>
+                                </section>
+                                <br />
+                                <p className=''>{comment.comment}</p>
+                                <br />
+                                <span className="grey caption">{new Date(comment.created_at).toLocaleString()}</span>
+                            </div>
+                        ))}
+                    </div>
                 )}
                 <form className='flex obj-trans' onSubmit={handleSubmit(postComment)}>
                     <textarea

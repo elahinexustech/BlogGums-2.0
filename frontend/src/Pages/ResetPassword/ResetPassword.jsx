@@ -169,12 +169,13 @@ const ResetPasswordForm = () => {
                     title={'Reset Password'}
                     fields={fieldsStep1}
                     onSubmit={handleSubmit(onSubmit)}
-                    isSubmitting={isSubmitting}
                     errorMessage={errorMessage}
                     features={features}
                     register={register}
                     errors={errors}
                     linkMessage={<Link to="/login">Back to Login</Link>}
+                    buttonText={'Send Mail'}
+                    disabled={isSubmitting}
                 />
             )}
             {step === 2 && (
@@ -183,12 +184,13 @@ const ResetPasswordForm = () => {
                     title={'Enter 6-Digit Code'}
                     fields={fieldsStep2}
                     onSubmit={handleSubmit(onSubmit)}
-                    isSubmitting={isSubmitting}
                     errorMessage={errorMessage}
                     features={features}
                     register={register}
                     errors={errors}
                     linkMessage={null}
+                    buttonText={'Verify'}
+                    disabled={isSubmitting}
                 />
             )}
             {step === 3 && (
@@ -197,12 +199,13 @@ const ResetPasswordForm = () => {
                     title={'New Password'}
                     fields={fieldsStep3}
                     onSubmit={handleSubmit(onSubmit)}
-                    isSubmitting={isSubmitting}
                     errorMessage={errorMessage}
                     features={features}
                     register={register}
                     errors={errors}
                     linkMessage={null}
+                    buttonText={'Reset & Save'}
+                    disabled={isSubmitting}
                 />
             )}
             <Footer />

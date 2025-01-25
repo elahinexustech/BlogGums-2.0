@@ -1,5 +1,5 @@
 .post {
-    width: 60%;
+    width: 50%;
     min-height: 600px;
     border-radius: 0;
     overflow: hidden;
@@ -19,7 +19,7 @@
 }
 
 .post section.header section.left img.post-header-img {
-    width: 60px;
+    width: 40px;
     border-radius: 50%;
 }
 

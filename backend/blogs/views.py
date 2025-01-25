@@ -46,7 +46,7 @@ class PostListView(generics.ListAPIView):
                 'content': post.content,
                 'author': author_data,
                 'total_likes': post.like_count(),
-                'comment_count': post.comment_count(),
+                'total_comments': post.total_comments(),
                 'updated_at': post.updated_at,
                 'published_at': post.published_at,
                 'has_liked': user_has_liked,
@@ -179,9 +179,26 @@ class GetUserPost(generics.ListAPIView):
         data = json.loads(req.body)
         user = User.objects.filter(username=data['username']).first()
         posts = BlogPost.objects.filter(author=user)
-        serialized_posts = BlogSerializer(posts, many=True)
+        serialized_posts = BlogSerializer(posts, many=True).data
 
-        return JsonResponse({"post": serialized_posts.data, "status":status.HTTP_200_OK})
+        response_data = []
+        for post in posts:
+            comments = Comments.objects.filter(post=post)
+            user_has_liked = post.likes.filter(like_by=req.user).exists()
+            response_data.append({
+                'id': post.id,
+                'title': post.title,
+                'content': post.content,
+                'author': AuthorSerializer(post.author).data,
+                'total_likes': post.like_count(),
+                'total_comments': post.total_comments(),
+                'updated_at': post.updated_at,
+                'published_at': post.published_at,
+                'has_liked': user_has_liked,
+                'comments': CommentsSerializer(comments, many=True).data
+            })
+
+        return JsonResponse({"post": response_data, "status": status.HTTP_200_OK})
     
 
 

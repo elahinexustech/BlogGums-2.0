@@ -24,5 +24,6 @@ export default async function GetPosts(username) {
 
     let resp = await r.json();
 
+
     return resp;
 }

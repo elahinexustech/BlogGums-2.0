@@ -13,7 +13,7 @@ import {
     PORT,
     ACCESS_TOKEN,
     REFRESH_TOKEN,
-} from './_CONSTS_.js';
+} from '../../_CONSTS_';
 
 
 const BASE_URL = (SERVER && PORT) ? `${SERVER}:${PORT}` : '/choreo-apis/bloggums/backend/v1';
@@ -60,7 +60,7 @@ const PasswordChecker = ({ isOpen, onClose, id }) => {
 
         const result = await response.json();
 
-        console.log(result)
+
 
         if (result.status === 200) {
             deleteBlogPost(id);

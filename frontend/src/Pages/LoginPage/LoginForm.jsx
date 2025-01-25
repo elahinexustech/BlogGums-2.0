@@ -101,6 +101,7 @@ const LoginForm = () => {
                 linkMessage={{ msg: 'Don\'t have an account?', link: '/signup', linkText: 'Register' }}
                 register={register}
                 errors={errors}
+                disabled={isSubmitting}
             />
             <Footer />
         </>

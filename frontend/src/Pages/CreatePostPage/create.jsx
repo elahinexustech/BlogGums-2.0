@@ -55,7 +55,10 @@ const CreatePage = ({ isOpen, onClose }) => {
     return (
         <div className="windows opened">
             <div className="window opened create-dialogue-container flex direction-col">
-                <button onClick={onClose} className="transparent closeBtn icon">
+                <button onClick={()=> {
+                    onClose();
+                    setPageState(1);
+                }} className="transparent closeBtn icon">
                     <i className="bi bi-x-lg"></i>
                 </button>
                 {pageState === 1? (

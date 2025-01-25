@@ -41,6 +41,8 @@ import './assets/css/windows.css';
 // Functions
 import { USER } from './Functions/user';
 import { AuthProvider } from './components/AuthUser/AuthProvider';
+import PostView from './Pages/PostView/PostView.jsx';
+import Post from './components/Post/Post.jsx';
 
 
 const App = () => {
@@ -127,7 +129,8 @@ const App = () => {
         { path: "/resetpassword", element: <ResetPassword /> },
         { path: "/signup", element: isAuthenticated ? <Navigate to="/" /> : <SignUpForm /> },
         { path: "/support", element: <DetailaView /> },
-        { path: ":username", element: isAuthenticated ? <ProfileView /> : <LoginForm /> },
+        { path: "/:username", element: isAuthenticated ? <ProfileView /> : <LoginForm /> },
+        { path: "/post/:id", element: isAuthenticated ? <><NavigationMenu /><PostView /></> : <LoginForm /> },
     ]);
 
     if (loading) return <UILoader />;

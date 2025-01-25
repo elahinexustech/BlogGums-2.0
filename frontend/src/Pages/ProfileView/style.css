@@ -55,69 +55,13 @@
 }
 
 .container .profile-body {
-    width: 60%;
+    width: 100%;
     padding: 0;
 }
 
-.posts {
-    width: 100%;
-    min-height: 40px;
-    border-radius: 0;
-    padding: 3rem;
-}
 
-.posts:nth-child(1) {
-    border-top-left-radius: var(--border-radius);
-    border-top-right-radius: var(--border-radius);
-}
-
-.posts:last-child {
-    border-bottom-left-radius: var(--border-radius);
-    border-bottom-right-radius: var(--border-radius);
-}
-
-.posts i.bi {
-    cursor: pointer;
-}
-
-.editbutton {
-    position: absolute;
-    top: 10%;
-    right: 5%;
-}
-
-.edit-buttons button {
-    margin: 0 1rem;
-}
-
-.edit-buttons button i.bi {
-    margin: 0 0.5rem 0 0;
-}
-
-.edit-buttons button.error {
-    background: var(--error);
-    color: var(--error-clr);
-    box-shadow: var(--error);
-}
-
-.edit-buttons button.success {
-    background: var(--success);
-    color: var(--success-clr);
-    box-shadow: var(--success);
-}
-
-.image-uploader .window {
-    height: 100vh;
-}
-
-.profile-body div {
-    position: relative;
-}
-
-.profile-body section.right button {
-    position: absolute;
-    top: 2rem;
-    right: 2rem;
+.container .profile-body .post .commentBox.active {
+    top: -950%;
 }
 
 
@@ -143,10 +87,5 @@
         display: block;
         overflow-x: auto;
         white-space: nowrap;
-    }
-
-
-    .posts {
-        padding: 2rem;
     }
 }

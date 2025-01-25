@@ -145,6 +145,7 @@ const SignUpForm = () => {
                     linkMessage={{ msg: 'Already a BlogGums user?', link: '/login', linkText: 'Login' }}
                     register={register}
                     errors={errors}
+                    disabled={isSubmitting}
                 />
             ) : !otpVerified ? (
                 <FormView
@@ -168,6 +169,7 @@ const SignUpForm = () => {
                     linkMessage={{ msg: 'Resend OTP', link: '#', linkText: 'Resend OTP' }}
                     register={otpRegister}
                     errors={otpErrors}
+                    disabled={isSubmitting}
                 />
             ) : (
                 <div className='successful-registration flex direction-col'>

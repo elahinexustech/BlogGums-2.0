@@ -4,7 +4,7 @@
 
 .commentBox {
     min-width: 500px;
-    max-width: 600px;
+    max-width: 700px;
     height: 400px;
     overflow-y: auto;
     padding: 0rem;
@@ -12,7 +12,7 @@
     visibility: hidden;
     opacity: 0;
     position: absolute;
-    top: -600%;
+    top: -550%;
     left: 50%;
     transform: translateX(-50%) scale(0.2);
     transform-origin: bottom;
@@ -48,7 +48,7 @@
 .commentBox.active {
     visibility: visible;
     opacity: 1;
-    top: -700%;
+    top: -650%;
     transform: scale(1) translateX(-50%);
-    z-index: 1000; /* Ensure active state also has a high z-index */
+    z-index: 1000;
 }

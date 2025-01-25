@@ -46,9 +46,14 @@ const SignUpForm = () => {
                 body: JSON.stringify(data),
             });
             if (response.ok) setOtpSent(true);
-            else console.error(await response.json());
+            else {
+                const msg = await response.json();
+                console.error(msg)
+                addNotification(`${msg.msg}`, 'error')    
+            };
         } catch (error) {
-            addNotification(error, 'error')
+            console.log(error)
+            addNotification(`${error}`, 'error')
         } finally {
             setIsSubmitting(false);
         }

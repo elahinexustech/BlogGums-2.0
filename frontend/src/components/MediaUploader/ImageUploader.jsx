@@ -1,4 +1,5 @@
 import React, { useContext, useState } from 'react';
+import Cookies from 'js-cookie'
 
 // Components
 import { NotificationsContext } from '../../components/Notifications/Notifications';
@@ -62,7 +63,7 @@ const MediaUploader = () => {
         let r = await fetch(`${BASE_URL}/blogs/upload/media`, {
             method: 'POST',
             headers: {
-                'Authorization': `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`
+                'Authorization': `Bearer ${Cookies.get(ACCESS_TOKEN)}`
             },
             body: formData
         });

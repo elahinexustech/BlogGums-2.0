@@ -8,7 +8,7 @@ class CustomUser(AbstractUser):
     # Define your custom fields here
     # phone_number = PhoneNumberField(null=True, blank=True, unique=True)
     profile_image_url = models.URLField(max_length=200, blank=True, null=True)
-    date_of_birth = models.DateField(auto_now=True, null=True)
+    date_of_birth = models.DateField(null=True, blank=True)
 
     groups = models.ManyToManyField(
         Group,

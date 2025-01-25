@@ -134,8 +134,8 @@ class UpdateUserImage(generics.GenericAPIView):
     permission_classes = [IsAuthenticated]
 
     # Add your Supabase URL and KEY here
-    URL = 'https://yfcnkjxsrwvycucsebnl.supabase.co'
-    KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlmY25ranhzcnd2eWN1Y3NlYm5sIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mjk3OTE2MzEsImV4cCI6MjA0NTM2NzYzMX0.ZZ3Kb-X29KDahOx2H_P0aQLbPSC4Cp54q0Z6IwzBObQ'
+    URL = 'https://zgwzboicmlnyrqyrzlel.supabase.co'
+    KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inpnd3pib2ljbWxueXJxeXJ6bGVsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzc4MTcwMjYsImV4cCI6MjA1MzM5MzAyNn0.7K7eUR_tK1868vgAZeDX6E0VnQcTgXFM9GakRpbSI9I'
     CLIENT = create_client(URL, KEY)
 
     def post(self, request):
@@ -156,6 +156,8 @@ class UpdateUserImage(generics.GenericAPIView):
                 success, resp, url = self.upload_image(user.username, image_file)
             else:
                 success, resp, url = self.update_image(user.username, image_file)
+
+            print(success, resp, url)
 
             if success:
                 # Optionally update the user's profile image URL in the database
@@ -182,14 +184,13 @@ class UpdateUserImage(generics.GenericAPIView):
 
             file_content = img.read()
 
-            resp = UpdateUserImage.CLIENT.storage.from_(
-                'users').upload(file_name, file_content)
-            url = UpdateUserImage.CLIENT.storage.from_(
-                'users').get_public_url(file_name)
+            resp = UpdateUserImage.CLIENT.storage.from_('users').upload(file_name, file_content)
+            url = UpdateUserImage.CLIENT.storage.from_('users').get_public_url(file_name)
 
             return True, resp, url
 
         except Exception as e:
+            print(e)
             return False, None, None
 
     def update_image(self, user, img):

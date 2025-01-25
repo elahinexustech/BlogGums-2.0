@@ -73,8 +73,8 @@ const MediaUploader = () => {
         if(resp.status === 200) {
             addNotification(`${resp.uploaded_files.length} file${(resp.uploaded_files.length > 1)? 's': ''} uploaded succesfully!`, 'success');
             setUploadedFiles([]);
-            setIsSubmitting(false);
         }
+        setIsSubmitting(false);
         
     }
 

@@ -7,7 +7,7 @@ from rest_framework import status
 from django.utils import timezone
 from supabase import create_client
 from .serializers import BlogSerializer, PostSerializer, CommentsSerializer, AuthorSerializer
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from .models import BlogPost, Likes, Comments
 from django.http import JsonResponse
 import json
@@ -60,12 +60,45 @@ class PostListView(generics.ListAPIView):
             "count": paginator.page.paginator.count
         })
 
+class PostView(generics.GenericAPIView):  # Changed to GenericAPIView to support both GET and POST
+    permission_classes = [AllowAny]
 
-class PostView(generics.CreateAPIView):
-    permission_classes = [IsAuthenticated]
+    def get(self, request, id):
+        """
+        Handle unauthenticated GET requests to fetch a basic blog post view.
+        """
+        # Fetch the blog post or return 404 if not found
+        post = get_object_or_404(BlogPost, id=id)
+        
+        # Serialize the blog post
+        serialized_post = PostSerializer(post)
 
-    def post(self, req, id):
-        # Get the BlogPost object or return a 404 if not found
+        # Get all comments related to this post and serialize them
+        comments = post.comments.all().order_by('-created_at')
+        serialized_comments = CommentsSerializer(comments, many=True)
+
+        # Get total likes
+        total_likes = post.likes.count()
+
+        # Prepare response data
+        response_data = {
+            "post": serialized_post.data,
+            "comments": serialized_comments.data,
+            "total_comments": comments.count(),
+            "total_likes": total_likes,
+        }
+
+        return JsonResponse(response_data, safe=False, status=status.HTTP_200_OK)
+
+    def post(self, request, id):
+        """
+        Handle authenticated POST requests for an interactive blog view.
+        """
+        # Check if the user is authenticated
+        if not request.user.is_authenticated:
+            return JsonResponse({"detail": "Authentication credentials were not provided."}, status=status.HTTP_401_UNAUTHORIZED)
+
+        # Get the blog post or return a 404 if not found
         post = get_object_or_404(BlogPost, id=id)
 
         # Serialize the blog post
@@ -75,9 +108,11 @@ class PostView(generics.CreateAPIView):
         comments = post.comments.all().order_by('-created_at')
         serialized_comments = CommentsSerializer(comments, many=True)
 
-        # Get all likes related to this post
+        # Get likes and check if the current user liked this post
         likes = post.likes.all()
         total_likes = likes.count()
+        liked_by_this_user = Likes.objects.filter(like_by=request.user, post_liked=post).exists()
+
 
         # Prepare response data with total counts and serialized data
         response_data = {
@@ -85,10 +120,11 @@ class PostView(generics.CreateAPIView):
             "comments": serialized_comments.data,
             "total_comments": comments.count(),
             "total_likes": total_likes,
-            "liked_by_this_user":  Likes.objects.filter(like_by=req.user).exists()
+            "liked_by_this_user": liked_by_this_user,
         }
 
         return JsonResponse(response_data, safe=False, status=status.HTTP_200_OK)
+
 
 
 class CreatePostView(generics.CreateAPIView):
@@ -280,8 +316,8 @@ class UploadMedia(generics.CreateAPIView):
     permission_classes = [IsAuthenticated]
 
     # Supabase configuration
-    SUPABASE_URL = 'https://yfcnkjxsrwvycucsebnl.supabase.co'
-    SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlmY25ranhzcnd2eWN1Y3NlYm5sIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mjk3OTE2MzEsImV4cCI6MjA0NTM2NzYzMX0.ZZ3Kb-X29KDahOx2H_P0aQLbPSC4Cp54q0Z6IwzBObQ'
+    SUPABASE_URL = 'https://zgwzboicmlnyrqyrzlel.supabase.co'
+    SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inpnd3pib2ljbWxueXJxeXJ6bGVsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzc4MTcwMjYsImV4cCI6MjA1MzM5MzAyNn0.7K7eUR_tK1868vgAZeDX6E0VnQcTgXFM9GakRpbSI9I'
     CLIENT = create_client(SUPABASE_URL, SUPABASE_KEY)
 
     def post(self, request):
@@ -301,10 +337,10 @@ class UploadMedia(generics.CreateAPIView):
             for media_file in media_files:
                 success, url = self.upload_media(user.username, media_file)
                 if success:
-                    uploaded_files.append(url)
+                    stat = uploaded_files.append(url)
                 else:
                     return JsonResponse(
-                        {"error": f"Failed to upload file: {media_file.name}"}, 
+                        {"error": f"Failed to upload file: {media_file.name}, {e}"}, 
                         status=500
                     )
 
@@ -312,9 +348,10 @@ class UploadMedia(generics.CreateAPIView):
                 "message": "Media files uploaded successfully!",
                 "uploaded_files": uploaded_files,
                 "status": 200
-            })
+            }, status=200)
 
         except Exception as e:
+            print(e)
             return JsonResponse(
                 {"error": f"An unexpected error occurred: {str(e)}"}, 
                 status=500
@@ -346,7 +383,6 @@ class UploadMedia(generics.CreateAPIView):
             return True, public_url
 
         except Exception as e:
-            print(f"Upload failed: {str(e)}")
             return False, None
 
         
@@ -356,8 +392,8 @@ class UploadMedia(generics.CreateAPIView):
 class GetMedia(generics.GenericAPIView):
     permission_classes = [IsAuthenticated]
 
-    SUPABASE_URL = 'https://yfcnkjxsrwvycucsebnl.supabase.co'  # Replace with your URL
-    SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlmY25ranhzcnd2eWN1Y3NlYm5sIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mjk3OTE2MzEsImV4cCI6MjA0NTM2NzYzMX0.ZZ3Kb-X29KDahOx2H_P0aQLbPSC4Cp54q0Z6IwzBObQ'  # Replace with your API key
+    SUPABASE_URL = 'https://zgwzboicmlnyrqyrzlel.supabase.co'
+    SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inpnd3pib2ljbWxueXJxeXJ6bGVsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzc4MTcwMjYsImV4cCI6MjA1MzM5MzAyNn0.7K7eUR_tK1868vgAZeDX6E0VnQcTgXFM9GakRpbSI9I'
     CLIENT = create_client(SUPABASE_URL, SUPABASE_KEY)
 
     def post(self, request):

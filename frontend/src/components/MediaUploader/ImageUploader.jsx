@@ -70,12 +70,14 @@ const MediaUploader = () => {
 
         let resp = await r.json();
 
-        if(resp.status === 200) {
+        if(resp.ok) {
             addNotification(`${resp.uploaded_files.length} file${(resp.uploaded_files.length > 1)? 's': ''} uploaded succesfully!`, 'success');
             setUploadedFiles([]);
+        } else {
+            addNotification(`${resp.uploaded_files.length} file${(resp.uploaded_files.length > 1)? 's': ''} not uploaded succesfully!, try again`, 'error');
         }
+
         setIsSubmitting(false);
-        
     }
 
     const triggerFileInput = () => {

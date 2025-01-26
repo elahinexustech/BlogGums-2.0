@@ -8,11 +8,16 @@ const NotificationsProvider = ({ children }) => {
     const [notifications, setNotifications] = useState([]);
 
     const addNotification = (message, type) => {
-        setNotifications((prev) => [...prev, { message, type, id: Date.now() }]);
+        const id = Date.now();
+        setNotifications((prev) => [...prev, { message, type, id }]);
+
+        // Automatically remove the notification after 5 seconds
+        // setTimeout(() => {
+        //     removeNotification(id);
+        // }, 5000); // 5000 milliseconds = 5 seconds
     };
 
     const removeNotification = (id) => {
-      
         setNotifications((prev) => prev.filter((notification) => notification.id !== id));
     };
 
@@ -25,7 +30,7 @@ const NotificationsProvider = ({ children }) => {
                 <div
                     key={id}
                     className={`notifications ${notifications.length ? "show" : ""} ${type}`}
-                    style={{ position: 'fixed', '--top': `${ (index+1) * 10 }px` }}
+                    style={{ position: 'fixed', '--top': `${(index + 1) * 10}px` }}
                     id={id}
                 >
                     <div className={`notification flex jc-start`}>

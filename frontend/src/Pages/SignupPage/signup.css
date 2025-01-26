@@ -116,5 +116,9 @@
         font-size: 2.5rem;
         display: block;
     }
-    
+
+    .signup-container .auth-container .content-container .right form div, .auth-container .content-container .right form div.grid.cols-2{
+        grid-template-columns: auto;
+        gap: 0.5rem;
+    }
 }

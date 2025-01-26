@@ -3,7 +3,6 @@ import { Helmet } from "react-helmet"
 import Feed from '../../components/Feed/Feed'
 
 const Home = () => {
-    
     return (
         <>
             <Helmet>

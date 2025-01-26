@@ -6,7 +6,7 @@ import CreatePage from '../../Pages/CreatePostPage/create';
 import './Navigation.css';
 
 const NavigationMenu = () => {
-    const { isAuthenticated, userData, logout } = useContext(AuthContext)
+    const { userData } = useContext(AuthContext)
     const [showSettingsWin, setShowSettingsWin] = useState(false);
     const [showCreatePage, setShowCreatePage] = useState(false);
 

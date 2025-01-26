@@ -39,10 +39,6 @@ nav button i.bi {
     color: var(--theme-color);
 }
 
-nav button.circle.icon {
-    padding: 0.1rem;
-}
-
 
 @media screen and (max-width: 768px) {
     nav {
@@ -74,3 +70,15 @@ nav button.circle.icon {
         font-size: 1.5rem;
     }
 }
+
+
+@media screen and (max-width: 400px) {
+    nav {
+        top: 80%;
+        left: 50%;
+        width: 90%;
+        height: fit-content;
+        padding: 0.5rem;
+    }
+}
+

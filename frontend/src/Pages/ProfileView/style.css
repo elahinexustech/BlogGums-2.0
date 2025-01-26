@@ -60,11 +60,6 @@
 }
 
 
-.container .profile-body .post .commentBox.active {
-    top: -950%;
-}
-
-
 @media screen and (max-width: 768px) {
     .container .profile-header,
     .container .profile-body {

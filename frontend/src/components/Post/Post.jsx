@@ -1,12 +1,11 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { AuthContext } from '../AuthUser/AuthProvider.jsx';
 import MarkdownViewer from '../MarkdownViewer/MarkdownViewer';
 import { Helmet } from 'react-helmet';
 import './post.css';
-import Cookies from 'js-cookie';
 import { Link } from 'react-router-dom';
 import postCmnt from '../../Functions/PostComment';
 import OptionMenu from '../PostOptionMenu/PostOptionMenu.jsx';
-import { USER_DATA } from '../../_CONSTS_';
 
 
 // Components
@@ -16,8 +15,8 @@ import CommentBox from '../CommentBox/CommentBox';
 const Post = ({ ID, author, post, totalLikes, changeTitle = true, setPost }) => {
     const [loading, setLoading] = useState(false);
     const [openMenuId, setOpenMenuId] = useState(null); // State to track which post's menu is open
-    const loggedInUser = Cookies.get(USER_DATA) ? JSON.parse(Cookies.get(USER_DATA)) : null; // Get current logged-in user
-    const CURRENT_USER_STATE_VAR = loggedInUser && author ? loggedInUser.user.username === author.username : false; // Check if the current user is the author of the post
+    const { isAuthenticated, userData } = useContext(AuthContext);
+    const CURRENT_USER_STATE_VAR = isAuthenticated && userData?.user?.username === author.username;
 
     const postComment = async (data) => {
         data.postId = parseInt(ID);
@@ -114,7 +113,7 @@ const Post = ({ ID, author, post, totalLikes, changeTitle = true, setPost }) => 
                     </section>
 
 
-                    <OptionMenu item={post} openMenuId={openMenuId} CURRENT_USER_STATE_VAR={CURRENT_USER_STATE_VAR} />
+                    <OptionMenu item={post} openMenuId={openMenuId} CURRENT_USER_STATE_VAR={CURRENT_USER_STATE_VAR}/>
 
                 </section>
 
@@ -128,6 +127,7 @@ const Post = ({ ID, author, post, totalLikes, changeTitle = true, setPost }) => 
 
                 <br /><br />
 
+                
                 <section className="foot flex ai-start">
                     <LikeButton
                         postId={ID}
@@ -142,9 +142,10 @@ const Post = ({ ID, author, post, totalLikes, changeTitle = true, setPost }) => 
                                 )
                             );
                         }}
+                        disabled={!isAuthenticated}
                     />
 
-                    <CommentBox post={post} postComment={postComment} loading={loading} />
+                    <CommentBox post={post} postComment={postComment} loading={loading} disabled={!isAuthenticated} />
 
                 </section>
             </div >

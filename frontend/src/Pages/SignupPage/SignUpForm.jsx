@@ -85,21 +85,21 @@ const SignUpForm = () => {
             label: 'Username',
             type: 'text',
             id: 'username',
-            placeholder: 'Enter your username',
+            placeholder: 'e.g. yourname_surname',
             requiredMessage: 'Username is required',
         },
         {
             label: 'Email',
             type: 'email',
             id: 'email',
-            placeholder: 'Enter your email',
+            placeholder: 'e.g. you@email.com',
             requiredMessage: 'Email is required',
         },
         {
             label: 'Password',
             type: 'password',
             id: 'password',
-            placeholder: 'Enter your password',
+            placeholder: 'create a strong password',
             requiredMessage: 'Password is required',
         },
         {
@@ -113,14 +113,14 @@ const SignUpForm = () => {
             label: 'First Name',
             type: 'text',
             id: 'first_name',
-            placeholder: 'Enter your first name',
+            placeholder: 'First Name',
             requiredMessage: 'First Name is required',
         },
         {
             label: 'Last Name',
             type: 'text',
             id: 'last_name',
-            placeholder: 'Enter your last name',
+            placeholder: 'Last Name',
             requiredMessage: 'Last Name is required',
         }
     ];
@@ -147,7 +147,7 @@ const SignUpForm = () => {
                     errorMessage={otpError}
                     onSubmit={handleSubmit(onSubmit)}
                     buttonText={'Signup'}
-                    linkMessage={{ msg: 'Already a BlogGums user?', link: '/login', linkText: 'Login' }}
+                    linkMessage={{ msg: 'Already a BlogGums user?', link: '/', linkText: 'Login' }}
                     register={register}
                     errors={errors}
                     disabled={isSubmitting}
@@ -181,7 +181,7 @@ const SignUpForm = () => {
                     <i className="bi bi-check-circle-fill" style={{ color: 'var(--success)', fontSize: '4rem' }}></i>
                     <h1 className='success'>Registration Successful!</h1>
                     <br /><br />
-                    <p className="heading">Your account has been created, now login to your account. &nbsp;<Link to={'/login'} className='colored'><u>Click here</u></Link></p>
+                    <p className="heading">Your account has been created, now login to your account. &nbsp;<Link to={'/'} className='colored'><u>Click here</u></Link></p>
                 </div>
             )}
             <Footer />

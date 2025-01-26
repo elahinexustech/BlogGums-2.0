@@ -129,8 +129,8 @@ const App = () => {
         { path: "/resetpassword", element: <ResetPassword /> },
         { path: "/signup", element: isAuthenticated ? <Navigate to="/" /> : <SignUpForm /> },
         { path: "/support", element: <DetailaView /> },
+        { path: "/post/:id", element: <><NavigationMenu /><PostView /></>},
         { path: "/:username", element: isAuthenticated ? <ProfileView /> : <LoginForm /> },
-        { path: "/post/:id", element: isAuthenticated ? <><NavigationMenu /><PostView /></> : <LoginForm /> },
     ]);
 
     if (loading) return <UILoader />;

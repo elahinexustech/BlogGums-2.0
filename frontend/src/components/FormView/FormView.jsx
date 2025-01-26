@@ -1,8 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './form.css';  // Common styling file
 import LabelField from '../../components/LabelField/LabelField';
 import LabelPasswordField from '../../components/LabelPasswordField/LabelPasswordField';
+
+import './form.css';
 
 const FormView = ({
     type,
@@ -77,14 +78,12 @@ const FormView = ({
                                 </div>
                             ))}
                         </div>
-                        <br />
 
                         {type === 'login' &&
                             <>
                                 <p className='grey caption flex'>
                                     <i className="bi bi-key"></i> &nbsp; Forgot your Password, <Link className='colored' to={'/resetpassword'}>Reset here</Link>
                                 </p>
-                                <br />
                             </>
                         }
 

@@ -53,3 +53,24 @@ section.optionMenu li:not(.error):hover, .posts section.optionMenu li:not(.error
     opacity: 1;
     visibility: visible;
 }
+
+
+@media screen and (max-width: 600px) {
+    section.optionMenu {
+        top: 1rem;
+        right: 1rem;
+        width: 200px;
+        padding: 1rem;
+    }
+
+    section.optionMenu li {
+        padding: 0.5rem;
+        font-size: 0.8rem;
+    }
+    
+
+    section.optionMenu li i.bi {
+        font-size: 0.9rem;
+        color: inherit;
+    }    
+}

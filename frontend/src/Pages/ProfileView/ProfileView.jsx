@@ -1,20 +1,13 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
-import NavigationMenu from '../../components/NavigationMenu/NavigationMenu';
-import { useNavigate } from 'react-router-dom';
+import NavigationMenu from '../../components/NavigationMenu/NavigationMenu';;
 import { Helmet } from 'react-helmet';
-import { NotificationsContext } from '../../components/Notifications/Notifications';
-import Cookies from 'js-cookie';
+import { AuthContext } from '../../components/AuthUser/AuthProvider';
 
 // Components
 import UILoader from '../../components/UILoader/UILoader';
 import ProfileImageUploader from '../../components/ProfileImageUploader/ProfileImageUploader';
 import Post from '../../components/Post/Post';
-
-// Import environment variables
-import {
-    USER_DATA
-} from '../../_CONSTS_.js';
 
 // Functions
 import GetPosts from '../../Functions/GetPost';
@@ -23,7 +16,6 @@ import { USER, updateUser } from '../../Functions/user';
 import './style.css';
 
 const ProfileView = () => {
-    const navigate = useNavigate();
     const { username } = useParams();
     const [user, setUser] = useState(null);
     const [post, setPost] = useState([]);
@@ -35,8 +27,9 @@ const ProfileView = () => {
     const [pressTimer, setPressTimer] = useState(null); // Timer for detecting long press
     const [clicked, setClicked] = useState(false); // Track if it's a quick click
     const [showUploader, setShowUploader] = useState(false);
-    const loggedInUser = JSON.parse(Cookies.get(USER_DATA)); // Get current logged-in user
-    const CURRENT_USER_STATE_VAR = loggedInUser.user.username === username;
+    const { isAuthenticated, userData } = useContext(AuthContext);
+    const CURRENT_USER_STATE_VAR = isAuthenticated && userData?.user?.username === username;
+
     const [openMenuId, setOpenMenuId] = useState(null); // State to track which post's menu is open
     const [isChanged, setIsChanged] = useState(false)
     const [userUpdated, setUserUpdated] = useState(false);

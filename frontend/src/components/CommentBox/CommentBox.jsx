@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 import './commentbox.css';
 
-const CommentBox = ({ post, postComment, loading }) => {
+const CommentBox = ({ post, postComment, loading, disabled }) => {
 
 
     const [showCommentBox, setShowCommentBox] = useState(false);
@@ -34,7 +34,7 @@ const CommentBox = ({ post, postComment, loading }) => {
                 <p className="grey caption">{post?.total_comments}</p>
             </div>
 
-            <div ref={commentBoxRef} className={`obj-trans commentBox ${showCommentBox ? "active" : ""} flex direction-col jc-start ai-start`}>
+            <div ref={commentBoxRef} className={`obj commentBox ${showCommentBox ? "active" : ""} flex direction-col jc-start ai-start`}>
                 {post?.comments?.length > 0 && (
                     <div className="comments-section">
                         {post.comments.map((comment, index) => (
@@ -54,16 +54,25 @@ const CommentBox = ({ post, postComment, loading }) => {
                         ))}
                     </div>
                 )}
-                <form className='flex obj-trans' onSubmit={handleSubmit(postComment)}>
+                
+                {disabled && <><p className='warning caption'>Warning: Please login first</p></>}
+
+                <form className="flex obj-trans" onSubmit={handleSubmit(postComment)}>
                     <textarea
                         id="comment_field"
                         placeholder="Let's comment"
-                        {...register("comment_field", { required: "Cant post empty comments!" })}>
-                    </textarea>
-                    <button className="theme circle" disabled={loading}>
+                        disabled={loading || disabled}
+                        {...register("comment_field", { required: "Can't post empty comments!" })}
+                    ></textarea>
+                    <button
+                        type="submit"
+                        className="theme circle"
+                        disabled={loading || disabled}
+                    >
                         <i className="bi bi-send-check-fill"></i>
                     </button>
                 </form>
+
             </div>
         </div>
     );

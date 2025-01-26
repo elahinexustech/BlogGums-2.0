@@ -7,7 +7,7 @@
     max-width: 700px;
     height: 400px;
     overflow-y: auto;
-    padding: 0rem;
+    padding: 1rem;
     border-radius: var(--border-radius);
     visibility: hidden;
     opacity: 0;
@@ -17,7 +17,8 @@
     transform: translateX(-50%) scale(0.2);
     transform-origin: bottom;
     transition: 0.5s;
-    z-index: 1000; /* Increase z-index to ensure it appears on top */
+    z-index: 1000;
+    /* Increase z-index to ensure it appears on top */
 }
 
 .commentBox form {
@@ -51,4 +52,24 @@
     top: -650%;
     transform: scale(1) translateX(-50%);
     z-index: 1000;
+}
+
+
+@media screen and (max-width: 768px) {
+    .commentBox {
+        min-width: 300px;
+        height: 300px;
+        padding: 0.5rem;
+    }
+
+
+
+    .commentBox.active {
+        visibility: visible;
+        opacity: 1;
+        top: -550%;
+        left: 0%;
+    }
+
+
 }

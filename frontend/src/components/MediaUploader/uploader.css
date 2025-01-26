@@ -26,3 +26,20 @@
 .img-uploader section.flex button.closeBtn{
     background: var(--error);
 }
+
+
+
+@media screen and (max-width: 600px) {
+    .img-uploader {
+        position: fixed;
+        bottom: 10%;
+        right: 2%;
+    }
+    
+    .img-uploader button.obj {
+        transform: scale(1);
+        border-radius: var(--border-radius);
+        padding: 0.5rem 1rem;
+    }
+    
+}

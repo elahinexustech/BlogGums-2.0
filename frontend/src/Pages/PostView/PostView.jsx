@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useContext } from 'react';
+import { AuthContext } from '../../components/AuthUser/AuthProvider';
 import Cookies from 'js-cookie'
 import UILoader from '../../components/UILoader/UILoader';
+import LoginWindow from '../../components/LoginWindow/LoginWindow';
 import Post from '../../components/Post/Post';
 import { ACCESS_TOKEN, BLOG_FONT_SIZE, REFRESH_TOKEN, SERVER, PORT } from '../../_CONSTS_';
 import { FSContext } from '../../Context/useFontSize';
-import { useForm } from 'react-hook-form';
-import postCmnt from '../../Functions/PostComment';
 
 import './post.css';
 
@@ -24,63 +24,9 @@ const PostView = () => {
     const [error, setError] = useState(null);
     const [fontSize, setFontSize] = useState(Cookies.get(BLOG_FONT_SIZE) || '1rem');
     const [otherPost, setOtherPost] = useState(null);
-    const {
-        register,
-        handleSubmit,
-        watch,
-        formState: { errors }
-    } = useForm();
+    const { isAuthenticated } = useContext(AuthContext);
+    const [loginWin, setLoginWin] = useState(false);
 
-
-    const truncateContent = (post, wordLimit = 150) => {
-        let content = post.content;
-
-        // Ensure content is a string
-        if (typeof content === 'string') {
-            const words = content.split(' ');
-
-            // Check if the content has more words than the word limit
-            if (words.length > wordLimit) {
-                // Truncate the content to the word limit and join the words back into a string
-                const truncatedContent = words.slice(0, wordLimit).join(' ') + '...';
-                post.content = truncatedContent; // Update post.content with the truncated content
-            }
-        } else {
-            console.error('Content is not a valid string.');
-        }
-
-        return post;
-    }
-
-
-
-    const postComment = async (data) => {
-        data.postId = parseInt(ID);
-
-        try {
-            const response = await postCmnt(data);
-            if (response.status === 200) {
-                const resp = response;
-                setPost((prevPosts) =>
-                    prevPosts.map((post) => {
-                        if (post.id === response.blog_id) {
-                            return {
-                                ...post,
-                                comments: response.comments,
-                                total_comments: response.total_comments
-                            };
-                        }
-                        return post;
-                    })
-                );
-                setLoading(false);
-            }
-
-
-        } catch (error) {
-            console.error("Error posting comment:", error);
-        }
-    };
 
 
 
@@ -89,22 +35,17 @@ const PostView = () => {
         const token = Cookies.get(ACCESS_TOKEN);
         const refreshToken = Cookies.get(REFRESH_TOKEN);
 
-        if (!token || !refreshToken) {
-            setError("Authentication tokens are missing.");
-            setLoading(false);
-            return;
-        }
-
         try {
             const response = await fetch(`${BASE_URL}/blogs/post/${id}`, {
-                method: 'POST',
-                headers: {
+                method: token && refreshToken ? 'POST' : 'GET',
+                headers: token && refreshToken ? {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                },
-                body: JSON.stringify({ refresh: refreshToken }),
+                } : undefined,
+                body: token && refreshToken ? JSON.stringify({ refresh: refreshToken }) : undefined,
             });
+
 
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
@@ -155,15 +96,27 @@ const PostView = () => {
 
     useEffect(() => {
         getPostDetails();
-        getOtherPost();
+        if(isAuthenticated) getOtherPost();
     }, [getPostDetails]);
 
     return (
         <FSContext.Provider value={{ fontSize, setFontSize }}>
             {loading && <UILoader />}
-            {error && <p className='error'>Error: {error}</p>}
+            {!isAuthenticated && <>
+
+                <LoginWindow isOpen={loginWin} onClose={()=> {setLoginWin(false)}} />
+
+                <span className="warning flex direction-col obj-trans" style={{position: 'fixed', right: '5%', top:'50%', transform: 'translateY(-50%)', padding: '1rem', borderRadius: 'var(--border-radius)', width: '200px', minHeight: '200px'}}>
+                    <i className="bi bi-exclamation-triangle-fill warning"></i> &nbsp;
+                    <p className="text warning">Login to interact with the application</p>
+                    <br />
+                    <button className='caption' onClick={()=> {
+                        setLoginWin(true)
+                    }}>Login Here</button>
+                </span>
+            </>}
             {post && (
-                <div className="container flex">
+                <div className="post-container flex">
                     <Post
                         ID={post.post.id}
                         post={post.post}
@@ -175,7 +128,7 @@ const PostView = () => {
             )}
 
 
-            <div className="container otherPost flex direction-col">
+            <div className="otherPost content-container flex direction-col">
                 <br />
                 {otherPost?.posts && otherPost?.posts.length > 0 ? (
                     <>
@@ -186,7 +139,7 @@ const PostView = () => {
                                 <Post
                                     key={post.id}
                                     ID={post.id}
-                                    post={truncateContent(post)}
+                                    post={post}
                                     author={post.author}
                                     totalLikes={post.total_likes}
                                 />

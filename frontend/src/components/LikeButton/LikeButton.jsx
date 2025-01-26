@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { AddLike } from '../../Functions/AddLike';
 
-const LikeButton = ({ postId, initialLikes = 0, hasLiked, onLikeChange }) => {
+const LikeButton = ({ postId, initialLikes = 0, hasLiked, onLikeChange, disabled }) => {
     const [liked, setLiked] = useState(hasLiked);
     const [totalLikes, setTotalLikes] = useState(initialLikes);
 
@@ -22,7 +22,7 @@ const LikeButton = ({ postId, initialLikes = 0, hasLiked, onLikeChange }) => {
 
     return (
         <span aria-label='likes' className='flex direction-col'>
-            <button className='transparent icon' onClick={handleLikeToggle}>
+            <button className='transparent icon' onClick={handleLikeToggle} disabled={disabled}>
                 {liked ? (
                     <i className="bi bi-heart-fill caption"></i>
                 ) : (

@@ -1,6 +1,5 @@
 .create-dialogue-container {
     padding: 2rem;
-    /* width: 1200px; */
     width: 900px;
     min-height: 900px;
 }
@@ -62,3 +61,28 @@
     }
 
 }
+
+
+@media screen and (min-width: 600px) {
+    .windows .window.create-dialogue-container {
+        padding: 1rem;
+        min-width: 200px;
+        min-height: 900px;
+        max-height: 90vh;
+    }
+    
+    .create-dialogue-container {
+        padding: 1rem;
+    }
+
+    .content-container form {
+        --editor-height: 500px;
+        padding: 4rem;
+    }
+
+    .content-container form button.submit-btn {
+        font-size: 1.5rem;
+    }
+
+}
+

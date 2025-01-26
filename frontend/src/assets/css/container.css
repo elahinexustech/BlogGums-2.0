@@ -29,17 +29,6 @@
     width: 100%;
 }
 
-/* Forms */
-.auth-form {
-    width: 30%;
-    padding: 2rem;
-}
-.auth-form section {
-    margin: 0.5rem 0;
-}
-.auth-form section, .auth-form section input{
-    width: 100%;
-}
 
 
 /* Post */

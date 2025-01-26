@@ -173,7 +173,7 @@ const ResetPasswordForm = () => {
                     features={features}
                     register={register}
                     errors={errors}
-                    linkMessage={<Link to="/login">Back to Login</Link>}
+                    linkMessage={{ msg: 'Back to login', link: '/', linkText: 'Login' }}
                     buttonText={'Send Mail'}
                     disabled={isSubmitting}
                 />

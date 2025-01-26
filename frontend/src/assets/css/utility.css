@@ -459,7 +459,7 @@ select {
     width: 300px;
     color: var(--tex-colort);
     border: solid 1px var(--border-color);
-    font-size: 0.8rem;
+    font-size: 0.9rem;
 }
 
 select {

@@ -12,9 +12,9 @@ const NotificationsProvider = ({ children }) => {
         setNotifications((prev) => [...prev, { message, type, id }]);
 
         // Automatically remove the notification after 5 seconds
-        // setTimeout(() => {
-        //     removeNotification(id);
-        // }, 5000); // 5000 milliseconds = 5 seconds
+        setTimeout(() => {
+            removeNotification(id);
+        }, 5000); // 5000 milliseconds = 5 seconds
     };
 
     const removeNotification = (id) => {

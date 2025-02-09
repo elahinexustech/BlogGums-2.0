@@ -34,7 +34,7 @@ const CommentBox = ({ post, postComment, loading, disabled }) => {
                 <p className="grey caption">{post?.total_comments}</p>
             </div>
 
-            <div ref={commentBoxRef} className={`obj commentBox ${showCommentBox ? "active" : ""} flex direction-col jc-start ai-start`}>
+            <div ref={commentBoxRef} className={`obj-trans commentBox ${showCommentBox ? "active" : ""} flex direction-col jc-start ai-start`}>
                 {post?.comments?.length > 0 && (
                     <div className="comments-section">
                         {post.comments.map((comment, index) => (

@@ -1,7 +1,6 @@
 .create-dialogue-container {
     padding: 2rem;
     width: 900px;
-    min-height: 900px;
 }
 
 .content-container form {
@@ -67,12 +66,6 @@
     .windows .window.create-dialogue-container {
         padding: 1rem;
         min-width: 200px;
-        min-height: 900px;
-        max-height: 90vh;
-    }
-    
-    .create-dialogue-container {
-        padding: 1rem;
     }
 
     .content-container form {

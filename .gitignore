@@ -1,3 +1,4 @@
 venv
 .env
 _CONST_.js
+.DS_STORE

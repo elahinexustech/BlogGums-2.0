@@ -1,19 +1,12 @@
 import React from 'react';
-
-// Import environment variables
-import {
-    SERVER,
-    PORT,
-    ACCESS_TOKEN
-} from '../../_CONSTS_.js';
-
 import './aboutpostwin.css';
 
 
-const BASE_URL = (SERVER && PORT) ? `${SERVER}:${PORT}` : '/choreo-apis/bloggums/backend/v1';
-
-
 const AboutPostWindow = ({ isOpen, onClose, data }) => {
+
+
+    console.log(data)
+
     if (!isOpen) return null; // Only render if open
 
     return (
@@ -36,10 +29,20 @@ const AboutPostWindow = ({ isOpen, onClose, data }) => {
 
                     <section className='flex jc-start ai-start direction-col'>
                         <br />
-                        <p className="heading">Details</p>
-                        <span>Date Published: {new Date(data.published_at).toLocaleString("en-US", { year: "numeric", month: "long", day: "numeric", hour: "numeric", minute: "numeric", second: "numeric", hour12: true })}</span>
-                        <span>Likes: {data.total_likes}</span>
-                        <span>Comments: {data.total_comments}</span>
+                        <p className="heading grey">Details</p>
+                        <span>
+                            Published at: <span className="grey">{new Date(data.published_at).toLocaleString("en-US", { year: "numeric", month: "long", day: "numeric", hour: "numeric", minute: "numeric", second: "numeric", hour12: true })}
+                            </span>
+                        </span>
+                        <span>
+                            Updated at: <span className="grey">{new Date(data.updated_at).toLocaleString("en-US", { year: "numeric", month: "long", day: "numeric", hour: "numeric", minute: "numeric", second: "numeric", hour12: true })}</span>
+                        </span>
+                        <span>Likes: <span className="grey">
+                            {data.total_likes}</span>
+                        </span>
+                        <span>Comments: <span className="grey">
+                            {data.total_comments}</span>
+                        </span>
                     </section>
 
                 </section>

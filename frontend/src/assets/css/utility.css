@@ -57,7 +57,7 @@ hr {
 /* Button */
 button {
     font-size: 1rem;
-    padding: 0.2rem 1rem;
+    padding: 0.5rem 1rem;
     color: var(--text-color);
     border: solid 1px var(--border-color);
     background: var(--btn-color);
@@ -154,12 +154,24 @@ button:hover {
     transform: scale(1.05);
 }
 
-
-
 /* LIKE BUTTON */
 button i.bi.bi-heart-fill {
     color: hsl(var(--default-clr), 84%, 65%);
 }
+
+
+button.success{ 
+    background: var(--success);
+    color: var(--success-clr);
+}
+
+
+button.error{ 
+    background: var(--error);
+    color: var(--error-clr);
+}
+
+
 
 
 /* Display Properties */

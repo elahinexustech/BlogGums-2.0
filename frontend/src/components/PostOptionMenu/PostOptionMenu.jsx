@@ -7,19 +7,24 @@ import AboutPostWindow from '../AboutPostWindow/AboutPostWindow';
 
 import './optionmenu.css'
 
-const OptionMenu = ({ item, openMenuId, CURRENT_USER_STATE_VAR }) => {
+const OptionMenu = ({ item, openMenuId, CURRENT_USER_STATE_VAR, postMode, setPostMode }) => {
     const navigate = useNavigate();
     const [showPassPage, setShowPassPage] = useState(false);
     const [showAboutPage, setShowAboutPage] = useState(false);
     const [postID, setPostID] = useState();
     const { addNotification } = useContext(NotificationsContext);
-    const { isAuthenticated } = useContext(AuthContext)
+    const { isAuthenticated } = useContext(AuthContext);
+
 
     const navigateToProfile = (data) => { navigate(`/${data.username}`); }
 
     const handleDeleteClick = async (id) => {
         setPostID(id);
         setShowPassPage(prevState => !prevState);
+    }
+
+    const handleEditClick = (id) => {
+        setPostMode('editing');
     }
 
 

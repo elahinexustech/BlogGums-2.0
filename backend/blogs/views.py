@@ -147,6 +147,30 @@ class CreatePostView(generics.CreateAPIView):
             return JsonResponse({"status": status.HTTP_500_INTERNAL_SERVER_ERROR})
 
 
+class EditPostView(generics.CreateAPIView):
+    permission_classes = [IsAuthenticated]
+    
+    def post(self, req):
+        data = json.loads(req.body)
+        
+        if not data.get('post_id'):
+            return JsonResponse({"msg": "Missing post_id parameter."}, status=400)
+        else:
+            post_id = data['post_id']
+            try:
+                post = BlogPost.objects.get(id=post_id)
+                post.title = data['title']
+                post.content = data['content']
+                post.updated_at = timezone.now()
+                post.save()
+            except BlogPost.DoesNotExist:
+                return JsonResponse({"msg": "Post not found.", "status": 404}, status=404)
+            except Exception as e:
+                print(f"Error: {e}")
+                return JsonResponse({"msg": "Error updating post.", "status": 500}, status=500)
+        
+        return JsonResponse({"msg": "Post updated", "status": 200})
+
 class DeletePostView(generics.CreateAPIView):
     def post(self, req):
         

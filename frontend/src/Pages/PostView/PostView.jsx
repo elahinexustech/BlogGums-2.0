@@ -4,12 +4,10 @@ import Cookies from 'js-cookie'
 import UILoader from '../../components/UILoader/UILoader';
 import LoginWindow from '../../components/LoginWindow/LoginWindow';
 import Post from '../../components/Post/Post';
-import { ACCESS_TOKEN, BLOG_FONT_SIZE, REFRESH_TOKEN, SERVER, PORT } from '../../_CONSTS_';
+import { BASE_URL, ACCESS_TOKEN, BLOG_FONT_SIZE, REFRESH_TOKEN } from '../../_CONSTS_';
 import { FSContext } from '../../Context/useFontSize';
 
 import './post.css';
-
-const BASE_URL = (SERVER && PORT) ? `${SERVER}:${PORT}` : '/choreo-apis/bloggums/backend/v1';
 
 // Utility function to format the date
 const formatDate = (dateString) => {

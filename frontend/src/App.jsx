@@ -20,16 +20,13 @@ import NotificationsProvider from './components/Notifications/Notifications';
 
 
 import {
-    SERVER,
-    PORT,
+    BASE_URL,
     ACCESS_TOKEN,
     REFRESH_TOKEN,
     THEME_MODE,
     BLOG_FONT_SIZE,
-    CODE_THEME, USER_DATA
+    CODE_THEME
 } from './_CONSTS_.js';
-
-const BASE_URL = (SERVER && PORT) ? `${SERVER}:${PORT}` : '/choreo-apis/bloggums/backend/v1';
 
 // Import CSS
 import './assets/css/main.css';

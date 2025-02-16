@@ -8,12 +8,7 @@ import Footer from '../../components/Footer/Footer';
 import FormView from '../../components/FormView/FormView';
 
 // Import environment variables
-import {
-    SERVER,
-    PORT
-} from '../../_CONSTS_.js';
-
-const BASE_URL = (SERVER && PORT) ? `${SERVER}:${PORT}` : '/choreo-apis/bloggums/backend/v1';
+import { BASE_URL } from '../../_CONSTS_.js';
 
 
 const SignUpForm = () => {
@@ -49,7 +44,7 @@ const SignUpForm = () => {
             else {
                 const msg = await response.json();
                 console.error(msg)
-                addNotification(`${msg.msg}`, 'error')    
+                addNotification(`${msg.msg}`, 'error')
             };
         } catch (error) {
             console.log(error)

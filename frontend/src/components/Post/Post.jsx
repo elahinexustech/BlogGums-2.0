@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
+import Cookies from 'js-cookie';
 import { AuthContext } from '../AuthUser/AuthProvider.jsx';
 import MarkdownViewer from '../MarkdownViewer/MarkdownViewer';
 import { Helmet } from 'react-helmet';
@@ -11,12 +12,22 @@ import OptionMenu from '../PostOptionMenu/PostOptionMenu.jsx';
 // Components
 import LikeButton from '../LikeButton/LikeButton';
 import CommentBox from '../CommentBox/CommentBox';
+import { NotificationsContext } from '../Notifications/Notifications.jsx';
+
+import { ACCESS_TOKEN, BASE_URL } from '../../_CONSTS_.js';
 
 const Post = ({ ID, author, post, totalLikes, changeTitle = true, setPost }) => {
-    const [loading, setLoading] = useState(false);
-    const [openMenuId, setOpenMenuId] = useState(null); // State to track which post's menu is open
+
     const { isAuthenticated, userData } = useContext(AuthContext);
+    const { addNotification } = useContext(NotificationsContext);
+    const [loading, setLoading] = useState(false);
+    const [isSaving, setIsSaving] = useState(false); // New state variable for loading state
+    const [openMenuId, setOpenMenuId] = useState(null); // State to track which post's menu is open
+    const [postMode, setPostMode] = useState('viewing');
+    const [title, setTitle] = useState(post.title);
+    const [content, setContent] = useState(post.content);
     const CURRENT_USER_STATE_VAR = isAuthenticated && userData?.user?.username === author.username;
+
 
     const postComment = async (data) => {
         data.postId = parseInt(ID);
@@ -25,7 +36,7 @@ const Post = ({ ID, author, post, totalLikes, changeTitle = true, setPost }) => 
             const response = await postCmnt(data);
             if (response.status === 200) {
                 const resp = response;
-                setPost((prevPosts) => 
+                setPost((prevPosts) =>
                     prevPosts.map((post) => {
                         if (post.id === response.blog_id) {
                             return {
@@ -68,6 +79,36 @@ const Post = ({ ID, author, post, totalLikes, changeTitle = true, setPost }) => 
             setOpenMenuId(null); // Close the menu if clicked outside
         }
     };
+
+    const editPost = async () => {
+        setIsSaving(true); // Set loading state to true
+        try {
+            let r = await fetch(`${BASE_URL}/blogs/post/edit`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${Cookies.get(ACCESS_TOKEN)}`,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ post_id: ID, title: title, content: content })
+            });
+            if (r.ok) {
+                setPostMode('viewing');
+                setPost((prevPosts) =>
+                    prevPosts.map((prevPost) =>
+                        prevPost.id === ID
+                            ? { ...prevPost, title: title, content: content }
+                            : prevPost
+                    )
+                );
+                addNotification('Post updated successfully', 'success');
+            }
+        } catch (error) {
+            console.error("Error editing post:", error);
+        } finally {
+            setIsSaving(false); // Set loading state to false
+        }
+    };
+
 
     // Add event listener to detect clicks outside the menu
     useEffect(() => {
@@ -112,43 +153,80 @@ const Post = ({ ID, author, post, totalLikes, changeTitle = true, setPost }) => 
                         </button>
                     </section>
 
-
-                    <OptionMenu item={post} openMenuId={openMenuId} CURRENT_USER_STATE_VAR={CURRENT_USER_STATE_VAR}/>
-
+                    <OptionMenu item={post} openMenuId={openMenuId} CURRENT_USER_STATE_VAR={CURRENT_USER_STATE_VAR} setPostMode={setPostMode} />
                 </section>
 
                 <br /><br />
 
                 <section className="body">
-                    <h2 className='subtitle'>{post.title}</h2>
-                    <br />
-                    <MarkdownViewer className="grey" markdownText={post.content} />
+                    {postMode === 'editing' ? (
+                        <>
+                            <input
+                                type="text"
+                                value={title || ""}
+                                onChange={(e) => setTitle(e.target.value)}
+                                className="subtitle"
+                            />
+                            <br />
+                            <textarea
+                                value={content || ""}
+                                onChange={(e) => setContent(e.target.value)}
+                                className="editor"
+                            />
+                        </>
+                    ) : (
+                        <>
+                            <h2 className='subtitle'>{post.title}</h2>
+                            <br />
+                            <MarkdownViewer className="grey" markdownText={post.content} />
+                        </>
+                    )}
                 </section>
 
                 <br /><br />
 
-                
                 <section className="foot flex ai-start">
-                    <LikeButton
-                        postId={ID}
-                        initialLikes={totalLikes}
-                        hasLiked={post.has_liked}
-                        onLikeChange={(likeCount, liked) => {
-                            setPost((prevPosts) =>
-                                prevPosts.map((prevPost) =>
-                                    prevPost.id === ID
-                                        ? { ...prevPost, total_likes: likeCount, has_liked: liked }
-                                        : prevPost
-                                )
-                            );
-                        }}
-                        disabled={!isAuthenticated}
-                    />
+                    {postMode === 'editing' ? (
+                        <>
+                            <button
+                                className={`success ${isSaving ? 'loader' : ''}`}
+                                onClick={editPost}
+                                disabled={isSaving} // Disable button while saving
+                            >
+                                {isSaving ? 'Saving...' : 'Save'}
+                            </button>
+                            &nbsp;&nbsp;
+                            <button
+                                className="error"
+                                onClick={() => setPostMode('viewing')}
+                                disabled={isSaving} // Disable button while saving
+                            >
+                                Cancel
+                            </button>
+                        </>
+                    ) : (
+                        <>
+                            <LikeButton
+                                postId={ID}
+                                initialLikes={totalLikes}
+                                hasLiked={post.has_liked}
+                                onLikeChange={(likeCount, liked) => {
+                                    setPost((prevPosts) =>
+                                        prevPosts.map((prevPost) =>
+                                            prevPost.id === ID
+                                                ? { ...prevPost, total_likes: likeCount, has_liked: liked }
+                                                : prevPost
+                                        )
+                                    );
+                                }}
+                                disabled={!isAuthenticated}
+                            />
 
-                    <CommentBox post={post} postComment={postComment} loading={loading} disabled={!isAuthenticated} />
-
+                            <CommentBox post={post} postComment={postComment} loading={loading} disabled={!isAuthenticated} />
+                        </>
+                    )}
                 </section>
-            </div >
+            </div>
         </>
     );
 };

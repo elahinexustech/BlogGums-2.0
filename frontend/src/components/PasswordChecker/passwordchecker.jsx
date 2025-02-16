@@ -9,14 +9,10 @@ import './passwordchecker.css';
 
 // Import environment variables
 import {
-    SERVER,
-    PORT,
+    BASE_URL,
     ACCESS_TOKEN,
     REFRESH_TOKEN,
 } from '../../_CONSTS_';
-
-
-const BASE_URL = (SERVER && PORT) ? `${SERVER}:${PORT}` : '/choreo-apis/bloggums/backend/v1';
 
 
 const PasswordChecker = ({ isOpen, onClose, id }) => {

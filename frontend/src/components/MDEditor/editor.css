@@ -2,6 +2,7 @@
 .editor {
     width: 100%;
     border-radius: var(--border-radius);
+    overflow-y: auto;
 }
 
 .editor .body {
@@ -70,9 +71,6 @@
 }
 
 @media screen and (min-width: 768px) {
-    .editor {
-        overflow: hidden;
-    }
     .editor .body textarea {
         height: 400px;
     }

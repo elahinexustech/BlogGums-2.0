@@ -9,12 +9,9 @@ import './uploader.css';
 
 // Import environment variables
 import {
-    SERVER,
-    PORT,
+    BASE_URL,
     ACCESS_TOKEN,
 } from '../../_CONSTS_.js';
-
-const BASE_URL = (SERVER && PORT) ? `${SERVER}:${PORT}` : '/choreo-apis/bloggums/backend/v1';
 
 const MediaUploader = () => {
     const [errorMessage, setErrorMessage] = useState('');

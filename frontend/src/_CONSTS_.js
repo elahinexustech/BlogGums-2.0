@@ -1,3 +1,6 @@
+// const SERVER = 'http://127.0.0.1'
+// const PORT = 8000
+
 const SERVER = null
 const PORT = null
 

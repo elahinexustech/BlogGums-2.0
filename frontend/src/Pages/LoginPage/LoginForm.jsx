@@ -44,8 +44,11 @@ const LoginForm = () => {
                 Cookies.set(REFRESH_TOKEN, resp.refresh, { expires: 7 }); // Token expires in 7 days
                 addNotification('Logged In', 'success');
                 window.location.href = '/';
+            } else if(resp.error && resp.error === "banned") {
+                setErrorMessage(resp.msg);
+                addNotification(errorMessage, 'error');
             } else {
-                setErrorMessage('Invalid credentials. Please try again.');
+                setErrorMessage('Invalid Credentials');
                 addNotification(errorMessage, 'error');
             }
         } catch (error) {

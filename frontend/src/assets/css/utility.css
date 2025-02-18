@@ -463,7 +463,7 @@ input,
 textarea,
 select {
     background: var(--object-bg-2);
-    padding: 0.2rem 0.5rem;
+    padding: 0.5rem;
     border-radius: calc(var(--border-radius) - 0.5rem);
     margin: 0.5rem;
     outline: none;
@@ -472,6 +472,7 @@ select {
     color: var(--tex-colort);
     border: solid 1px var(--border-color);
     font-size: 0.9rem;
+    font-family: inherit;
 }
 
 select {

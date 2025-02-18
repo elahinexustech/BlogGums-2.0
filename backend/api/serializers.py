@@ -1,5 +1,8 @@
-from .models import CustomUser
 from rest_framework import serializers
+from .models import CustomUser
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer, TokenRefreshSerializer
+from rest_framework.exceptions import AuthenticationFailed
+from rest_framework_simplejwt.tokens import AccessToken
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -20,3 +23,27 @@ class UserSerializer(serializers.ModelSerializer):
         user.set_password(validated_data['password'])
         user.save()
         return user
+   
+   
+class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+    def validate(self, attrs):
+        data = super().validate(attrs)
+
+        if self.user.is_banned:  # Assuming 'is_banned' field exists
+            return {"error":"banned", "msg": "Your account has been banned. Contact support.", "status": 403}
+
+        return data
+
+class CustomTokenRefreshSerializer(TokenRefreshSerializer):
+    def validate(self, attrs):
+        data = super().validate(attrs)
+
+        refresh_token = attrs["refresh"]
+        access_token = AccessToken(refresh_token)
+        user_id = access_token["user_id"]
+
+        user = CustomUser.objects.filter(id=user_id).first()
+        if user and user.is_banned:
+            return {"error":"banned", "msg": "Your account has been banned. Contact support.", "status": 403}
+
+        return data

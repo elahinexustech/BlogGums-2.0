@@ -4,9 +4,6 @@ import './aboutpostwin.css';
 
 const AboutPostWindow = ({ isOpen, onClose, data }) => {
 
-
-    console.log(data)
-
     if (!isOpen) return null; // Only render if open
 
     return (

@@ -4,6 +4,7 @@ import { AuthContext } from '../AuthUser/AuthProvider';
 import { NotificationsContext } from '../Notifications/Notifications';
 import PasswordChecker from '../PasswordChecker/passwordchecker';
 import AboutPostWindow from '../AboutPostWindow/AboutPostWindow';
+import AuthorReportWin from '../AuthorReportWindow/AuthorReportWindow';
 
 import './optionmenu.css'
 
@@ -11,6 +12,7 @@ const OptionMenu = ({ item, openMenuId, CURRENT_USER_STATE_VAR, postMode, setPos
     const navigate = useNavigate();
     const [showPassPage, setShowPassPage] = useState(false);
     const [showAboutPage, setShowAboutPage] = useState(false);
+    const [showAuthorReportWin, setShowAuthorReportWin] = useState(false);
     const [postID, setPostID] = useState();
     const { addNotification } = useContext(NotificationsContext);
     const { isAuthenticated } = useContext(AuthContext);
@@ -25,6 +27,12 @@ const OptionMenu = ({ item, openMenuId, CURRENT_USER_STATE_VAR, postMode, setPos
 
     const handleEditClick = (id) => {
         setPostMode('editing');
+    }
+
+
+    const handleShowReportAuthorWindow = (id) => {
+        setPostID(id);
+        setShowAuthorReportWin(true);
     }
 
 
@@ -44,7 +52,7 @@ const OptionMenu = ({ item, openMenuId, CURRENT_USER_STATE_VAR, postMode, setPos
                             )}
 
                             {/* About this Blog */}
-                            <li onClick={() => { 
+                            <li onClick={() => {
                                 setShowAboutPage(true)
                             }} className="li">
                                 <i className="bi bi-info-circle"></i> &nbsp; About this Blog
@@ -85,20 +93,16 @@ const OptionMenu = ({ item, openMenuId, CURRENT_USER_STATE_VAR, postMode, setPos
                                 </>
                             ) : (
                                 <>
-                                    {/* Report Issues */}
-                                    <li onClick={() => { }} className="li error">
-                                        <i className="bi bi-exclamation"></i> &nbsp; Report Issues
-                                    </li>
 
                                     {/* Report Author */}
-                                    <li className="error flex jc-start">
+                                    <li onClick={()=>{handleShowReportAuthorWindow(item.id)}} className="error flex jc-start">
                                         <i className="bi bi-person-fill-exclamation"></i> &nbsp; Report Author
                                     </li>
                                 </>
                             )}
                         </>
                     ) : (
-                        <li className="alert flex jc-start" onClick={()=> {
+                        <li className="alert flex jc-start" onClick={() => {
                             // Show the LoginWindow here
                         }}>
                             <i className="bi bi-person-fill-exclamation"></i> &nbsp; Login First
@@ -110,7 +114,10 @@ const OptionMenu = ({ item, openMenuId, CURRENT_USER_STATE_VAR, postMode, setPos
 
 
             <PasswordChecker isOpen={showPassPage} onClose={handleDeleteClick} id={postID} />
-            <AboutPostWindow isOpen={showAboutPage} onClose={()=> {setShowAboutPage(false)}} id={postID} data={item} />
+            <AboutPostWindow isOpen={showAboutPage} onClose={() => { setShowAboutPage(false) }} id={postID} data={item} />
+            <AuthorReportWin isOpen={showAuthorReportWin} onClose={() => { setShowAuthorReportWin(false) }} id={postID} />
+            
+
         </>
     );
 };

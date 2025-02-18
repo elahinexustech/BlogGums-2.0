@@ -1,20 +1,33 @@
 from django.http import JsonResponse
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from django.contrib.auth import get_user_model
 from django.contrib.auth.hashers import make_password
 from rest_framework import generics
-from .serializers import UserSerializer
 from django.shortcuts import get_object_or_404
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework import status
-from .models import OTPModel, TEMP_USER, TEMP_OTP_MODEL
+from blogs.models import BlogPost
 from django.db.models import Q
-from .funcs import send_email
 from supabase import create_client
 from django.db import IntegrityError
-import json
 from django.contrib.auth.hashers import check_password
+import json
+
+from .models import OTPModel, TEMP_USER, TEMP_OTP_MODEL, ReportModel
+from .serializers import CustomTokenObtainPairSerializer, CustomTokenRefreshSerializer, UserSerializer
+from .funcs import send_email
 
 UserModel = get_user_model()
+
+
+
+class CustomTokenObtainPairView(TokenObtainPairView):
+    serializer_class = CustomTokenObtainPairSerializer
+
+
+class CustomTokenRefreshView(TokenRefreshView):
+    serializer_class = CustomTokenRefreshSerializer
+
 
 
 class CreateUserView(generics.CreateAPIView):
@@ -35,16 +48,16 @@ class CreateUserView(generics.CreateAPIView):
             user = TEMP_USER.objects.filter(
                 Q(username=data.get('username')) | Q(email=data.get('email'))
             ).first()
-            
+
             if user:
                 user.username = data.get('username')
                 user.email = data.get('email')
                 user.first_name = data.get('first_name')
                 user.last_name = data.get('last_name')
-                user.password = data.get('password') 
+                user.password = data.get('password')
                 user.save()
                 message = "Your account has been reactivated. Please proceed to verify."
-                
+
             else:
                 user = TEMP_USER.objects.create(
                     username=data.get('username'),
@@ -53,7 +66,7 @@ class CreateUserView(generics.CreateAPIView):
                     first_name=data.get('first_name'),
                     last_name=data.get('last_name'),
                 )
-            
+
             # Handle OTP generation
             otp, created = TEMP_OTP_MODEL.objects.get_or_create(user=user)
             if not created:
@@ -110,7 +123,6 @@ class UserDetail(generics.GenericAPIView):
             'profile_image_url': user.profile_image_url
         }
 
-
         return JsonResponse(user_data)
 
 
@@ -151,11 +163,13 @@ class UpdateUserImage(generics.GenericAPIView):
         user = request.user  # Use the username as folder name
 
         try:
-        # Decide whether to upload or update based on profile_image_url
+            # Decide whether to upload or update based on profile_image_url
             if not user.profile_image_url:
-                success, resp, url = self.upload_image(user.username, image_file)
+                success, resp, url = self.upload_image(
+                    user.username, image_file)
             else:
-                success, resp, url = self.update_image(user.username, image_file)
+                success, resp, url = self.update_image(
+                    user.username, image_file)
 
             print(success, resp, url)
 
@@ -184,8 +198,10 @@ class UpdateUserImage(generics.GenericAPIView):
 
             file_content = img.read()
 
-            resp = UpdateUserImage.CLIENT.storage.from_('users').upload(file_name, file_content)
-            url = UpdateUserImage.CLIENT.storage.from_('users').get_public_url(file_name)
+            resp = UpdateUserImage.CLIENT.storage.from_(
+                'users').upload(file_name, file_content)
+            url = UpdateUserImage.CLIENT.storage.from_(
+                'users').get_public_url(file_name)
 
             return True, resp, url
 
@@ -219,7 +235,6 @@ class UpdateUserImage(generics.GenericAPIView):
         return True, resp, url
 
 
-
 class CheckPassword(generics.CreateAPIView):
     def post(self, req):
         # Parse the request body to get the username and password
@@ -230,7 +245,6 @@ class CheckPassword(generics.CreateAPIView):
         # Check if the password is provided
         if not password:
             return JsonResponse({"msg": "Password is required"}, status=400)
-
 
         # Check if the provided password matches the stored password
         if check_password(password, user.password):
@@ -298,7 +312,8 @@ class VerifyCode(generics.CreateAPIView):
             )
 
             # Transfer OTP
-            OTPModel.objects.create(user=permanent_user, otp_code=otp_record.otp_code)
+            OTPModel.objects.create(
+                user=permanent_user, otp_code=otp_record.otp_code)
 
             # Clean up TEMP_USER and TEMP_OTP_MODEL records
             user.delete()
@@ -318,3 +333,42 @@ class Reset(generics.CreateAPIView):
         user.set_password(data['newPassword'])
         user.save()
         return JsonResponse({"msg": "Reset"})
+
+
+class ReportAuthorView(generics.CreateAPIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, req):
+        try:
+            data = json.loads(req.body)
+
+            # Extract data from request
+            reported_post_id = data[1]  # ID of the reported post
+
+            # Ensure reported post exists
+            post = BlogPost.objects.filter(id=reported_post_id).first()
+            if not post:
+                return JsonResponse({"error": "Reported post does not exist"}, status=400)
+
+            # Identify the user who created the reported post
+            reported_user = post.author  # Assuming BlogPost has an `author` field
+            
+            # Create report entry
+            report = ReportModel.objects.create(
+                reported_user=reported_user,
+                reported_post=post,
+                user=req.user,  # The logged-in user making the report
+                title=data[0].get("violationType"),
+                description=data[0].get("feedback")
+            )
+
+            # Send email notification to the reported user (pseudo-function)
+            send_email(reported_user.email, 'You have been reported!', f'We have noticed a report on your post, we are reviewing your post.')
+            
+            send_email(req.user.email, 'You have made a report!', f'Hey, {req.user}\nYou have successfully submitted a report against {reported_user.username}, we are reviewing your report, if this report is scam your account will be banned!\n Thankyou')
+
+            return JsonResponse({"msg": "Report submitted successfully", "report_id": report.id}, status=201)
+
+        except Exception as e:
+            print(e)
+            return JsonResponse({"error": str(e)}, status=500)

@@ -1,14 +1,16 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.contrib.auth.models import AbstractUser, Group, Permission
-from django.utils import timezone
+from blogs.models import BlogPost
 import random
+
 
 class CustomUser(AbstractUser):
     # Define your custom fields here
     # phone_number = PhoneNumberField(null=True, blank=True, unique=True)
     profile_image_url = models.URLField(max_length=200, blank=True, null=True)
     date_of_birth = models.DateField(null=True, blank=True)
+    is_banned = models.BooleanField(null=True, blank=True, default=False)
 
     groups = models.ManyToManyField(
         Group,
@@ -24,7 +26,8 @@ class CustomUser(AbstractUser):
         help_text='Specific permissions for this user.',
         related_query_name='customuser',
     )
-    
+
+
 class OTPModel(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     otp_code = models.CharField(max_length=6, default='')
@@ -36,7 +39,6 @@ class OTPModel(models.Model):
 
     def __str__(self):
         return f'{self.user.username} - {self.otp_code}'
-
 
 
 class TEMP_USER(models.Model):
@@ -51,11 +53,13 @@ class TEMP_USER(models.Model):
     is_staff = models.BooleanField(default=False)  # bool
     is_active = models.BooleanField(default=True)  # bool
     date_joined = models.DateTimeField(auto_now_add=True)  # timestamp
-    profile_image = models.CharField(max_length=255, blank=True, null=True)  # varchar
+    profile_image = models.CharField(
+        max_length=255, blank=True, null=True)  # varchar
     date_of_birth = models.DateField(null=True, blank=True)  # date
 
     def __str__(self):
         return self.username
+
 
 class TEMP_OTP_MODEL(models.Model):
     user = models.ForeignKey(TEMP_USER, on_delete=models.CASCADE)
@@ -68,3 +72,24 @@ class TEMP_OTP_MODEL(models.Model):
 
     def __str__(self):
         return f'{self.user.username} - {self.otp_code}'
+
+
+class ReportModel(models.Model):
+    id = models.AutoField
+    reported_user = models.ForeignKey(
+        CustomUser, on_delete=models.CASCADE, related_name="reports_received"
+    )
+    
+    reported_post = models.ForeignKey(
+        BlogPost, on_delete=models.CASCADE, related_name="report_for_post", null=True
+    )
+    
+    user = models.ForeignKey(
+        CustomUser, on_delete=models.CASCADE, related_name="reports_made"
+    )
+    title = models.CharField(max_length=100)
+    description = models.CharField(max_length=500)
+    reported_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f'{self.user.username} reports against {self.reported_user.username} at {self.reported_at}'

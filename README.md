@@ -29,3 +29,8 @@ BlogGums is a project lead and directed by ElahiNexusTech.
 
 ## Mobile Application Preview
 - Expected to develop the Mobile Application for BlogGums
+
+
+
+![ScreenShot](https://zgwzboicmlnyrqyrzlel.supabase.co/storage/v1/object/public/users/mabdullah.elahi/Screenshot2025-02-18at12.27.49AM.png?)
+
